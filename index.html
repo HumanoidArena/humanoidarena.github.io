@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HumanoidArena</title>
+    <meta
+      name="description"
+      content="HumanoidArena is a simulation-first benchmark for egocentric hierarchical whole-body humanoid control."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#hero">HumanoidArena</a>
+        <nav class="nav">
+          <a href="#tasks">Tasks</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="#evaluation">Evaluation</a>
+          <a href="#results">Results</a>
+          <a href="#resources">Resources</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Simulation-first benchmark for humanoid control</p>
+            <h1>HumanoidArena:<br />Benchmarking Egocentric Hierarchical Whole-body Learning.</h1>
+            <div class="author-block" aria-label="Author placeholder">
+              <p class="author-names">
+                <span>Author Name 1<sup>1</sup></span>
+                <span>Author Name 2<sup>1</sup></span>
+                <span>Author Name 3<sup>2</sup></span>
+                <span>Author Name 4<sup>2</sup></span>
+              </p>
+              <p class="author-affiliations">
+                <span><sup>1</sup> Affiliation / Lab Name</span>
+                <span><sup>2</sup> Affiliation / University Name</span>
+              </p>
+            </div>
+            <p class="lede">
+              HumanoidArena is a simulation-first benchmark for egocentric hierarchical whole-body learning. It
+              studies seven leg-critical HOI/HSI tasks where success depends on coordinated perception, foot
+              placement, balance, posture adjustment, and whole-body motion, while exposing both perturbation-conditioned
+              generalization and GMT-conditioned transfer.
+            </p>
+            <div class="quick-links">
+              <a href="#resources">Code</a>
+              <a href="#paper">Paper</a>
+              <a href="#resources">Dataset</a>
+              <a href="#tasks">Task Videos</a>
+              <a href="#results">Results</a>
+            </div>
+            <dl class="hero-metrics">
+              <div>
+                <dt>Task suite</dt>
+                <dd>7 leg-critical HOI/HSI tasks</dd>
+              </div>
+              <div>
+                <dt>Evaluation axes</dt>
+                <dd>Visual, Semantic, Execution, Cross-GMT</dd>
+              </div>
+              <div>
+                <dt>Core stack</dt>
+                <dd>TWIST2, IsaacLab, LeRobot</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="hero-media">
+            <div class="media-frame media-frame-large">
+              <img src="./assets/images/paper-main-figure.svg" alt="HumanoidArena paper main figure" />
+            </div>
+            <div class="hero-caption">
+              <span>Paper figure</span>
+              <strong>Current hero uses the paper overview figure; replace with a teaser montage video when ready.</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="section paper-section" id="paper">
+          <div class="section-heading">
+            <p class="eyebrow">Abstract</p>
+            <h2>Paper abstract.</h2>
+          </div>
+          <div class="paper-grid">
+            <article class="paper-card">
+              <p>
+                Humanoid robots promise whole-body interaction in human-centered environments, but scalable policy
+                learning remains difficult because task-level decision-making and whole-body dynamic execution are tightly
+                coupled. A practical solution is hierarchical control, where a high-level policy predicts intermediate
+                whole-body actions and low-level general motion trackers (GMTs) execute them as stable humanoid motion.
+                However, existing benchmarks rarely evaluate the policy-tracker interface itself, leaving open whether
+                intermediate whole-body actions are executable, robust under task distribution shifts, and transferable
+                across different GMT backends. We introduce HumanoidArena, a simulation-first benchmark for egocentric
+                hierarchical whole-body learning. The benchmark formulates policy learning as a hierarchical decision
+                making problem: a high-level policy converts egocentric vision, proprioception, and instructions into a
+                compact whole-body action, which is subsequently executed by a low-level GMT. Instead of treating the
+                legs as planar transport tools, HumanoidArena emphasizes interactions where lower-body coordination is
+                structurally necessary in task completion. We therefore design 7 leg-critical HOI/HSI tasks in which
+                success requires foot placement, balance maintenance, posture adjustment, and whole-body reorientation.
+                To further diagnose the hierarchical system, we evaluate policies from two complementary perspectives:
+                perturbation-conditioned generalization and GMT-conditioned transfer. We benchmark representative
+                imitation-learning and VLA-style policies under this shared interface. Experiments show that
+                hierarchical control enables learned policies to solve diverse leg-critical interactions, but performance
+                is strongly tracker-conditioned and cross-GMT transfer remains fragile. These results position
+                HumanoidArena as a benchmark for studying transferable intermediate action representations and scalable
+                egocentric whole-body policy learning.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="tasks">
+          <div class="section-heading">
+            <p class="eyebrow">Task gallery</p>
+            <h2>Seven tasks across both GMTs.</h2>
+          </div>
+          <div class="task-suite">
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HOI</p>
+                <h3>Football</h3>
+                <p>Leg-object interaction with ball approach, kick timing, and balance-aware whole-body control.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 football video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">SONIC football video placeholder</div>
+                </figure>
+              </div>
+            </article>
+
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HOI</p>
+                <h3>DoubleDesk</h3>
+                <p>Cross-surface object transfer with stepping, reach planning, and whole-body reorientation.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 DoubleDesk video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">SONIC DoubleDesk video placeholder</div>
+                </figure>
+              </div>
+            </article>
+
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HOI</p>
+                <h3>P&amp;PBox</h3>
+                <p>Leg-assisted high placement requiring crouch, posture change, and shelf-height interaction.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 P&amp;PBox video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Available clip</strong></div>
+                  <video src="./assets/media/task_gallery/sonic/move-pickplace-box.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                </figure>
+              </div>
+            </article>
+
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HSI</p>
+                <h3>OpenDoor</h3>
+                <p>Handle manipulation, body turning, and doorway traversal under egocentric perception.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 OpenDoor video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Available clip</strong></div>
+                  <video src="./assets/media/task_gallery/sonic/open-door.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                </figure>
+              </div>
+            </article>
+
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HSI</p>
+                <h3>SitSofa</h3>
+                <p>Obstacle-aware navigation and stable sitting transition with lower-body alignment constraints.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 SitSofa video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Available clip</strong></div>
+                  <video src="./assets/media/task_gallery/sonic/sitsofa-navi.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                </figure>
+              </div>
+            </article>
+
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HSI</p>
+                <h3>Boxing</h3>
+                <p>Height-adaptive striking that requires crouch control and coordinated whole-body adjustment.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 Boxing video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Available clip</strong></div>
+                  <video src="./assets/media/task_gallery/sonic/move-boxing.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                </figure>
+              </div>
+            </article>
+
+            <article class="task-row">
+              <div class="task-row-copy">
+                <p class="task-tag">HSI</p>
+                <h3>VisNavi</h3>
+                <p>Obstacle-aware visual navigation in constrained scenes using an egocentric camera stream.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>TWIST2</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">TWIST2 VisNavi video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>SONIC</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">SONIC VisNavi video placeholder</div>
+                </figure>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section feature-split" id="pipeline">
+          <div class="section-heading">
+            <p class="eyebrow">Pipeline</p>
+            <h2>From teleop to benchmark.</h2>
+          </div>
+          <div class="split-layout">
+            <div class="text-panel text-panel-flow">
+              <article class="stack-card">
+                <h3>1. Shared capture and retargeting</h3>
+                <p>
+                  The operator receives the humanoid's egocentric video stream through a PICO headset. Human motion is
+                  captured and retargeted through GMR into a shared 35D robot-space reference signal for real-time
+                  consumption.
+                </p>
+                <div class="inline-media-grid inline-media-grid-two">
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Third-person</span><strong>Placeholder</strong></div>
+                    <div class="media-placeholder">Teleoperation third-view video placeholder</div>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Retargeted sim</span><strong>Placeholder</strong></div>
+                    <div class="media-placeholder">Retargeted simulation teleop result placeholder</div>
+                  </figure>
+                </div>
+              </article>
+              <article class="stack-card">
+                <h3>2. Backend-specific action interpretation</h3>
+                <p>
+                  Inside Isaac Lab, backend-specific action providers interpret that shared signal into executable G1
+                  targets using either TWIST2 or SONIC, exposing different low-level tracking dynamics under one common
+                  upstream interface.
+                </p>
+              </article>
+              <article class="stack-card">
+                <h3>3. Recording and canonicalization</h3>
+                <p>
+                  A recording manager serializes episodes into NPZ archives with egocentric observations, state, action,
+                  and replayable trajectory data. Demonstrations are normalized into a 64D canonical state and 40D
+                  intermediate whole-body action.
+                </p>
+                <div class="inline-media-grid inline-media-grid-three inline-media-grid-recording">
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Left wrist</span><strong>Recording</strong></div>
+                    <video src="./assets/media/pipeline/move-sit-sofa-left_wrist_rgb.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Main ego</span><strong>Recording</strong></div>
+                    <video src="./assets/media/pipeline/move-sit-sofa-front_rgb.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Right wrist</span><strong>Recording</strong></div>
+                    <video src="./assets/media/pipeline/move-sit-sofa-right_wrist_rgb.mp4" autoplay muted loop playsinline controls preload="auto"></video>
+                  </figure>
+                </div>
+              </article>
+              <article class="stack-card">
+                <h3>4. Conversion, training, evaluation</h3>
+                <p>
+                  Raw recordings are converted into LeRobot-compatible datasets, then used to train high-level policies
+                  that are evaluated under in-GMT, cross-GMT, visual, semantic, and execution protocols.
+                </p>
+              </article>
+            </div>
+            <div class="pipeline-steps">
+              <article class="pipeline-step-card">
+                <span>01</span>
+                <h3>Capture</h3>
+                <p>PICO egocentric stream and human motion capture feed the shared teleop loop.</p>
+              </article>
+              <article class="pipeline-step-card">
+                <span>02</span>
+                <h3>Retarget</h3>
+                <p>GMR produces a robot-space reference signal with shared policy-facing semantics.</p>
+              </article>
+              <article class="pipeline-step-card">
+                <span>03</span>
+                <h3>Execute</h3>
+                <p>TWIST2 or SONIC interprets and tracks the action through its own backend logic.</p>
+              </article>
+              <article class="pipeline-step-card">
+                <span>04</span>
+                <h3>Record</h3>
+                <p>Isaac Lab stores NPZ episodes with synchronized observations, state, action, and video.</p>
+              </article>
+              <article class="pipeline-step-card">
+                <span>05</span>
+                <h3>Convert</h3>
+                <p>Conversion tools normalize recordings into LeRobot-compatible datasets.</p>
+              </article>
+              <article class="pipeline-step-card">
+                <span>06</span>
+                <h3>Benchmark</h3>
+                <p>Policies are trained and stress-tested across perturbation and GMT-conditioned evaluation.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="evaluation">
+          <div class="section-heading">
+            <p class="eyebrow">Evaluation protocol</p>
+            <h2>Four tests plus cross-GMT.</h2>
+          </div>
+          <div class="protocol-grid">
+            <article class="protocol-card">
+              <h3>Base</h3>
+              <p>Reference evaluation without additional perturbation, used as the default task performance baseline.</p>
+            </article>
+            <article class="protocol-card">
+              <h3>Semantic</h3>
+              <p>Measures sensitivity to higher-level task or environment semantic variation.</p>
+            </article>
+            <article class="protocol-card">
+              <h3>Vision</h3>
+              <p>Targets robustness to visual observation shift and perception-side difficulty.</p>
+            </article>
+            <article class="protocol-card">
+              <h3>Execution</h3>
+              <p>Focuses on control-side degradation and policy-to-tracker execution mismatch.</p>
+            </article>
+            <article class="protocol-card protocol-card-wide">
+              <h3>Cross-GMT deployment</h3>
+              <p>
+                The homepage reserves prominent space for results showing how policies transfer across different GMT
+                backends. This is currently a content placeholder waiting for plots or summary tables.
+              </p>
+            </article>
+          </div>
+          <div class="evaluation-example">
+            <div class="section-heading section-heading-compact">
+              <p class="eyebrow">Example task</p>
+              <h2>Football makes the perturbation axes concrete.</h2>
+            </div>
+            <div class="example-grid">
+              <article class="example-card">
+                <h3>Base</h3>
+                <p>Default task setup with the original ball placement range, scene assets, and nominal lighting.</p>
+              </article>
+              <article class="example-card">
+                <h3>Vision</h3>
+                <p>Lighting direction changes while the task and target identity remain fixed, stressing appearance robustness.</p>
+              </article>
+              <article class="example-card">
+                <h3>Semantic</h3>
+                <p>Semantics-preserving asset changes, such as the football goal appearance, probe whether the policy grounds the right target.</p>
+              </article>
+              <article class="example-card">
+                <h3>Execution</h3>
+                <p>The ball initialization range is expanded, forcing different approach geometry, foot placement, and kick timing.</p>
+              </article>
+              <article class="example-card example-card-wide">
+                <h3>Cross-GMT</h3>
+                <p>Keep the trained high-level policy fixed but swap the low-level execution backend, measuring whether the same intermediate whole-body actions stay valid under TWIST2 and SONIC.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="results">
+          <div class="section-heading">
+            <p class="eyebrow">Results</p>
+            <h2>Success, failure, recovery.</h2>
+          </div>
+          <div class="scenario-suite">
+            <article class="scenario-row">
+              <div class="scenario-copy">
+                <p class="task-tag">Scenario 1</p>
+                <h3>P&amp;PBox inference</h3>
+                <p>Show one successful rollout and one failure case to compare posture control, shelf approach, and task completion.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>Success</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">P&amp;PBox success video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>Failure</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">P&amp;PBox failure video placeholder</div>
+                </figure>
+              </div>
+            </article>
+
+            <article class="scenario-row">
+              <div class="scenario-copy">
+                <p class="task-tag">Scenario 2</p>
+                <h3>Football inference</h3>
+                <p>Contrast a successful kick sequence with a failure sequence to surface contact timing and execution sensitivity.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>Success</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">Football success video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>Failure</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">Football failure video placeholder</div>
+                </figure>
+              </div>
+            </article>
+
+            <article class="scenario-row">
+              <div class="scenario-copy">
+                <p class="task-tag">Scenario 3</p>
+                <h3>OpenDoor inference</h3>
+                <p>Compare successful door traversal against a failed or incomplete attempt that breaks at handle use or body alignment.</p>
+              </div>
+              <div class="task-media-pair">
+                <figure class="media-card">
+                  <div class="media-card-header"><span>Success</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">OpenDoor success video placeholder</div>
+                </figure>
+                <figure class="media-card">
+                  <div class="media-card-header"><span>Failure</span><strong>Placeholder</strong></div>
+                  <div class="media-placeholder">OpenDoor failure video placeholder</div>
+                </figure>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="resources">
+          <div class="section-heading">
+            <p class="eyebrow">Resources</p>
+            <h2>Public assets still to finalize.</h2>
+          </div>
+          <div class="resource-grid">
+            <article class="resource-card">
+              <h3>Paper</h3>
+              <p>Main paper link not wired yet. Replace with your public PDF or arXiv URL.</p>
+              <span class="resource-state">Coming soon</span>
+            </article>
+            <article class="resource-card">
+              <h3>Dataset</h3>
+              <p>Dataset landing page or download link is not available in the repo yet.</p>
+              <span class="resource-state">Coming soon</span>
+            </article>
+            <article class="resource-card">
+              <h3>Benchmark results</h3>
+              <p>Add summary plots, comparison tables, or ablation figures for the evaluation section.</p>
+              <span class="resource-state">Needed</span>
+            </article>
+            <article class="resource-card">
+              <h3>BibTeX and authors</h3>
+              <p>Author block, affiliations, and citation snippet should be added once the paper metadata is finalized.</p>
+              <span class="resource-state">Needed</span>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      document.querySelectorAll(".media-card").forEach(function (card) {
+        var video = card.querySelector("video");
+        if (!video) return;
+        var loader = document.createElement("div");
+        loader.className = "media-loader";
+        card.appendChild(loader);
+        function hide() { loader.classList.add("loaded"); }
+        if (video.readyState >= 2) { hide(); }
+        else {
+          video.addEventListener("loadeddata", hide);
+          video.addEventListener("error", hide);
+        }
+      });
+    </script>
+  </body>
+</html>

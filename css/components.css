@@ -1,0 +1,366 @@
+/* ── Card / panel base ── */
+.hero-copy,
+.hero-media,
+.info-card,
+.paper-card,
+.visual-panel,
+.text-panel,
+.protocol-card,
+.pipeline-step,
+.support-panel,
+.resource-card,
+.task-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.hero-copy,
+.hero-media,
+.visual-panel,
+.text-panel,
+.support-panel {
+  padding: 28px;
+}
+
+/* ── Author block ── */
+.author-block {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+.author-names,
+.author-affiliations {
+  margin: 0;
+}
+
+.author-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.author-affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 8px;
+  font-size: 0.92rem;
+}
+
+/* ── Quick links ── */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.quick-links a {
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid rgba(40, 95, 135, 0.18);
+}
+
+/* ── Hero metrics cells ── */
+.hero-metrics div,
+.stack-card {
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.54);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+/* ── Media frame ── */
+.media-frame {
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+.media-frame video {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  object-fit: cover;
+  background: #000;
+}
+
+/* ── Hero caption ── */
+.hero-caption {
+  margin-top: 14px;
+  font-size: 0.96rem;
+}
+
+.hero-caption span {
+  display: inline-block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  color: var(--warm);
+}
+
+/* ── Paper card ── */
+.paper-card {
+  padding: 24px;
+}
+
+.paper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.paper-actions a {
+  text-decoration: none;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid rgba(40, 95, 135, 0.18);
+}
+
+/* ── Info card ── */
+.info-card {
+  padding: 24px;
+}
+
+.info-card h2 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+/* ── Task row copy ── */
+.task-row-copy,
+.scenario-copy {
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  border-radius: var(--radius-md);
+}
+
+.task-tag {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--warm);
+}
+
+/* ── Media card ── */
+.media-card,
+.pipeline-step-card,
+.recovery-card,
+.example-card {
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.media-card {
+  position: relative;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.media-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+.media-card-header span {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.media-card-header strong {
+  font-size: 0.82rem;
+}
+
+.media-card video,
+.media-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #0f1720;
+}
+
+.inline-media-grid-recording .media-card video {
+  aspect-ratio: auto;
+  object-fit: contain;
+  max-height: 460px;
+}
+
+/* ── Media placeholder ── */
+.media-placeholder {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  background:
+    linear-gradient(135deg, rgba(40, 95, 135, 0.08), rgba(196, 108, 56, 0.08)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(31, 41, 55, 0.03),
+      rgba(31, 41, 55, 0.03) 12px,
+      transparent 12px,
+      transparent 24px
+    );
+}
+
+/* ── Video loading skeleton ── */
+.media-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  background:
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(31, 41, 55, 0.06) 25%,
+      rgba(31, 41, 55, 0.12) 50%,
+      rgba(31, 41, 55, 0.06) 75%,
+      transparent 100%
+    );
+  background-size: 200% 100%;
+  animation: media-skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.media-loader.loaded {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes media-skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Pipeline step card ── */
+.pipeline-step-card {
+  padding: 18px;
+}
+
+.pipeline-step-card span {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.pipeline-step-card p,
+.recovery-summary,
+.recovery-card figcaption,
+.task-row-copy p,
+.scenario-copy p,
+.example-card p,
+.media-card figcaption {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── Protocol card ── */
+.protocol-card {
+  padding: 20px;
+}
+
+/* ── Example card ── */
+.example-card {
+  padding: 18px;
+}
+
+/* ── Old pipeline step ── */
+.pipeline-step {
+  padding: 20px;
+}
+
+.pipeline-step span {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+/* ── Recovery card ── */
+.recovery-card {
+  margin: 0;
+}
+
+.recovery-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.recovery-card figcaption {
+  padding: 12px 14px;
+  font-size: 0.92rem;
+}
+
+.recovery-summary {
+  margin: 14px 0 0;
+}
+
+/* ── Resource card ── */
+.resource-card {
+  padding: 22px;
+}
+
+.resource-state {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(40, 95, 135, 0.1);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Interactive states ── */
+.nav a:hover,
+.quick-links a:hover,
+.brand:hover {
+  color: var(--accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 4px;
+  border-radius: 8px;
+}

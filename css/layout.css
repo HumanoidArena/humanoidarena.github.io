@@ -1,0 +1,359 @@
+/* ── Page shell ── */
+.page-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding-bottom: 72px;
+}
+
+/* ── Topbar ── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  margin-bottom: 24px;
+  backdrop-filter: blur(16px);
+}
+
+.brand,
+.nav a,
+.quick-links a {
+  text-decoration: none;
+}
+
+.brand {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.9rem;
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* ── Section spacing ── */
+.hero,
+.section,
+.intro-grid {
+  margin-bottom: 28px;
+}
+
+/* ── Hero layout ── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.hero-metrics dt {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--warm);
+  margin-bottom: 8px;
+}
+
+.hero-metrics dd {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* ── Section layout ── */
+.section {
+  padding: 28px;
+  background: rgba(255, 250, 244, 0.58);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-end;
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  max-width: 20ch;
+}
+
+.section-heading-compact {
+  margin-bottom: 16px;
+}
+
+.section-heading-compact h2 {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  max-width: 22ch;
+}
+
+/* ── Grid systems ── */
+.intro-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.paper-grid,
+.results-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.results-layout-secondary {
+  margin-top: 18px;
+}
+
+/* ── Task / scenario rows ── */
+.task-suite,
+.scenario-suite {
+  display: grid;
+  gap: 18px;
+}
+
+.task-row,
+.scenario-row {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.task-media-pair,
+.inline-media-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.task-media-pair,
+.inline-media-grid-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.inline-media-grid-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.inline-media-grid-recording {
+  grid-template-columns: 0.8fr 1.4fr 0.8fr;
+}
+
+@media (max-width: 1080px) {
+  .inline-media-grid-recording {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .inline-media-grid-recording .media-card:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Pipeline split layout ── */
+.feature-split .split-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.text-panel {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.text-panel-flow {
+  grid-template-columns: 1fr;
+}
+
+.pipeline-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-content: start;
+}
+
+/* ── Evaluation / protocol grids ── */
+.protocol-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.protocol-card-wide {
+  grid-column: span 4;
+}
+
+.evaluation-example {
+  margin-top: 18px;
+}
+
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.example-card-wide {
+  grid-column: span 2;
+}
+
+/* ── Resource grid ── */
+.resource-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* ── Recovery grid ── */
+.recovery-section {
+  margin-top: 24px;
+}
+
+.recovery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* ── Support panel ── */
+.support-panel {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 22px;
+  align-items: center;
+}
+
+/* ── Misc layout ── */
+.visual-panel {
+  align-self: start;
+}
+
+.visual-panel-tight {
+  padding: 18px;
+}
+
+.visual-panel-tight img,
+.hero-media img {
+  width: 100%;
+  height: auto;
+}
+
+.support-panel img {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+/* ── Old pipeline (5-column) ── */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1080px) {
+  .pipeline-steps,
+  .recovery-grid,
+  .task-media-pair,
+  .inline-media-grid-three,
+  .example-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .task-row,
+  .scenario-row {
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .protocol-card-wide {
+    grid-column: span 2;
+  }
+
+  .pipeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell {
+    width: min(100% - 20px, 1180px);
+  }
+
+  .topbar,
+  .section-heading,
+  .nav,
+  .hero-metrics,
+  .intro-grid,
+  .paper-grid,
+  .results-layout,
+  .task-grid,
+  .resource-grid,
+  .protocol-grid,
+  .pipeline,
+  .pipeline-steps,
+  .recovery-grid,
+  .task-media-pair,
+  .inline-media-grid,
+  .example-grid {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topbar {
+    position: static;
+  }
+
+  .nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .hero-copy,
+  .hero-media,
+  .section,
+  .visual-panel,
+  .text-panel,
+  .support-panel {
+    padding: 20px;
+  }
+
+  .protocol-card-wide {
+    grid-column: span 1;
+  }
+
+  .example-card-wide {
+    grid-column: span 1;
+  }
+
+  .media-frame video {
+    min-height: 280px;
+  }
+
+  .support-panel img {
+    width: 100%;
+  }
+}

@@ -88,9 +88,7 @@
   margin-bottom: 22px;
 }
 
-.section-heading h2 {
-  max-width: 20ch;
-}
+
 
 .section-heading-compact {
   margin-bottom: 16px;
@@ -132,7 +130,7 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 18px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .task-media-pair,

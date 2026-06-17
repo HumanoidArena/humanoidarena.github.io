@@ -142,6 +142,7 @@
 .task-row-copy,
 .scenario-copy {
   padding: 18px 20px;
+  height: 100%;
   background: rgba(255, 255, 255, 0.56);
   border: 1px solid rgba(31, 41, 55, 0.08);
   border-radius: var(--radius-md);

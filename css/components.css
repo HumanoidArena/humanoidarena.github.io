@@ -336,20 +336,102 @@
 
 /* ── Resource card ── */
 .resource-card {
-  padding: 22px;
+  padding: 24px;
+}
+
+.resource-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.resource-card h3 {
+  margin-bottom: 8px;
 }
 
 .resource-state {
   display: inline-block;
-  margin-top: 12px;
-  padding: 7px 12px;
+  margin-top: 14px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
-  background: rgba(40, 95, 135, 0.1);
+  background: rgba(40, 95, 135, 0.09);
   color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* ── Featured resource card ── */
+.resource-card--featured {
+  grid-column: 1 / -1;
+  padding: 28px;
+}
+
+.resource-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.resource-card-copy h3 {
+  margin-bottom: 6px;
+}
+
+.resource-card-copy .resource-card-desc {
+  margin: 0;
+  font-size: 1.01rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.resource-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Pill button ── */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  transition: background 0.2s ease;
+}
+
+.btn-pill:hover {
+  background: #1e4a6b;
+}
+
+.btn-pill--ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(40, 95, 135, 0.22);
+}
+
+.btn-pill--ghost:hover {
+  background: var(--accent-soft);
+}
+
+@media (max-width: 760px) {
+  .resource-card-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .resource-card--featured {
+    padding: 22px;
+  }
 }
 
 /* ── Interactive states ── */

@@ -367,9 +367,9 @@
   box-sizing: border-box;
   width: 100%;
   padding: 18px 20px;
-  border-radius: var(--radius-sm);
-  background: rgba(40, 95, 135, 0.07);
-  border: 1px solid rgba(40, 95, 135, 0.12);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid var(--line);
   color: var(--ink);
   font-size: 0.78rem;
   line-height: 1.55;

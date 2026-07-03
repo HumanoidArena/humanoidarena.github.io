@@ -360,26 +360,28 @@
   grid-column: 1 / -1;
 }
 
-.resource-card-bibtex pre {
+.bibtex-box {
+  display: grid;
+  gap: 4px;
   margin: 12px 0 0;
   box-sizing: border-box;
   width: 100%;
-  padding: 16px 18px;
-  overflow-x: hidden;
+  padding: 18px 20px;
   border-radius: var(--radius-sm);
   background: rgba(40, 95, 135, 0.07);
   border: 1px solid rgba(40, 95, 135, 0.12);
   color: var(--ink);
   font-size: 0.78rem;
   line-height: 1.55;
-  white-space: pre-wrap;
   overflow-wrap: break-word;
 }
 
-.resource-card-bibtex code {
+.bibtex-box span {
   display: block;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  white-space: inherit;
+  padding-left: 0;
+  text-indent: 0;
+  white-space: normal;
 }
 
 .resource-card h3 {

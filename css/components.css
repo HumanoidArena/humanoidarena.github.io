@@ -356,19 +356,26 @@
   line-height: 1.6;
 }
 
+.resource-card-bibtex {
+  grid-column: 1 / -1;
+}
+
 .resource-card-bibtex pre {
   margin: 12px 0 0;
   padding: 14px;
-  overflow-x: auto;
+  overflow-x: hidden;
   border-radius: var(--radius-sm);
   background: rgba(40, 95, 135, 0.07);
   color: var(--ink);
   font-size: 0.78rem;
   line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .resource-card-bibtex code {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  white-space: inherit;
 }
 
 .resource-card h3 {

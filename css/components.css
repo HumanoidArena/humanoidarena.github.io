@@ -368,8 +368,9 @@
   width: 100%;
   padding: 18px 20px;
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.64);
+  background: var(--bg-elevated);
   border: 1px solid var(--line);
+  box-shadow: var(--shadow);
   color: var(--ink);
   font-size: 0.78rem;
   line-height: 1.55;

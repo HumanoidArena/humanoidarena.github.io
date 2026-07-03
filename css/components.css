@@ -340,6 +340,16 @@
   padding: 24px;
 }
 
+.resource-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.resource-card-link:hover {
+  border-color: rgba(40, 95, 135, 0.34);
+}
+
 .resource-card p {
   margin: 0;
   color: var(--muted);

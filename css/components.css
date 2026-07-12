@@ -373,6 +373,7 @@
   flex-direction: column;
   gap: 8px;
   flex-shrink: 0;
+  width: 120px;
 }
 
 .resource-card-actions .btn-pill {

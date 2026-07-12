@@ -370,8 +370,14 @@
 
 .resource-card-actions {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 8px;
   flex-shrink: 0;
+}
+
+.resource-card-actions .btn-pill {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .resource-card-bibtex {
@@ -407,30 +413,38 @@
 .btn-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
-  padding: 11px 20px;
+  padding: 8px 16px;
   border-radius: var(--radius-sm);
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   background: var(--accent);
   color: #fff;
   border: 1px solid var(--accent);
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
 }
 
 .btn-pill:hover {
   background: #1e4a6b;
+  border-color: #1e4a6b;
+  box-shadow: 0 2px 8px rgba(40, 95, 135, 0.25);
+  transform: translateY(-1px);
 }
 
 .btn-pill--ghost {
   background: transparent;
   color: var(--accent);
-  border: 1px solid rgba(40, 95, 135, 0.22);
+  border: 1px solid rgba(40, 95, 135, 0.28);
 }
 
 .btn-pill--ghost:hover {
   background: var(--accent-soft);
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(40, 95, 135, 0.1);
 }
 
 @media (max-width: 760px) {

@@ -1,39 +1,17 @@
 /* ── Page shell ── */
 .page-shell {
-  width: min(1180px, calc(100% - 32px));
+  width: min(960px, calc(100% - 32px));
   margin: 0 auto;
   padding-bottom: 72px;
 }
 
-/* ── Topbar ── */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 0;
-  margin-bottom: 24px;
-  backdrop-filter: blur(16px);
-}
-
-.brand,
-.nav a,
-.quick-links a {
-  text-decoration: none;
-}
-
-.brand {
-  font-family: "Instrument Serif", serif;
-  font-size: 1.9rem;
-}
-
-.nav {
-  display: flex;
-  gap: 18px;
-  font-size: 0.95rem;
-  color: var(--muted);
+/* ── Content TOC ── */
+.content-toc {
+  position: fixed;
+  right: max(16px, calc((100vw - 960px) / 2 - 150px));
+  top: 80px;
+  width: 130px;
+  z-index: 15;
 }
 
 /* ── Section spacing ── */
@@ -279,6 +257,10 @@
 
 /* ── Responsive ── */
 @media (max-width: 1080px) {
+  .content-toc {
+    display: none;
+  }
+
   .pipeline-steps,
   .recovery-grid,
   .task-media-pair,
@@ -312,12 +294,10 @@
 
 @media (max-width: 760px) {
   .page-shell {
-    width: min(100% - 20px, 1180px);
+    width: min(100% - 20px, 960px);
   }
 
-  .topbar,
   .section-heading,
-  .nav,
   .hero-metrics,
   .intro-grid,
   .paper-grid,
@@ -334,16 +314,6 @@
     grid-template-columns: 1fr;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .topbar {
-    position: static;
-  }
-
-  .nav {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
   }
 
   .hero-copy,

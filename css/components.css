@@ -63,6 +63,7 @@
 }
 
 .quick-links a {
+  text-decoration: none;
   padding: 11px 16px;
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -309,6 +310,88 @@
   font-weight: 700;
 }
 
+/* ── Content TOC ── */
+.content-toc {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.content-toc-title {
+  font-family: "Instrument Serif", serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.content-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.content-toc-item {
+  display: block;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  padding: 5px 8px;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.content-toc-item:hover {
+  color: var(--accent);
+  background: rgba(40, 95, 135, 0.06);
+}
+
+.content-toc-item.active {
+  color: var(--accent);
+  background: rgba(40, 95, 135, 0.09);
+  font-weight: 600;
+}
+
+/* ── Content TOC sub-items ── */
+.content-toc-sub {
+  display: none;
+  list-style: none;
+  padding: 0 0 0 10px;
+  margin: 2px 0 4px;
+}
+
+li:has(.content-toc-item.active) .content-toc-sub {
+  display: block;
+}
+
+.content-toc-subitem {
+  display: block;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.content-toc-subitem:hover {
+  color: var(--accent);
+  background: rgba(40, 95, 135, 0.06);
+}
+
+.content-toc-subitem.active {
+  color: var(--accent);
+  background: rgba(40, 95, 135, 0.09);
+  font-weight: 600;
+}
+
 /* ── Old pipeline step ── */
 .pipeline-step {
   padding: 20px;
@@ -364,7 +447,7 @@
 
 .resource-card-inner {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 32px;
 }
@@ -386,6 +469,7 @@
   gap: 8px;
   flex-shrink: 0;
   width: 120px;
+  justify-content: center;
 }
 
 .resource-card-actions .btn-pill {
@@ -419,7 +503,17 @@
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   padding-left: 0;
   text-indent: 0;
-  white-space: normal;
+  white-space: pre;
+}
+
+/* ── Contact ── */
+.contact-id {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+  color: var(--accent);
+  background: rgba(40, 95, 135, 0.07);
+  padding: 1px 8px;
+  border-radius: 5px;
 }
 
 /* ── Pill button ── */
@@ -473,9 +567,7 @@
 }
 
 /* ── Interactive states ── */
-.nav a:hover,
-.quick-links a:hover,
-.brand:hover {
+.quick-links a:hover {
   color: var(--accent);
 }
 

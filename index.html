@@ -20,17 +20,6 @@
   </head>
   <body>
     <div class="page-shell">
-      <header class="topbar">
-        <a class="brand" href="#hero">HumanoidArena</a>
-        <nav class="nav">
-          <a href="#tasks">Tasks</a>
-          <a href="#pipeline">Pipeline</a>
-          <a href="#evaluation">Evaluation</a>
-          <a href="#results">Results</a>
-          <a href="#resources">Resources</a>
-        </nav>
-      </header>
-
       <main>
         <section class="hero" id="hero">
           <div class="hero-copy">
@@ -140,7 +129,7 @@
             <h2>Seven tasks across both GMTs.</h2>
           </div>
           <div class="task-suite">
-            <article class="task-row">
+            <article class="task-row" id="task-football">
               <div class="task-row-copy">
                 <p class="task-tag">HOI</p>
                 <h3>Football</h3>
@@ -158,7 +147,7 @@
               </div>
             </article>
 
-            <article class="task-row">
+            <article class="task-row" id="task-doubledesk">
               <div class="task-row-copy">
                 <p class="task-tag">HOI</p>
                 <h3>DoubleDesk</h3>
@@ -176,7 +165,7 @@
               </div>
             </article>
 
-            <article class="task-row">
+            <article class="task-row" id="task-ppbox">
               <div class="task-row-copy">
                 <p class="task-tag">HOI</p>
                 <h3>P&amp;PBox</h3>
@@ -194,7 +183,7 @@
               </div>
             </article>
 
-            <article class="task-row">
+            <article class="task-row" id="task-opendoor">
               <div class="task-row-copy">
                 <p class="task-tag">HSI</p>
                 <h3>OpenDoor</h3>
@@ -212,7 +201,7 @@
               </div>
             </article>
 
-            <article class="task-row">
+            <article class="task-row" id="task-sitsofa">
               <div class="task-row-copy">
                 <p class="task-tag">HSI</p>
                 <h3>SitSofa</h3>
@@ -230,7 +219,7 @@
               </div>
             </article>
 
-            <article class="task-row">
+            <article class="task-row" id="task-boxing">
               <div class="task-row-copy">
                 <p class="task-tag">HSI</p>
                 <h3>Boxing</h3>
@@ -248,7 +237,7 @@
               </div>
             </article>
 
-            <article class="task-row">
+            <article class="task-row" id="task-visnavi">
               <div class="task-row-copy">
                 <p class="task-tag">HSI</p>
                 <h3>VisNavi</h3>
@@ -275,7 +264,7 @@
           </div>
           <div class="split-layout">
             <div class="text-panel text-panel-flow">
-              <article class="stack-card">
+              <article class="stack-card" id="pipeline-capture">
                 <h3>1. Shared capture and retargeting</h3>
                 <p>
                   The operator receives the humanoid's egocentric video stream through a PICO headset. Human motion is
@@ -293,7 +282,7 @@
                   </figure>
                 </div>
               </article>
-              <article class="stack-card">
+              <article class="stack-card" id="pipeline-action">
                 <h3>2. Backend-specific action interpretation</h3>
                 <p>
                   Inside Isaac Lab, backend-specific action providers interpret that shared signal into executable G1
@@ -301,17 +290,8 @@
                   upstream interface.
                 </p>
               </article>
-              <article class="stack-card">
-                <h3>3. SONIC latent64 inference interface</h3>
-                <p>
-                  SONIC inference additionally provides an experimental latent-output mode for VLA policies trained on
-                  SONIC encoder representations. In this mode, the policy outputs 64D SONIC latent actions instead of the
-                  default 40D semantic whole-body commands. The raw dataset also preserves SONIC latent64 representations
-                  for each demonstration episode.
-                </p>
-              </article>
-              <article class="stack-card">
-                <h3>4. Recording and canonicalization</h3>
+              <article class="stack-card" id="pipeline-recording">
+                <h3>3. Recording and canonicalization</h3>
                 <p>
                   A recording manager serializes episodes into NPZ archives with egocentric observations, state, action,
                   and replayable trajectory data. Demonstrations are normalized into a 64D canonical state and 40D
@@ -332,11 +312,17 @@
                   </figure>
                 </div>
               </article>
-              <article class="stack-card">
-                <h3>5. Conversion, training, evaluation</h3>
+              <article class="stack-card" id="pipeline-training">
+                <h3>4. Conversion, training, evaluation</h3>
                 <p>
                   Raw recordings are converted into LeRobot-compatible datasets, then used to train high-level policies
                   that are evaluated under in-GMT, cross-GMT, visual, semantic, and execution protocols.
+                </p>
+                <p>
+                  SONIC inference additionally provides an experimental latent-output mode for VLA policies trained on
+                  SONIC encoder representations. In this mode, the policy outputs 64D SONIC latent actions instead of the
+                  default 40D semantic whole-body commands. The raw dataset also preserves SONIC latent64 representations
+                  for each demonstration episode.
                 </p>
               </article>
             </div>
@@ -381,23 +367,23 @@
             <h2>Four tests plus cross-GMT.</h2>
           </div>
           <div class="protocol-grid">
-            <article class="protocol-card">
+            <article class="protocol-card" id="eval-base">
               <h3>Base</h3>
               <p>Reference evaluation without additional perturbation, used as the default task performance baseline.</p>
             </article>
-            <article class="protocol-card">
+            <article class="protocol-card" id="eval-semantic">
               <h3>Semantic</h3>
               <p>Measures sensitivity to higher-level task or environment semantic variation.</p>
             </article>
-            <article class="protocol-card">
+            <article class="protocol-card" id="eval-vision">
               <h3>Vision</h3>
               <p>Targets robustness to visual observation shift and perception-side difficulty.</p>
             </article>
-            <article class="protocol-card">
+            <article class="protocol-card" id="eval-execution">
               <h3>Execution</h3>
               <p>Focuses on control-side degradation and policy-to-tracker execution mismatch.</p>
             </article>
-            <article class="protocol-card protocol-card-wide">
+            <article class="protocol-card protocol-card-wide" id="eval-crossgmt">
               <h3>Cross-GMT deployment</h3>
               <p>
                 The homepage reserves prominent space for results showing how policies transfer across different GMT
@@ -405,7 +391,7 @@
               </p>
             </article>
           </div>
-          <div class="evaluation-example">
+          <div class="evaluation-example" id="eval-example">
             <div class="section-heading section-heading-compact">
               <p class="eyebrow">Example task</p>
               <h2>P&amp;PBox makes the perturbation axes concrete.</h2>
@@ -467,7 +453,7 @@
             <h2>Success, failure, recovery.</h2>
           </div>
           <div class="scenario-suite">
-            <article class="scenario-row">
+            <article class="scenario-row" id="results-ppbox">
               <div class="scenario-copy">
                 <p class="task-tag">Scenario 1</p>
                 <h3>P&amp;PBox inference</h3>
@@ -485,7 +471,7 @@
               </div>
             </article>
 
-            <article class="scenario-row">
+            <article class="scenario-row" id="results-football">
               <div class="scenario-copy">
                 <p class="task-tag">Scenario 2</p>
                 <h3>Football inference</h3>
@@ -503,7 +489,7 @@
               </div>
             </article>
 
-            <article class="scenario-row">
+            <article class="scenario-row" id="results-opendoor">
               <div class="scenario-copy">
                 <p class="task-tag">Scenario 3</p>
                 <h3>OpenDoor inference</h3>
@@ -603,16 +589,78 @@
               <h3>BibTeX</h3>
               <div class="bibtex-box" aria-label="BibTeX citation">
                 <span>@article{wang2026humanoidarena,</span>
-                <span>title={HumanoidArena: Benchmarking Egocentric Hierarchical Whole-body Learning},</span>
-                <span>author={Wang, Taowen and Xie, Zikang and Yang, Bin and others},</span>
-                <span>journal={arXiv preprint arXiv:2606.17833},</span>
-                <span>year={2026}</span>
+                <span>  title={HumanoidArena: Benchmarking Egocentric Hierarchical Whole-body Learning},</span>
+                <span>  author={Wang, Taowen and Xie, Zikang and Yang, Bin and others},</span>
+                <span>  journal={arXiv preprint arXiv:2606.17833},</span>
+                <span>  year={2026}</span>
                 <span>}</span>
+              </div>
+            </article>
+            <article class="resource-card resource-card-bibtex" id="contact">
+              <div class="resource-card-inner">
+                <div class="resource-card-copy">
+                  <h3>Contact</h3>
+                  <p class="resource-card-desc">
+                    Add either WeChat account (<span class="contact-id">xiezhikang2003</span> and <span class="contact-id">Chanw15</span>) to join the community group.
+                  </p>
+                </div>
               </div>
             </article>
           </div>
         </section>
       </main>
+    </div>
+    <nav class="content-toc" aria-label="Table of contents">
+      <h4 class="content-toc-title">Contents</h4>
+      <ul class="content-toc-list">
+        <li>
+          <a href="#paper" class="content-toc-item">Abstract</a>
+        </li>
+        <li>
+          <a href="#tasks" class="content-toc-item">Task Gallery</a>
+          <ul class="content-toc-sub">
+            <li><a href="#task-football" class="content-toc-subitem">Football</a></li>
+            <li><a href="#task-doubledesk" class="content-toc-subitem">DoubleDesk</a></li>
+            <li><a href="#task-ppbox" class="content-toc-subitem">P&amp;PBox</a></li>
+            <li><a href="#task-opendoor" class="content-toc-subitem">OpenDoor</a></li>
+            <li><a href="#task-sitsofa" class="content-toc-subitem">SitSofa</a></li>
+            <li><a href="#task-boxing" class="content-toc-subitem">Boxing</a></li>
+            <li><a href="#task-visnavi" class="content-toc-subitem">VisNavi</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#pipeline" class="content-toc-item">Pipeline</a>
+          <ul class="content-toc-sub">
+            <li><a href="#pipeline-capture" class="content-toc-subitem">Capture &amp; retargeting</a></li>
+            <li><a href="#pipeline-action" class="content-toc-subitem">Action interpretation</a></li>
+            <li><a href="#pipeline-recording" class="content-toc-subitem">Recording</a></li>
+            <li><a href="#pipeline-training" class="content-toc-subitem">Training &amp; eval</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#evaluation" class="content-toc-item">Evaluation</a>
+          <ul class="content-toc-sub">
+            <li><a href="#evaluation" class="content-toc-subitem">Protocol</a></li>
+            <li><a href="#eval-example" class="content-toc-subitem">Example: P&amp;PBox</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#results" class="content-toc-item">Results</a>
+          <ul class="content-toc-sub">
+            <li><a href="#results-ppbox" class="content-toc-subitem">P&amp;PBox inference</a></li>
+            <li><a href="#results-football" class="content-toc-subitem">Football inference</a></li>
+            <li><a href="#results-opendoor" class="content-toc-subitem">OpenDoor inference</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#resources" class="content-toc-item">Resources</a>
+          <ul class="content-toc-sub">
+            <li><a href="#resources" class="content-toc-subitem">Links</a></li>
+            <li><a href="#contact" class="content-toc-subitem">Contact</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
     </div>
     <script>
       document.querySelectorAll(".media-card").forEach(function (card) {
@@ -650,6 +698,65 @@
         }
         syncLoop();
       });
+    </script>
+    <script>
+      (function () {
+        var items = document.querySelectorAll(".content-toc-item");
+        var sections = Array.from(items).map(function (link) {
+          return document.querySelector(link.getAttribute("href"));
+        }).filter(Boolean);
+
+        items.forEach(function (item) {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            var target = document.querySelector(item.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+        });
+
+        document.querySelectorAll(".content-toc-subitem").forEach(function (item) {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            var target = document.querySelector(item.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+        });
+
+        var observer = new IntersectionObserver(
+          function (entries) {
+            var topItems = document.querySelectorAll(".content-toc-item");
+            var subItems = document.querySelectorAll(".content-toc-subitem");
+
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              var id = "#" + entry.target.id;
+
+              subItems.forEach(function (sub) {
+                sub.classList.toggle("active", sub.getAttribute("href") === id);
+              });
+
+              topItems.forEach(function (top) {
+                var hasActiveChild = top.parentElement.querySelector(".content-toc-subitem.active");
+                top.classList.toggle(
+                  "active",
+                  top.getAttribute("href") === id || !!hasActiveChild
+                );
+              });
+            });
+          },
+          { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+        );
+
+        var allItems = document.querySelectorAll(".content-toc-item, .content-toc-subitem");
+        allItems.forEach(function (item) {
+          var target = document.querySelector(item.getAttribute("href"));
+          if (target) observer.observe(target);
+        });
+      })();
     </script>
   </body>
 </html>

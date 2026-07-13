@@ -399,28 +399,54 @@
           <div class="evaluation-example">
             <div class="section-heading section-heading-compact">
               <p class="eyebrow">Example task</p>
-              <h2>Football makes the perturbation axes concrete.</h2>
+              <h2>P&amp;PBox makes the perturbation axes concrete.</h2>
             </div>
             <div class="example-grid">
-              <article class="example-card">
-                <h3>Base</h3>
-                <p>Default task setup with the original ball placement range, scene assets, and nominal lighting.</p>
-              </article>
-              <article class="example-card">
-                <h3>Vision</h3>
-                <p>Lighting direction changes while the task and target identity remain fixed, stressing appearance robustness.</p>
-              </article>
-              <article class="example-card">
-                <h3>Semantic</h3>
-                <p>Semantics-preserving asset changes, such as the football goal appearance, probe whether the policy grounds the right target.</p>
-              </article>
-              <article class="example-card">
-                <h3>Execution</h3>
-                <p>The ball initialization range is expanded, forcing different approach geometry, foot placement, and kick timing.</p>
+              <article class="example-card example-card-wide">
+                <h3>Execution Adaptive</h3>
+                <div class="example-video-pair">
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Base</span></div>
+                    <video src="./assets/media/ppbox/ppbox-origin.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Execution</span></div>
+                    <video src="./assets/media/ppbox/ppbox-execution-example.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                </div>
+                <p class="example-caption">Compared with the base setting: The shelf placement range along the x-axis is expanded, introducing larger spatial variations.</p>
               </article>
               <article class="example-card example-card-wide">
-                <h3>Cross-GMT</h3>
-                <p>Keep the trained high-level policy fixed but swap the low-level execution backend, measuring whether the same intermediate whole-body actions stay valid under TWIST2 and SONIC.</p>
+                <h3>Semantic Adaptive</h3>
+                <div class="example-video-pair">
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Base</span></div>
+                    <video src="./assets/media/ppbox/ppbox-origin.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Semantic</span></div>
+                    <video src="./assets/media/ppbox/ppbox-semantic-example.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                </div>
+                <p class="example-caption">Compared with the base setting: A visually similar distractor object is added beside the target box, evaluating target understanding beyond appearance matching.</p>
+              </article>
+              <article class="example-card example-card-wide">
+                <h3>Vision Adaptive</h3>
+                <div class="example-video-pair example-video-pair--triple">
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Base</span></div>
+                    <video src="./assets/media/ppbox/ppbox-origin.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Vision case 1</span></div>
+                    <video src="./assets/media/ppbox/ppbox-vision-example-1.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                  <figure class="media-card">
+                    <div class="media-card-header"><span>Vision case 2</span></div>
+                    <video src="./assets/media/ppbox/ppbox-vision-example-2.mp4" autoplay muted loop playsinline controls></video>
+                  </figure>
+                </div>
+                <p class="example-caption">Compared with the base setting: The lighting direction is randomly changed while keeping the task layout unchanged, evaluating robustness to visual appearance variations.</p>
               </article>
             </div>
           </div>

@@ -212,6 +212,17 @@
   grid-column: span 2;
 }
 
+.example-video-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.example-video-pair--triple {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 /* ── Resource grid ── */
 .resource-grid {
   display: grid;
@@ -289,6 +300,11 @@
     grid-column: span 2;
   }
 
+  .example-video-pair,
+  .example-video-pair--triple {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .pipeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -345,6 +361,11 @@
 
   .example-card-wide {
     grid-column: span 1;
+  }
+
+  .example-video-pair,
+  .example-video-pair--triple {
+    grid-template-columns: 1fr;
   }
 
   .media-frame video {

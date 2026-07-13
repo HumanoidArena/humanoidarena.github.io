@@ -304,6 +304,11 @@
   line-height: 1.6;
 }
 
+.example-caption strong {
+  color: #d93838;
+  font-weight: 700;
+}
+
 /* ── Old pipeline step ── */
 .pipeline-step {
   padding: 20px;

@@ -414,7 +414,7 @@
                     <video src="./assets/media/ppbox/ppbox-execution-example.mp4" autoplay muted loop playsinline controls></video>
                   </figure>
                 </div>
-                <p class="example-caption">Compared with the base setting: The shelf placement range along the x-axis is expanded, introducing larger spatial variations.</p>
+                <p class="example-caption">Compared with the base setting: The <strong>shelf</strong> placement range along the x-axis is expanded, introducing larger spatial variations.</p>
               </article>
               <article class="example-card example-card-wide">
                 <h3>Semantic Adaptive</h3>
@@ -446,7 +446,7 @@
                     <video src="./assets/media/ppbox/ppbox-vision-example-2.mp4" autoplay muted loop playsinline controls></video>
                   </figure>
                 </div>
-                <p class="example-caption">Compared with the base setting: The lighting direction is randomly changed while keeping the task layout unchanged, evaluating robustness to visual appearance variations.</p>
+                <p class="example-caption">Compared with the base setting: The <strong>lighting direction</strong> is randomly changed while keeping the task layout unchanged, evaluating robustness to visual appearance variations.</p>
               </article>
             </div>
           </div>
@@ -618,6 +618,28 @@
           video.addEventListener("loadeddata", hide);
           video.addEventListener("error", hide);
         }
+      });
+
+      document.querySelectorAll(".example-video-pair").forEach(function (pair) {
+        var videos = Array.from(pair.querySelectorAll("video"));
+        if (videos.length < 2) return;
+        videos.forEach(function (v) { v.loop = false; });
+        function syncLoop() {
+          var ended = 0;
+          videos.forEach(function (v) {
+            v.addEventListener("ended", function () {
+              ended++;
+              if (ended >= videos.length) {
+                videos.forEach(function (v2) {
+                  v2.currentTime = 0;
+                  v2.play().catch(function () {});
+                });
+                syncLoop();
+              }
+            }, { once: true });
+          });
+        }
+        syncLoop();
       });
     </script>
   </body>

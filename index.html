@@ -302,7 +302,16 @@
                 </p>
               </article>
               <article class="stack-card">
-                <h3>3. Recording and canonicalization</h3>
+                <h3>3. SONIC latent64 inference interface</h3>
+                <p>
+                  SONIC inference additionally provides an experimental latent-output mode for VLA policies trained on
+                  SONIC encoder representations. In this mode, the policy outputs 64D SONIC latent actions instead of the
+                  default 40D semantic whole-body commands. The raw dataset also preserves SONIC latent64 representations
+                  for each demonstration episode.
+                </p>
+              </article>
+              <article class="stack-card">
+                <h3>4. Recording and canonicalization</h3>
                 <p>
                   A recording manager serializes episodes into NPZ archives with egocentric observations, state, action,
                   and replayable trajectory data. Demonstrations are normalized into a 64D canonical state and 40D
@@ -324,7 +333,7 @@
                 </div>
               </article>
               <article class="stack-card">
-                <h3>4. Conversion, training, evaluation</h3>
+                <h3>5. Conversion, training, evaluation</h3>
                 <p>
                   Raw recordings are converted into LeRobot-compatible datasets, then used to train high-level policies
                   that are evaluated under in-GMT, cross-GMT, visual, semantic, and execution protocols.

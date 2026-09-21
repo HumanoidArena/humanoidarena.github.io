@@ -1,7 +1,8 @@
 # Assets
 
-Everything under `assets/` is tracked in git, referenced from `index.html`, and published with
-the page — there are no unused files. `docs/page.md` says which section uses what.
+Everything under `assets/` is tracked in git, referenced from the page's markup or content
+tables, and published with the page — there are no unused files. `docs/page.md` says which
+section uses what.
 
 ## Inventory
 
@@ -57,20 +58,30 @@ Total: 30 MP4 clips, 1 figure SVG, 4 institution marks.
 
 ## Video conventions
 
-- H.264 MP4, first frame removed, played `autoplay muted loop playsinline` — media works
-  without JavaScript.
+- H.264 MP4, first frame removed, `muted loop playsinline controls preload="none"`. The attribute
+  set is written once, in `mediaCard()` in `js/dom.js`; the absence of `autoplay` is deliberate,
+  because a clip is fetched only as it nears the viewport. See [page.md](page.md).
+- **Encode for the size it is shown at.** The clips are displayed a few hundred pixels wide, so a
+  1080p file is a waste of the reader's bandwidth. `teleop-third-person.mp4` was 14 MB at
+  1920×1080 — twelve times the bitrate of its own pair partner — and was re-encoded to 960×540 at
+  CRF 23, which is 3.9 MB and indistinguishable at display size. Keep an eye on the asset budget
+  in `tests/baseline.json`, which fails a file over 8.5 MB.
+- **A clip with a stated box size must state it in CSS.** `preload="none"` means no intrinsic
+  dimensions until load, so anything sizing itself from the file — the recording row, which shows
+  each clip whole at its own ratio — declares that ratio in `css/components.css`. Otherwise the
+  box collapses to the default replaced-element size and jumps when the metadata lands.
 - Results clips are sampled at 1 FPS to keep them small; the benchmark itself runs inference on
   the native stream at training frame rate. The Results footnote states this on the page.
 - The task gallery pairs one SONIC and one TWIST2 rollout per task; keep filenames aligned
   across the two directories when adding a task.
 - `ppbox-origin.mp4` is the shared base episode for all four perturbation examples.
-- Adding a clip means dropping the file in the matching directory and pointing the section's
-  `.media-card` at it; see [page.md](page.md) for the markup.
+- Adding a clip means dropping the file in the matching directory and adding it to the section's
+  `clips` in `js/content.js` — the clips are data, not markup.
 
 ## Institution marks
 
-Used by leaderboard rows, in `LB_MODELS`. Each mark is the first author's institution of the
-cited baseline paper, and its name appears in the mark's hover tooltip.
+Used by leaderboard rows, in `LB_MODELS` in `js/leaderboard.js`. Each mark is the first author's
+institution of the cited baseline paper, and its name appears in the mark's hover tooltip.
 
 | File | Institution | Source | Notes |
 | --- | --- | --- | --- |

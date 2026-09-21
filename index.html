@@ -19,7 +19,20 @@
     <link rel="stylesheet" href="./css/components.css" />
   </head>
   <body>
+    <!--
+      The repeated collections — task rows, protocol cards, result scenarios,
+      resource cards, the table of contents — are rendered from `js/content.js`
+      into the `[data-render]` containers below, so each one is written once.
+      Prose that appears once (the hero, the abstract, the pipeline stages) stays
+      here. See docs/page.md.
+    -->
     <div class="page-shell">
+      <noscript>
+        <p class="page-notice">
+          The task clips, evaluation examples, resource links and leaderboard are rendered by JavaScript. Without
+          it the page keeps its headings and prose, but not its media, downloads or tables.
+        </p>
+      </noscript>
       <main>
         <section class="hero" id="hero">
           <div class="hero-copy">
@@ -85,13 +98,13 @@
 
           <div class="hero-media">
             <p class="eyebrow">Overview figure</p>
-            <div class="media-frame media-frame-large">
+            <div class="media-frame">
               <img src="./assets/images/paper-main-figure.svg" alt="HumanoidArena overview figure" />
             </div>
           </div>
         </section>
 
-        <section class="section paper-section" id="paper">
+        <section class="section" id="paper">
           <div class="section-heading">
             <p class="eyebrow">Abstract</p>
             <h2>Paper abstract.</h2>
@@ -129,133 +142,7 @@
             <p class="eyebrow">Task gallery</p>
             <h2>Seven tasks across both GMTs.</h2>
           </div>
-          <div class="task-suite">
-            <article class="task-row" id="task-football">
-              <div class="task-row-copy">
-                <p class="task-tag">HOI</p>
-                <h3>Football</h3>
-                <p>Leg-object interaction with ball approach, kick timing, and balance-aware whole-body control.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/move-football.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/football.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="task-row" id="task-doubledesk">
-              <div class="task-row-copy">
-                <p class="task-tag">HOI</p>
-                <h3>DoubleDesk</h3>
-                <p>Cross-surface object transfer with stepping, reach planning, and whole-body reorientation.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/move-pickplace-desk.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/doubledesk.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="task-row" id="task-ppbox">
-              <div class="task-row-copy">
-                <p class="task-tag">HOI</p>
-                <h3>P&amp;PBox</h3>
-                <p>Leg-assisted high placement requiring crouch, posture change, and shelf-height interaction.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/move-pickplace-box.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/move-pickplace-box.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="task-row" id="task-opendoor">
-              <div class="task-row-copy">
-                <p class="task-tag">HSI</p>
-                <h3>OpenDoor</h3>
-                <p>Handle manipulation, body turning, and doorway traversal under egocentric perception.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/open-door.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/open-door.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="task-row" id="task-sitsofa">
-              <div class="task-row-copy">
-                <p class="task-tag">HSI</p>
-                <h3>SitSofa</h3>
-                <p>Obstacle-aware navigation and stable sitting transition with lower-body alignment constraints.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/move-sitsofa.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/sitsofa-navi.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="task-row" id="task-boxing">
-              <div class="task-row-copy">
-                <p class="task-tag">HSI</p>
-                <h3>Boxing</h3>
-                <p>Height-adaptive striking that requires crouch control and coordinated whole-body adjustment.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/move-boxing.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/move-boxing.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="task-row" id="task-visnavi">
-              <div class="task-row-copy">
-                <p class="task-tag">HSI</p>
-                <h3>VisNavi</h3>
-                <p>Obstacle-aware visual navigation in constrained scenes using an egocentric camera stream.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>TWIST2</span></div>
-                  <video src="./assets/media/task_gallery/twist2/move-visnavi.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>SONIC</span></div>
-                  <video src="./assets/media/task_gallery/sonic/visionnavi.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-          </div>
+          <div class="task-suite" data-render="tasks"></div>
         </section>
 
         <section class="section feature-split" id="pipeline">
@@ -272,16 +159,11 @@
                   captured and retargeted through GMR into a shared 35D robot-space reference signal for real-time
                   consumption.
                 </p>
-                <div class="inline-media-grid inline-media-grid-two">
-                    <figure class="media-card">
-                      <div class="media-card-header"><span>Third-person</span></div>
-                      <video src="./assets/media/pipeline/teleop-third-person.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                    </figure>
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Sim ego view</span></div>
-                    <video src="./assets/media/pipeline/teleop-first-person.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                  </figure>
-                </div>
+                <div
+                  class="inline-media-grid inline-media-grid-two"
+                  data-render="pipelineClips"
+                  data-clips="teleop"
+                ></div>
               </article>
               <article class="stack-card" id="pipeline-action">
                 <h3>2. Backend-specific action interpretation</h3>
@@ -298,20 +180,11 @@
                   and replayable trajectory data. Demonstrations are normalized into a 64D canonical state and 40D
                   intermediate whole-body action.
                 </p>
-                <div class="inline-media-grid inline-media-grid-three inline-media-grid-recording">
-                  <figure class="media-card">
-                     <div class="media-card-header"><span>Left wrist</span></div>
-                     <video src="./assets/media/pipeline/move-sit-sofa-left_wrist_rgb.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                   </figure>
-                   <figure class="media-card">
-                     <div class="media-card-header"><span>Main ego</span></div>
-                     <video src="./assets/media/pipeline/move-sit-sofa-front_rgb.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                   </figure>
-                   <figure class="media-card">
-                      <div class="media-card-header"><span>Right wrist</span></div>
-                    <video src="./assets/media/pipeline/move-sit-sofa-right_wrist_rgb.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                  </figure>
-                </div>
+                <div
+                  class="inline-media-grid inline-media-grid-three inline-media-grid-recording"
+                  data-render="pipelineClips"
+                  data-clips="recording"
+                ></div>
               </article>
               <article class="stack-card" id="pipeline-training">
                 <h3>4. Conversion, training, evaluation</h3>
@@ -327,38 +200,7 @@
                 </p>
               </article>
             </div>
-            <div class="pipeline-steps">
-              <article class="pipeline-step-card">
-                <span>01</span>
-                <h3>Capture</h3>
-                <p>PICO egocentric stream and human motion capture feed the shared teleop loop.</p>
-              </article>
-              <article class="pipeline-step-card">
-                <span>02</span>
-                <h3>Retarget</h3>
-                <p>GMR produces a robot-space reference signal with shared policy-facing semantics.</p>
-              </article>
-              <article class="pipeline-step-card">
-                <span>03</span>
-                <h3>Execute</h3>
-                <p>TWIST2 or SONIC interprets and tracks the action through its own backend logic.</p>
-              </article>
-              <article class="pipeline-step-card">
-                <span>04</span>
-                <h3>Record</h3>
-                <p>Isaac Lab stores NPZ episodes with synchronized observations, state, action, and video.</p>
-              </article>
-              <article class="pipeline-step-card">
-                <span>05</span>
-                <h3>Convert</h3>
-                <p>Conversion tools normalize recordings into LeRobot-compatible datasets.</p>
-              </article>
-              <article class="pipeline-step-card">
-                <span>06</span>
-                <h3>Benchmark</h3>
-                <p>Policies are trained and stress-tested across perturbation and GMT-conditioned evaluation.</p>
-              </article>
-            </div>
+            <div class="pipeline-steps" data-render="pipelineSteps"></div>
           </div>
         </section>
 
@@ -367,84 +209,13 @@
             <p class="eyebrow">Evaluation protocol</p>
             <h2>Four tests plus cross-GMT.</h2>
           </div>
-          <div class="protocol-grid">
-            <article class="protocol-card" id="eval-base">
-              <h3>Base</h3>
-              <p>Reference evaluation without additional perturbation, used as the default task performance baseline.</p>
-            </article>
-            <article class="protocol-card" id="eval-semantic">
-              <h3>Semantic</h3>
-              <p>Measures sensitivity to higher-level task or environment semantic variation.</p>
-            </article>
-            <article class="protocol-card" id="eval-vision">
-              <h3>Vision</h3>
-              <p>Targets robustness to visual observation shift and perception-side difficulty.</p>
-            </article>
-            <article class="protocol-card" id="eval-execution">
-              <h3>Execution</h3>
-              <p>Focuses on control-side degradation and policy-to-tracker execution mismatch.</p>
-            </article>
-            <article class="protocol-card protocol-card-wide" id="eval-crossgmt">
-              <h3>Cross-GMT deployment</h3>
-              <p>
-                The homepage reserves prominent space for results showing how policies transfer across different GMT
-                backends. This is currently a content placeholder waiting for plots or summary tables.
-              </p>
-            </article>
-          </div>
+          <div class="protocol-grid" data-render="protocols"></div>
           <div class="evaluation-example" id="eval-example">
             <div class="section-heading section-heading-compact">
               <p class="eyebrow">Example task</p>
               <h2>P&amp;PBox makes the perturbation axes concrete.</h2>
             </div>
-            <div class="example-grid">
-              <article class="example-card example-card-wide">
-                <h3>Execution Adaptive</h3>
-                <div class="example-video-pair">
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Base</span></div>
-                    <video src="./assets/media/ppbox/ppbox-origin.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Execution</span></div>
-                    <video src="./assets/media/ppbox/ppbox-execution-example.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                </div>
-                <p class="example-caption">Compared with the base setting: The <strong>shelf</strong> placement range along the x-axis is expanded, introducing larger spatial variations.</p>
-              </article>
-              <article class="example-card example-card-wide">
-                <h3>Semantic Adaptive</h3>
-                <div class="example-video-pair">
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Base</span></div>
-                    <video src="./assets/media/ppbox/ppbox-origin.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Semantic</span></div>
-                    <video src="./assets/media/ppbox/ppbox-semantic-example.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                </div>
-                <p class="example-caption">Compared with the base setting: A visually similar distractor object is added beside the target box, evaluating target understanding beyond appearance matching.</p>
-              </article>
-              <article class="example-card example-card-wide">
-                <h3>Vision Adaptive</h3>
-                <div class="example-video-pair example-video-pair--triple">
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Base</span></div>
-                    <video src="./assets/media/ppbox/ppbox-origin.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Vision case 1</span></div>
-                    <video src="./assets/media/ppbox/ppbox-vision-example-1.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                  <figure class="media-card">
-                    <div class="media-card-header"><span>Vision case 2</span></div>
-                    <video src="./assets/media/ppbox/ppbox-vision-example-2.mp4" autoplay muted loop playsinline controls></video>
-                  </figure>
-                </div>
-                <p class="example-caption">Compared with the base setting: The <strong>lighting direction</strong> is randomly changed while keeping the task layout unchanged, evaluating robustness to visual appearance variations.</p>
-              </article>
-            </div>
+            <div class="example-grid" data-render="examples"></div>
           </div>
         </section>
 
@@ -453,76 +224,23 @@
             <p class="eyebrow">Results</p>
             <h2>Success, failure, recovery.</h2>
           </div>
-          <div class="scenario-suite">
-            <article class="scenario-row" id="results-ppbox">
-              <div class="scenario-copy">
-                <p class="task-tag">Scenario 1</p>
-                <h3>P&amp;PBox inference</h3>
-                <p>Show one successful rollout and one failure case to compare posture control, shelf approach, and task completion.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>Success</span></div>
-                  <video src="./assets/media/results/ppbox_sonic_success.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>Timeout</span></div>
-                  <video src="./assets/media/results/ppbox_sonic_timeout.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="scenario-row" id="results-football">
-              <div class="scenario-copy">
-                <p class="task-tag">Scenario 2</p>
-                <h3>Football inference</h3>
-                <p>Contrast a successful kick sequence with a failure sequence to surface contact timing and execution sensitivity.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>Success</span></div>
-                  <video src="./assets/media/results/football_sonic_success.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>Failure</span></div>
-                  <video src="./assets/media/results/football_sonic_fall.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-
-            <article class="scenario-row" id="results-opendoor">
-              <div class="scenario-copy">
-                <p class="task-tag">Scenario 3</p>
-                <h3>OpenDoor inference</h3>
-                <p>Compare successful door traversal against a failed or incomplete attempt that breaks at handle use or body alignment.</p>
-              </div>
-              <div class="task-media-pair">
-                <figure class="media-card">
-                  <div class="media-card-header"><span>Success</span></div>
-                  <video src="./assets/media/results/opendoor_sonic_success.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-                <figure class="media-card">
-                  <div class="media-card-header"><span>Timeout</span></div>
-                  <video src="./assets/media/results/opendoor_sonic_timeout.mp4" autoplay muted loop playsinline controls preload="auto"></video>
-                </figure>
-              </div>
-            </article>
-          </div>
+          <div class="scenario-suite" data-render="scenarios"></div>
           <div class="footnote"><span class="footnote-marker">*</span> Videos shown here are sampled at 1 FPS for storage and efficiency considerations. Inference uses the native video stream at the same frame rate as training.</div>
         </section>
 
+        <!--
+          Filled by js/leaderboard.js: the tabs and the three panels are generated
+          from that module's VIEWS table, so a column is declared once. The numbers
+          live in that module too — see docs/leaderboard.md.
+        -->
         <section class="section" id="leaderboard">
           <div class="section-heading">
             <p class="eyebrow">Leaderboard</p>
             <h2>How policy&ndash;tracker pairs compare.</h2>
           </div>
-          <p class="lb-meta">Updated <span id="lb-updated">2026-09-21</span></p>
+          <p class="lb-meta">Updated <span id="lb-updated"></span></p>
           <div class="lb-controls">
-            <div class="lb-tabs" role="tablist" aria-label="Leaderboard views">
-              <button class="lb-tab is-active" id="lb-tab-overall" type="button" role="tab" aria-selected="true" aria-controls="lb-panel-overall">Overall</button>
-              <button class="lb-tab" id="lb-tab-hoi" type="button" role="tab" aria-selected="false" aria-controls="lb-panel-hoi" tabindex="-1">HOI</button>
-              <button class="lb-tab" id="lb-tab-hsi" type="button" role="tab" aria-selected="false" aria-controls="lb-panel-hsi" tabindex="-1">HSI</button>
-            </div>
+            <div class="lb-tabs" id="lb-tabs" role="tablist" aria-label="Leaderboard views"></div>
             <div class="lb-filter" role="radiogroup" aria-label="Filter by general motion tracker">
               <span class="lb-filter-label" aria-hidden="true">GMT</span>
               <div class="lb-filter-segments">
@@ -534,89 +252,7 @@
             </div>
           </div>
           <p class="lb-live" id="lb-live" aria-live="polite"></p>
-          <div class="lb-panels">
-            <div class="lb-panel" id="lb-panel-overall" role="tabpanel" aria-labelledby="lb-tab-overall">
-              <div class="lb-chart-card">
-                <div class="lb-chart-head">
-                  <span class="lb-chart-head-label">Model</span>
-                  <span class="lb-chart-head-scale" aria-hidden="true"><i>0</i><i>50</i><i>100</i></span>
-                  <span class="lb-chart-head-label lb-chart-head-label--right">SR (%)</span>
-                </div>
-                <div class="lb-chart" id="lb-chart-overall" role="group" aria-label="Overall success rate comparison by policy and tracker"></div>
-              </div>
-              <div class="lb-scroll">
-                <table class="lb-table">
-                  <thead>
-                    <tr>
-                      <th class="lb-rank-col" scope="col">Rank</th>
-                      <th class="lb-model-col" scope="col">Model</th>
-                      <th class="lb-gmt-col" scope="col">GMT</th>
-                      <th class="lb-num" scope="col">HOI AVG</th>
-                      <th class="lb-num" scope="col">HSI AVG</th>
-                      <th class="lb-num" scope="col">Overall</th>
-                      <th class="lb-num" scope="col">AFR</th>
-                    </tr>
-                  </thead>
-                  <tbody id="lb-body-overall"></tbody>
-                </table>
-              </div>
-            </div>
-            <div class="lb-panel" id="lb-panel-hoi" role="tabpanel" aria-labelledby="lb-tab-hoi" hidden>
-              <p class="lb-caption">Human-Object Interaction (HOI) tasks &mdash; Football, DoubleDesk, P&amp;PBox.</p>
-              <div class="lb-chart-card">
-                <div class="lb-chart-head">
-                  <span class="lb-chart-head-label">Model</span>
-                  <span class="lb-chart-head-scale" aria-hidden="true"><i>0</i><i>50</i><i>100</i></span>
-                  <span class="lb-chart-head-label lb-chart-head-label--right">SR (%)</span>
-                </div>
-                <div class="lb-chart" id="lb-chart-hoi" role="group" aria-label="HOI success rate comparison by policy and tracker"></div>
-              </div>
-              <div class="lb-scroll">
-                <table class="lb-table">
-                  <thead>
-                    <tr>
-                      <th class="lb-rank-col" scope="col">Rank</th>
-                      <th class="lb-model-col" scope="col">Model</th>
-                      <th class="lb-gmt-col" scope="col">GMT</th>
-                      <th class="lb-num" scope="col">Football</th>
-                      <th class="lb-num" scope="col">DoubleDesk</th>
-                      <th class="lb-num" scope="col">P&amp;PBox</th>
-                      <th class="lb-num" scope="col">AVG</th>
-                    </tr>
-                  </thead>
-                  <tbody id="lb-body-hoi"></tbody>
-                </table>
-              </div>
-            </div>
-            <div class="lb-panel" id="lb-panel-hsi" role="tabpanel" aria-labelledby="lb-tab-hsi" hidden>
-              <p class="lb-caption">Human-Scene Interaction (HSI) tasks &mdash; OpenDoor, SitSofa, Boxing, VisNavi.</p>
-              <div class="lb-chart-card">
-                <div class="lb-chart-head">
-                  <span class="lb-chart-head-label">Model</span>
-                  <span class="lb-chart-head-scale" aria-hidden="true"><i>0</i><i>50</i><i>100</i></span>
-                  <span class="lb-chart-head-label lb-chart-head-label--right">SR (%)</span>
-                </div>
-                <div class="lb-chart" id="lb-chart-hsi" role="group" aria-label="HSI success rate comparison by policy and tracker"></div>
-              </div>
-              <div class="lb-scroll">
-                <table class="lb-table">
-                  <thead>
-                    <tr>
-                      <th class="lb-rank-col" scope="col">Rank</th>
-                      <th class="lb-model-col" scope="col">Model</th>
-                      <th class="lb-gmt-col" scope="col">GMT</th>
-                      <th class="lb-num" scope="col">OpenDoor</th>
-                      <th class="lb-num" scope="col">SitSofa</th>
-                      <th class="lb-num" scope="col">Boxing</th>
-                      <th class="lb-num" scope="col">VisNavi</th>
-                      <th class="lb-num" scope="col">AVG</th>
-                    </tr>
-                  </thead>
-                  <tbody id="lb-body-hsi"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          <div id="lb-panels"></div>
           <p class="lb-note">
             <span class="lb-note-item"><span class="lb-note-term">Overall</span> = mean SR across all seven tasks,
               (3 &times; HOI AVG + 4 &times; HSI AVG) / 7</span>
@@ -624,7 +260,7 @@
             <span class="lb-note-item"><span class="lb-note-term">AFR</span> = average fall rate (&darr; is better)</span>
             <span class="lb-note-item"><span class="lb-note-term">&plusmn;</span> = standard deviation across seeds</span>
           </p>
-          <noscript><p class="lb-note">Enable JavaScript to view the leaderboard tables.</p></noscript>
+          <noscript><p class="lb-note">Enable JavaScript to view the leaderboard tables and charts.</p></noscript>
         </section>
 
         <section class="section" id="resources">
@@ -632,791 +268,16 @@
             <p class="eyebrow">Resources</p>
             <h2>Paper, code, and more.</h2>
           </div>
-          <div class="resource-grid">
-            <article class="resource-card">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Paper</h3>
-                  <p class="resource-card-desc">arXiv preprint, 2026.</p>
-                </div>
-                <div class="resource-card-actions">
-                  <a href="https://arxiv.org/abs/2606.17833" class="btn-pill" target="_blank" rel="noopener noreferrer">arXiv</a>
-                </div>
-              </div>
-            </article>
-            <article class="resource-card">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Code</h3>
-                  <p class="resource-card-desc">Codebase, training pipeline, and evaluation scripts.</p>
-                </div>
-                <div class="resource-card-actions">
-                  <a href="https://github.com/William-wAng618/HumanoidArena/tree/release/open-source-prep" class="btn-pill" target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
-              </div>
-            </article>
-            <article class="resource-card">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Dataset</h3>
-                  <p class="resource-card-desc">LeRobot-compatible egocentric demonstration dataset.</p>
-                </div>
-                <div class="resource-card-actions">
-                  <a href="https://huggingface.co/datasets/WilliamWang16/HumanoidArena_dataset_v3_1" class="btn-pill" target="_blank" rel="noopener noreferrer">HuggingFace</a>
-                  <a href="https://www.modelscope.cn/datasets/Twang2026/HumanoidArenaV3.1" class="btn-pill btn-pill--ghost" target="_blank" rel="noopener noreferrer">ModelScope</a>
-                </div>
-              </div>
-            </article>
-            <article class="resource-card">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Models</h3>
-                  <p class="resource-card-desc">Released policy checkpoints for HumanoidArena evaluation.</p>
-                </div>
-                <div class="resource-card-actions">
-                  <a href="https://huggingface.co/WilliamWang16/HumanoidArena_models" class="btn-pill" target="_blank" rel="noopener noreferrer">HuggingFace</a>
-                  <a href="https://www.modelscope.cn/models/Twang2026/HumanoidArena_models" class="btn-pill btn-pill--ghost" target="_blank" rel="noopener noreferrer">ModelScope</a>
-                </div>
-              </div>
-            </article>
-            <article class="resource-card">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Assets</h3>
-                  <p class="resource-card-desc">Simulation assets required by the Isaac Lab environments.</p>
-                </div>
-                <div class="resource-card-actions">
-                  <a href="https://drive.google.com/file/d/1TCa_aVRmFrZs_l4wlxkqanNebvDtChNk/view?usp=sharing" class="btn-pill" target="_blank" rel="noopener noreferrer">Google Drive</a>
-                </div>
-              </div>
-            </article>
-            <article class="resource-card">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Raw Data</h3>
-                  <p class="resource-card-desc">Complete raw demonstration data for all tasks.</p>
-                </div>
-                <div class="resource-card-actions">
-                  <a href="https://www.modelscope.cn/datasets/Twang2026/HumanoidArena_raw" class="btn-pill" target="_blank" rel="noopener noreferrer">Complete</a>
-                  <a href="https://www.modelscope.cn/datasets/Twang2026/test_raw_HOI_pp_box" class="btn-pill btn-pill--ghost" target="_blank" rel="noopener noreferrer">P&amp;PBox</a>
-                </div>
-              </div>
-            </article>
-            <article class="resource-card resource-card-bibtex">
-              <h3>BibTeX</h3>
-              <div class="bibtex-box" aria-label="BibTeX citation">
-                <span>@article{wang2026humanoidarena,</span>
-                <span>  title={HumanoidArena: Benchmarking Egocentric Hierarchical Whole-body Learning},</span>
-                <span>  author={Wang, Taowen and Xie, Zikang and Yang, Bin and others},</span>
-                <span>  journal={arXiv preprint arXiv:2606.17833},</span>
-                <span>  year={2026}</span>
-                <span>}</span>
-              </div>
-            </article>
-            <article class="resource-card resource-card-bibtex" id="contact">
-              <div class="resource-card-inner">
-                <div class="resource-card-copy">
-                  <h3>Contact</h3>
-                  <p class="resource-card-desc">
-                    Add either WeChat account (<span class="contact-id">xiezhikang2003</span> and <span class="contact-id">Chanw15</span>) to join the community group.
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
+          <div class="resource-grid" data-render="resources"></div>
         </section>
       </main>
     </div>
+
     <nav class="content-toc" aria-label="Table of contents">
       <h4 class="content-toc-title">Contents</h4>
-      <ul class="content-toc-list">
-        <li>
-          <a href="#paper" class="content-toc-item">Abstract</a>
-        </li>
-        <li>
-          <a href="#tasks" class="content-toc-item">Task Gallery</a>
-          <ul class="content-toc-sub">
-            <li><a href="#task-football" class="content-toc-subitem">Football</a></li>
-            <li><a href="#task-doubledesk" class="content-toc-subitem">DoubleDesk</a></li>
-            <li><a href="#task-ppbox" class="content-toc-subitem">P&amp;PBox</a></li>
-            <li><a href="#task-opendoor" class="content-toc-subitem">OpenDoor</a></li>
-            <li><a href="#task-sitsofa" class="content-toc-subitem">SitSofa</a></li>
-            <li><a href="#task-boxing" class="content-toc-subitem">Boxing</a></li>
-            <li><a href="#task-visnavi" class="content-toc-subitem">VisNavi</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#pipeline" class="content-toc-item">Pipeline</a>
-          <ul class="content-toc-sub">
-            <li><a href="#pipeline-capture" class="content-toc-subitem">Capture &amp; retargeting</a></li>
-            <li><a href="#pipeline-action" class="content-toc-subitem">Action interpretation</a></li>
-            <li><a href="#pipeline-recording" class="content-toc-subitem">Recording</a></li>
-            <li><a href="#pipeline-training" class="content-toc-subitem">Training &amp; eval</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#evaluation" class="content-toc-item">Evaluation</a>
-          <ul class="content-toc-sub">
-            <li><a href="#evaluation" class="content-toc-subitem">Protocol</a></li>
-            <li><a href="#eval-example" class="content-toc-subitem">Example: P&amp;PBox</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#results" class="content-toc-item">Results</a>
-          <ul class="content-toc-sub">
-            <li><a href="#results-ppbox" class="content-toc-subitem">P&amp;PBox inference</a></li>
-            <li><a href="#results-football" class="content-toc-subitem">Football inference</a></li>
-            <li><a href="#results-opendoor" class="content-toc-subitem">OpenDoor inference</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#leaderboard" class="content-toc-item">Leaderboard</a>
-        </li>
-        <li>
-          <a href="#resources" class="content-toc-item">Resources</a>
-          <ul class="content-toc-sub">
-            <li><a href="#resources" class="content-toc-subitem">Links</a></li>
-            <li><a href="#contact" class="content-toc-subitem">Contact</a></li>
-          </ul>
-        </li>
-      </ul>
+      <ul class="content-toc-list" data-render="toc"></ul>
     </nav>
-    <script>
-      document.querySelectorAll(".media-card").forEach(function (card) {
-        var video = card.querySelector("video");
-        if (!video) return;
-        var loader = document.createElement("div");
-        loader.className = "media-loader";
-        card.appendChild(loader);
-        function hide() { loader.classList.add("loaded"); }
-        if (video.readyState >= 2) { hide(); }
-        else {
-          video.addEventListener("loadeddata", hide);
-          video.addEventListener("error", hide);
-        }
-      });
 
-      document.querySelectorAll(".example-video-pair").forEach(function (pair) {
-        var videos = Array.from(pair.querySelectorAll("video"));
-        if (videos.length < 2) return;
-        videos.forEach(function (v) { v.loop = false; });
-        function syncLoop() {
-          var ended = 0;
-          videos.forEach(function (v) {
-            v.addEventListener("ended", function () {
-              ended++;
-              if (ended >= videos.length) {
-                videos.forEach(function (v2) {
-                  v2.currentTime = 0;
-                  v2.play().catch(function () {});
-                });
-                syncLoop();
-              }
-            }, { once: true });
-          });
-        }
-        syncLoop();
-      });
-    </script>
-    <script>
-      (function () {
-        var items = document.querySelectorAll(".content-toc-item");
-        var sections = Array.from(items).map(function (link) {
-          return document.querySelector(link.getAttribute("href"));
-        }).filter(Boolean);
-
-        items.forEach(function (item) {
-          item.addEventListener("click", function (e) {
-            e.preventDefault();
-            var target = document.querySelector(item.getAttribute("href"));
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-            }
-          });
-        });
-
-        document.querySelectorAll(".content-toc-subitem").forEach(function (item) {
-          item.addEventListener("click", function (e) {
-            e.preventDefault();
-            var target = document.querySelector(item.getAttribute("href"));
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-            }
-          });
-        });
-
-        var observer = new IntersectionObserver(
-          function (entries) {
-            var topItems = document.querySelectorAll(".content-toc-item");
-            var subItems = document.querySelectorAll(".content-toc-subitem");
-
-            entries.forEach(function (entry) {
-              if (!entry.isIntersecting) return;
-              var id = "#" + entry.target.id;
-
-              subItems.forEach(function (sub) {
-                sub.classList.toggle("active", sub.getAttribute("href") === id);
-              });
-
-              topItems.forEach(function (top) {
-                var hasActiveChild = top.parentElement.querySelector(".content-toc-subitem.active");
-                top.classList.toggle(
-                  "active",
-                  top.getAttribute("href") === id || !!hasActiveChild
-                );
-              });
-            });
-          },
-          { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
-        );
-
-        var allItems = document.querySelectorAll(".content-toc-item, .content-toc-subitem");
-        allItems.forEach(function (item) {
-          var target = document.querySelector(item.getAttribute("href"));
-          if (target) observer.observe(target);
-        });
-      })();
-    </script>
-    <script>
-      // Leaderboard data. Source: paper Table 1 (in-GMT evaluation, success rate in %,
-      // 60 episodes = 3 seeds x 20 trials). Task values are [mean, standard deviation];
-      // hoiAvg / hsiAvg are the paper's printed suite averages — optional, and computed
-      // from the task values when omitted. Overall is always computed by the renderer.
-      // To add an entry: add a model to LB_MODELS (if new) and one { model, gmt, ... }
-      // object to LB_ENTRIES. To update a number, edit it here only.
-      var LB_UPDATED = "2026-09-21";
-
-      // logo is the mark of the cited paper's first author, and logoTitle names it for
-      // the hover tooltip; the table itself shows no affiliation text.
-      var LB_MODELS = {
-        act: {
-          name: "ACT",
-          cite: "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware",
-          logo: "./assets/images/orgs/stanford.svg",
-          logoTitle: "Stanford University",
-          paper: "https://arxiv.org/abs/2304.13705",
-          repo: "https://github.com/tonyzhaozh/aloha"
-        },
-        dp: {
-          name: "DP",
-          cite: "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion",
-          logo: "./assets/images/orgs/columbia.svg",
-          logoTitle: "Columbia University (first author)",
-          paper: "https://arxiv.org/abs/2303.04137",
-          repo: "https://github.com/real-stanford/diffusion_policy"
-        },
-        fm: {
-          name: "FM",
-          cite: "Large Behavior Models and Atlas Find New Footing",
-          logo: "./assets/images/orgs/boston-dynamics.svg",
-          logoTitle: "Boston Dynamics",
-          paper: "https://bostondynamics.com/blog/large-behavior-models-atlas-find-new-footing/",
-          repo: ""
-        },
-        pi05: {
-          name: "\u03C00.5",
-          cite: "\u03C00.5: a vision-language-action model with open-world generalization",
-          logo: "./assets/images/orgs/physical-intelligence.png",
-          logoTitle: "Physical Intelligence",
-          paper: "https://arxiv.org/abs/2504.16054",
-          repo: ""
-        }
-      };
-
-      var LB_ENTRIES = [
-        {
-          model: "act", gmt: "TWIST2", afr: 6.43, hoiAvg: 28.33, hsiAvg: 47.08,
-          tasks: {
-            football: [26.7, 6.2], doubledesk: [15.0, 8.2], ppbox: [43.3, 8.5],
-            opendoor: [50.0, 4.1], sitsofa: [66.7, 10.3], boxing: [58.3, 10.3], visnavi: [13.3, 4.7]
-          }
-        },
-        {
-          model: "dp", gmt: "TWIST2", afr: 10.48, hoiAvg: 35.56, hsiAvg: 55.83,
-          tasks: {
-            football: [46.7, 6.2], doubledesk: [10.0, 4.1], ppbox: [50.0, 0.0],
-            opendoor: [68.3, 6.2], sitsofa: [73.3, 6.2], boxing: [51.7, 11.8], visnavi: [30.0, 4.1]
-          }
-        },
-        {
-          model: "fm", gmt: "TWIST2", afr: 7.38, hoiAvg: 36.11, hsiAvg: 58.75,
-          tasks: {
-            football: [53.3, 8.5], doubledesk: [16.7, 8.5], ppbox: [38.3, 8.5],
-            opendoor: [76.7, 2.4], sitsofa: [68.3, 6.2], boxing: [63.3, 9.4], visnavi: [26.7, 20.9]
-          }
-        },
-        {
-          model: "pi05", gmt: "TWIST2", afr: 3.33, hoiAvg: 25.0, hsiAvg: 38.33,
-          tasks: {
-            football: [26.7, 4.7], doubledesk: [1.7, 2.4], ppbox: [46.7, 8.5],
-            opendoor: [28.3, 9.4], sitsofa: [60.0, 4.1], boxing: [51.7, 8.5], visnavi: [13.3, 8.5]
-          }
-        },
-        {
-          model: "act", gmt: "SONIC", afr: 8.57, hoiAvg: 30.56, hsiAvg: 60.42,
-          tasks: {
-            football: [16.7, 6.2], doubledesk: [18.3, 4.7], ppbox: [56.7, 6.2],
-            opendoor: [78.3, 9.4], sitsofa: [73.3, 8.5], boxing: [56.7, 6.2], visnavi: [33.3, 2.4]
-          }
-        },
-        {
-          model: "dp", gmt: "SONIC", afr: 8.33, hoiAvg: 52.22, hsiAvg: 65.83,
-          tasks: {
-            football: [45.0, 10.8], doubledesk: [36.7, 4.7], ppbox: [75.0, 4.1],
-            opendoor: [85.0, 10.8], sitsofa: [78.3, 14.3], boxing: [76.7, 2.4], visnavi: [23.3, 6.2]
-          }
-        },
-        {
-          model: "fm", gmt: "SONIC", afr: 5.71, hoiAvg: 41.67, hsiAvg: 48.33,
-          tasks: {
-            football: [13.3, 2.4], doubledesk: [38.3, 4.7], ppbox: [73.3, 6.2],
-            opendoor: [70.0, 4.1], sitsofa: [15.0, 7.1], boxing: [70.0, 8.2], visnavi: [38.3, 14.3]
-          }
-        },
-        {
-          model: "pi05", gmt: "SONIC", afr: 5.24, hoiAvg: 41.67, hsiAvg: 58.33,
-          tasks: {
-            football: [10.0, 4.1], doubledesk: [43.3, 6.2], ppbox: [71.7, 11.8],
-            opendoor: [66.7, 6.2], sitsofa: [73.3, 2.4], boxing: [70.0, 0.0], visnavi: [23.3, 6.2]
-          }
-        }
-      ];
-
-      (function () {
-        var HOI_TASKS = ["football", "doubledesk", "ppbox"];
-        var HSI_TASKS = ["opendoor", "sitsofa", "boxing", "visnavi"];
-        var MEDALS = ["\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49"];
-
-        function meanOf(tasks, keys) {
-          var sum = 0;
-          keys.forEach(function (key) { sum += tasks[key][0]; });
-          return sum / keys.length;
-        }
-
-        function fmt(value, decimals) {
-          return value.toFixed(decimals);
-        }
-
-        // Displayed suite averages prefer the paper's printed values (hoiAvg / hsiAvg)
-        // so the page matches Table 1 exactly; the recomputed values from the task
-        // cells ("precise") break ties when two entries display the same average.
-        var rows = LB_ENTRIES.map(function (entry) {
-          var hoiPrecise = meanOf(entry.tasks, HOI_TASKS);
-          var hsiPrecise = meanOf(entry.tasks, HSI_TASKS);
-          var hoi = typeof entry.hoiAvg === "number" ? entry.hoiAvg : hoiPrecise;
-          var hsi = typeof entry.hsiAvg === "number" ? entry.hsiAvg : hsiPrecise;
-          return {
-            entry: entry,
-            hoi: hoi,
-            hsi: hsi,
-            hoiPrecise: hoiPrecise,
-            hsiPrecise: hsiPrecise,
-            overall: (hoi * HOI_TASKS.length + hsi * HSI_TASKS.length) / (HOI_TASKS.length + HSI_TASKS.length),
-            overallPrecise: (hoiPrecise * HOI_TASKS.length + hsiPrecise * HSI_TASKS.length) / (HOI_TASKS.length + HSI_TASKS.length)
-          };
-        });
-
-        function rankCell(rank) {
-          var medal = MEDALS[rank - 1];
-          if (medal) return '<td class="lb-rank lb-rank-top">' + medal + "</td>";
-          return '<td class="lb-rank">' + rank + "</td>";
-        }
-
-        function logoImg(meta, extraClass) {
-          if (!meta.logo) return "";
-          return '<img class="lb-logo' + (extraClass ? " " + extraClass : "") + '" src="' + meta.logo +
-            '" alt="" title="' + (meta.logoTitle || meta.org) + '">';
-        }
-
-        function modelCell(entry) {
-          var meta = LB_MODELS[entry.model];
-          var name = meta.paper
-            ? '<a class="lb-model-link" href="' + meta.paper + '" target="_blank" rel="noopener noreferrer" title="' + meta.cite + '">' + meta.name + "</a>"
-            : '<span class="lb-model-name">' + meta.name + "</span>";
-          var repo = meta.repo
-            ? '<a class="lb-repo" href="' + meta.repo + '" target="_blank" rel="noopener noreferrer">code</a>'
-            : "";
-          return '<td class="lb-model-col"><div class="lb-model-cell">' + logoImg(meta) +
-            '<div class="lb-model-line">' + name + repo + "</div></div></td>";
-        }
-
-        function gmtCell(entry) {
-          var key = entry.gmt.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-          return '<td class="lb-gmt-col"><span class="lb-gmt lb-gmt--' + key + '">' + entry.gmt + "</span></td>";
-        }
-
-        function numberCell(value, decimals, std, extraClass) {
-          var html = '<span class="lb-value">' + fmt(value, decimals) + "</span>";
-          if (typeof std === "number") {
-            html += '<span class="lb-std">&plusmn;' + fmt(std, 1) + "</span>";
-          }
-          return '<td class="lb-num' + (extraClass ? " " + extraClass : "") + '">' + html + "</td>";
-        }
-
-        function taskCell(entry, key) {
-          return numberCell(entry.tasks[key][0], 1, entry.tasks[key][1]);
-        }
-
-        function slug(value) {
-          return String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-        }
-
-        function rowId(tableKey, entry) {
-          return "lb-row-" + tableKey + "-" + slug(entry.model) + "-" + slug(entry.gmt);
-        }
-
-        // One bar per entry on a fixed 0-100 SR scale, so the three tabs stay
-        // comparable. The target width lives in --lb-w and --lb-i staggers the
-        // reveal, so bars grow from zero when the chart first scrolls into view.
-        // Each bar is a button that jumps to its table row.
-        function chartRow(row, tableKey, metric, index) {
-          var entry = row.entry;
-          var meta = LB_MODELS[entry.model];
-          var score = metric(row);
-          return '<button class="lb-chart-row lb-chart-row--' + slug(entry.gmt) + '" type="button"' +
-            ' data-target="' + rowId(tableKey, entry) + '"' +
-            ' style="--lb-w:' + fmt(score, 2) + '%;--lb-i:' + index + '"' +
-            ' aria-label="' + meta.name + " (" + entry.gmt + "), " + fmt(score, 2) +
-            ' percent. Jump to the table row.">' +
-            '<span class="lb-chart-label">' + logoImg(meta, "lb-logo--chart") + meta.name +
-            '<span class="lb-chart-gmt">' + entry.gmt + "</span></span>" +
-            '<span class="lb-chart-track"><span class="lb-chart-fill"></span></span>' +
-            '<span class="lb-chart-value">' + fmt(score, 2) + "</span>" +
-            "</button>";
-        }
-
-        // One entry per view. metric / tiebreak are accessors into a row; ties are
-        // broken by the recomputed (unrounded) value so the order is deterministic.
-        var PANELS = [
-          {
-            key: "overall",
-            chartId: "lb-chart-overall",
-            bodyId: "lb-body-overall",
-            metric: function (row) { return row.overall; },
-            tiebreak: function (row) { return row.overallPrecise; },
-            cells: function (row) {
-              return numberCell(row.hoi, 2) + numberCell(row.hsi, 2) +
-                numberCell(row.overall, 2, undefined, "lb-emph") + numberCell(row.entry.afr, 2);
-            }
-          },
-          {
-            key: "hoi",
-            chartId: "lb-chart-hoi",
-            bodyId: "lb-body-hoi",
-            metric: function (row) { return row.hoi; },
-            tiebreak: function (row) { return row.hoiPrecise; },
-            cells: function (row) {
-              return HOI_TASKS.map(function (key) { return taskCell(row.entry, key); }).join("") +
-                numberCell(row.hoi, 2, undefined, "lb-emph");
-            }
-          },
-          {
-            key: "hsi",
-            chartId: "lb-chart-hsi",
-            bodyId: "lb-body-hsi",
-            metric: function (row) { return row.hsi; },
-            tiebreak: function (row) { return row.hsiPrecise; },
-            cells: function (row) {
-              return HSI_TASKS.map(function (key) { return taskCell(row.entry, key); }).join("") +
-                numberCell(row.hsi, 2, undefined, "lb-emph");
-            }
-          }
-        ];
-
-        // Which bar is selected in each view, so a redraw (filter change) can keep it.
-        var selectedBar = { overall: null, hoi: null, hsi: null };
-
-        // The view currently on screen, so a filter change knows what to animate.
-        var activeViewKey = "overall";
-
-        // The GMT filter is global: it applies to every view, so switching tabs never
-        // silently changes which entries are on screen. Ranks are recomputed inside
-        // the filtered set, and a selection survives a redraw only while its entry is
-        // still shown.
-        var activeFilter = "all";
-
-        function visibleRows() {
-          if (activeFilter === "all") return rows;
-          return rows.filter(function (row) {
-            return slug(row.entry.gmt) === activeFilter;
-          });
-        }
-
-        function renderPanel(panel) {
-          var sorted = visibleRows().slice().sort(function (a, b) {
-            var diff = panel.metric(b) - panel.metric(a);
-            return diff !== 0 ? diff : panel.tiebreak(b) - panel.tiebreak(a);
-          });
-
-          var chart = document.getElementById(panel.chartId);
-          if (chart) {
-            chart.innerHTML = sorted.map(function (row, index) {
-              return chartRow(row, panel.key, panel.metric, index);
-            }).join("");
-          }
-
-          var body = document.getElementById(panel.bodyId);
-          if (body) {
-            body.innerHTML = sorted.map(function (row, index) {
-              return '<tr class="lb-row lb-row--' + slug(row.entry.gmt) + '" id="' + rowId(panel.key, row.entry) +
-                '" tabindex="-1">' + rankCell(index + 1) + modelCell(row.entry) + gmtCell(row.entry) +
-                panel.cells(row) + "</tr>";
-            }).join("");
-          }
-
-          restoreSelection(panel);
-        }
-
-        // Re-applies the selection after a redraw. The chosen entry is remembered even
-        // while a filter hides it, so filtering away and back restores it; picking
-        // another bar replaces it.
-        function restoreSelection(panel) {
-          var id = selectedBar[panel.key];
-          if (!id) return;
-          var row = document.getElementById(id);
-          if (!row) return; // hidden by the current filter — remembered, not drawn
-          row.classList.add("is-selected");
-          var bar = document.querySelector("#" + panel.chartId + ' [data-target="' + id + '"]');
-          if (bar) {
-            bar.classList.add("is-selected");
-            bar.setAttribute("aria-current", "true");
-          }
-        }
-
-        function renderAllPanels() {
-          PANELS.forEach(renderPanel);
-        }
-
-        // One motion vocabulary for every redraw — a tab switch or a GMT filter change:
-        // the view rises into place and its bars grow back in sequence, so a re-rank is
-        // something you watch happen instead of a silent swap. Skipped entirely when the
-        // reader asked for reduced motion.
-        function redrawMotion(key) {
-          if (prefersReducedMotion()) return;
-
-          var chart = document.getElementById("lb-chart-" + key);
-          if (chart) {
-            chart.classList.remove("is-revealed");
-            chart.classList.add("is-resetting");
-            void chart.offsetWidth; // settle the bars at zero, unanimated
-            chart.classList.remove("is-resetting");
-            chart.classList.add("is-revealed"); // then let them grow back
-          }
-
-          var panel = document.getElementById("lb-panel-" + key);
-          if (panel) {
-            panel.classList.remove("is-entering");
-            void panel.offsetWidth;
-            panel.classList.add("is-entering");
-          }
-        }
-
-        renderAllPanels();
-
-        function prefersReducedMotion() {
-          return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-        }
-
-        // Grow the bars once, the first time a chart comes into view. Panels that
-        // start hidden reveal when their tab is opened.
-        function revealChartsOnScroll() {
-          var charts = Array.prototype.slice.call(document.querySelectorAll(".lb-chart"));
-          function reveal(chart) {
-            chart.classList.add("is-revealed");
-          }
-          if (!("IntersectionObserver" in window)) {
-            charts.forEach(reveal);
-            return;
-          }
-          var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (!entry.isIntersecting) return;
-              reveal(entry.target);
-              observer.unobserve(entry.target);
-            });
-          }, { threshold: 0.25 });
-          charts.forEach(function (chart) {
-            observer.observe(chart);
-          });
-        }
-
-        // Selecting a bar highlights its table row and the bar itself, tinted with
-        // that entry's GMT colour; the highlight stays until another bar in the same
-        // panel is chosen, or until a filter drops that entry from the view.
-        function selectRow(button, id, panelKey) {
-          var target = document.getElementById(id);
-          if (!target) return;
-          var panel = target.closest ? target.closest(".lb-panel") : null;
-
-          if (panel) {
-            Array.prototype.slice.call(panel.querySelectorAll(".lb-row.is-selected")).forEach(function (row) {
-              row.classList.remove("is-selected");
-            });
-            Array.prototype.slice.call(panel.querySelectorAll(".lb-chart-row.is-selected")).forEach(function (bar) {
-              bar.classList.remove("is-selected");
-              bar.removeAttribute("aria-current");
-            });
-          }
-
-          if (panelKey) selectedBar[panelKey] = id;
-          target.classList.add("is-selected");
-          if (button) {
-            button.classList.add("is-selected");
-            button.setAttribute("aria-current", "true");
-          }
-
-          target.focus({ preventScroll: true });
-          target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
-        }
-
-        function panelKeyForChart(chart) {
-          for (var i = 0; i < PANELS.length; i++) {
-            if (PANELS[i].chartId === chart.id) return PANELS[i].key;
-          }
-          return null;
-        }
-
-        // Screen readers get told what the re-render did, since the tables are drawn
-        // client-side and a redraw is otherwise invisible.
-        function announce(extra) {
-          var live = document.getElementById("lb-live");
-          if (!live) return;
-          var tracker = activeFilter === "all" ? "both trackers" : activeFilter.toUpperCase();
-          live.textContent = extra + " — " + visibleRows().length + " entries, " + tracker + ".";
-        }
-
-        revealChartsOnScroll();
-
-        Array.prototype.slice.call(document.querySelectorAll(".lb-chart")).forEach(function (chart) {
-          chart.addEventListener("click", function (event) {
-            var button = event.target.closest ? event.target.closest(".lb-chart-row") : null;
-            if (!button || !chart.contains(button)) return;
-            selectRow(button, button.getAttribute("data-target"), panelKeyForChart(chart));
-          });
-        });
-
-        // GMT filter: global across views, arrow-key navigable, and it re-ranks each
-        // table inside the filtered set.
-        var filterButtons = Array.prototype.slice.call(document.querySelectorAll(".lb-filter-button"));
-        var filterSegments = document.querySelector(".lb-filter-segments");
-        var filterThumb = document.querySelector(".lb-filter-thumb");
-
-        // The white thumb slides from the segment it is leaving to the one being picked,
-        // so the selection reads as one object moving rather than two backgrounds
-        // swapping. Positioned without animating on first paint, on resize, and after
-        // the web font settles the segment widths.
-        function positionFilterThumb(animate) {
-          if (!filterSegments || !filterThumb) return;
-          var active = null;
-          filterButtons.forEach(function (button) {
-            if (button.getAttribute("data-gmt") === activeFilter) active = button;
-          });
-          if (!active) return;
-
-          function apply() {
-            filterThumb.style.width = active.offsetWidth + "px";
-            filterThumb.style.transform = "translateX(" + active.offsetLeft + "px)";
-          }
-
-          if (animate) {
-            apply();
-            return;
-          }
-          filterThumb.style.transition = "none";
-          apply();
-          void filterThumb.offsetWidth; // flush the jump before re-enabling movement
-          filterThumb.style.transition = "";
-        }
-
-        function selectFilter(value, focus) {
-          activeFilter = value;
-          filterButtons.forEach(function (button) {
-            var active = button.getAttribute("data-gmt") === value;
-            button.classList.toggle("is-active", active);
-            button.setAttribute("aria-checked", active ? "true" : "false");
-            button.tabIndex = active ? 0 : -1;
-          });
-          renderAllPanels();
-          positionFilterThumb(!prefersReducedMotion());
-          redrawMotion(activeViewKey);
-          announce(activeViewName());
-          if (focus) {
-            filterButtons.forEach(function (button) {
-              if (button.getAttribute("data-gmt") === value) button.focus();
-            });
-          }
-        }
-
-        filterButtons.forEach(function (button, index) {
-          button.addEventListener("click", function () {
-            selectFilter(button.getAttribute("data-gmt"), false);
-          });
-          button.addEventListener("keydown", function (event) {
-            var next = null;
-            if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % filterButtons.length;
-            else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + filterButtons.length) % filterButtons.length;
-            else if (event.key === "Home") next = 0;
-            else if (event.key === "End") next = filterButtons.length - 1;
-            if (next !== null) {
-              event.preventDefault();
-              selectFilter(filterButtons[next].getAttribute("data-gmt"), true);
-            }
-          });
-        });
-
-        positionFilterThumb(false);
-        if (window.addEventListener) {
-          window.addEventListener("resize", function () { positionFilterThumb(false); });
-        }
-        if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
-          document.fonts.ready.then(function () { positionFilterThumb(false); });
-        }
-
-        var updated = document.getElementById("lb-updated");
-        if (updated) updated.textContent = LB_UPDATED;
-
-        var tabs = Array.prototype.slice.call(document.querySelectorAll(".lb-tab"));
-        var panels = tabs.map(function (tab) {
-          return document.getElementById(tab.getAttribute("aria-controls"));
-        });
-
-        function activeViewName() {
-          var active = document.querySelector(".lb-tab.is-active");
-          return active ? active.textContent.trim() + " view" : "View";
-        }
-
-        function selectTab(index, focus) {
-          tabs.forEach(function (tab, i) {
-            var active = i === index;
-            tab.classList.toggle("is-active", active);
-            tab.setAttribute("aria-selected", active ? "true" : "false");
-            tab.tabIndex = active ? 0 : -1;
-            if (panels[i]) panels[i].hidden = !active;
-          });
-
-          var shown = panels[index];
-          if (shown) activeViewKey = shown.id.replace("lb-panel-", "");
-          redrawMotion(activeViewKey);
-
-          announce(activeViewName());
-          if (focus) tabs[index].focus();
-        }
-
-        tabs.forEach(function (tab, i) {
-          tab.addEventListener("click", function () { selectTab(i, false); });
-          tab.addEventListener("keydown", function (event) {
-            var next = null;
-            if (event.key === "ArrowRight") next = (i + 1) % tabs.length;
-            else if (event.key === "ArrowLeft") next = (i - 1 + tabs.length) % tabs.length;
-            else if (event.key === "Home") next = 0;
-            else if (event.key === "End") next = tabs.length - 1;
-            if (next !== null) {
-              event.preventDefault();
-              selectTab(next, true);
-            }
-          });
-        });
-      })();
-    </script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>

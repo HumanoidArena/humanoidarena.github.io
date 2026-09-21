@@ -38,7 +38,7 @@ repository.
 
 ## Information architecture
 
-Hero, then eight sections: Abstract, Task gallery, Pipeline, Evaluation, Results, Leaderboard,
+Hero, then seven sections: Abstract, Task gallery, Pipeline, Evaluation, Results, Leaderboard,
 Resources. Hierarchy runs claim → task evidence → framework → protocol → results → rankings →
 downloads and citation.
 
@@ -53,9 +53,13 @@ Anchors and sub-item targets are listed in [page.md](page.md).
    come first; plumbing comes later.
 2. **Task media is proof, not decoration.** Every clip shows a real rollout, and comparisons
    are shown as pairs (SONIC vs TWIST2, success vs failure, base vs perturbed).
-3. **Static and publication-friendly.** Plain HTML and CSS, relative paths, no build.
+3. **Static and publication-friendly.** Plain HTML, CSS and ES modules, relative paths, no build
+   and no dependencies.
 4. **State what the benchmark measured.** Numbers come from the paper's protocol, or they are
    not shown.
+5. **Write a repeated block once.** Anything that appears more than once — a task row, a clip
+   card, a protocol card, a resource link — is a data entry rendered into the page, not markup
+   copied out. Prose that appears once stays in `index.html`, where it reads as the HTML it is.
 
 ## Visual language
 
@@ -103,11 +107,11 @@ There is no component library: styles are plain classes in `css/components.css`,
 
 | Family | Classes |
 | --- | --- |
-| Section frame | `.section`, `.section-heading`, `.eyebrow`, `.section-heading-compact`, `.footnote` |
+| Section frame | `.section`, `.section-heading`, `.eyebrow`, `.section-heading-compact`, `.footnote`, `.page-notice` |
 | Hero | `.hero`, `.hero-copy`, `.author-block`, `.lede`, `.quick-links`, `.hero-metrics`, `.hero-media` |
 | Media | `.media-card`, `.media-card-header`, `.media-frame`, `.media-loader`, `.task-media-pair`, `.example-video-pair` |
 | Rows | `.task-row`, `.task-row-copy`, `.task-tag`, `.scenario-row`, `.scenario-copy` |
-| Cards | `.paper-card`, `.stack-card`, `.pipeline-step-card`, `.protocol-card` (+ `-wide`), `.example-card` (+ `-wide`), `.resource-card` (+ `-inner`, `-copy`, `-actions`), `.bibtex-box` |
+| Cards | `.paper-card`, `.stack-card`, `.pipeline-step-card`, `.protocol-card` (+ `-wide`), `.example-card` (+ `-wide`), `.resource-card` (+ `-inner`, `-copy`, `-actions`, `-wide`), `.bibtex-box` |
 | Buttons and links | `.btn-pill`, `.btn-pill--ghost`, `.lb-repo`, `.lb-model-link` |
 | Table of contents | `.content-toc`, `-title`, `-list`, `-item`, `-sub`, `-subitem` |
 | Leaderboard | `.lb-*` — controls, tabs, filter, chart, table, note (see [leaderboard.md](leaderboard.md)) |
@@ -141,10 +145,12 @@ unavailable resource, SONIC vs TWIST2 colouring, selected leaderboard row.
 
 - **Loading** — video cards carry a shimmer placeholder until the first frame is ready.
 - **Error** — a video that fails to load resolves the same placeholder, leaving the layout
-  intact; SVG figures and native video still work without JavaScript.
+  intact.
 - **Success** — external links state their destination and open in a new tab.
 - **Empty** — every GMT filter option matches entries in the shipped data, so the leaderboard
   tables never render an empty state.
+- **No JavaScript** — the page keeps its headings and prose; the collections, media, downloads
+  and leaderboard do not render, and a `.page-notice` in a `<noscript>` says so.
 
 ## Content voice
 
@@ -154,11 +160,65 @@ cross-GMT. Prefer short claim lines and concrete nouns; avoid hype adjectives.
 
 ## Implementation constraints
 
-- Plain HTML, CSS and three small inline scripts; no framework, no build, no dependencies.
+- Plain HTML and CSS with ES modules loaded straight from `js/`; no framework, no build step, no
+  shipped dependencies.
 - Static relative paths only, so the page can be served from any directory.
+- Because the scripts are modules, the page must be served over HTTP — the local preview server
+  in the [README](../README.md), not a `file://` path.
 - Styling keeps to the tokens in `css/base.css`; component rules live in `css/components.css`,
   layout and grids in `css/layout.css`.
-- Changes are verified by previewing over a local static server; there is no test suite.
+- The page is checked by a test suite rather than by eye: see [Verification](#verification).
+
+## Where the content lives
+
+`index.html` holds the shell, the section frames and the prose that appears once. Repeated
+collections are tables in the JavaScript modules and are rendered into `[data-render]`
+containers on load, so a repeated block is written once. The trade is explicit: **the page now
+needs JavaScript** for its media, downloads and tables.
+
+The division is deliberate rather than total. Long prose — the abstract, the four pipeline
+stages — stays in markup, where it is legible as HTML and readable by anything that does not run
+scripts. Only structure is generated. `docs/page.md` describes the contract and the content
+tables.
+
+## Media delivery
+
+Clips are treated as footage rather than decoration, which means two rules that are easy to break
+by accident:
+
+- **Nothing is fetched until it is nearly on screen.** Every card renders with `preload="none"`
+  and no `autoplay`; `js/media.js` starts a clip as it approaches the viewport and pauses it on
+  the way out. Without this the page requests tens of megabytes of video while the reader is
+  still looking at the hero.
+- **A side-by-side group plays as one clip.** The pair waits for its longest member to finish,
+  holding the finished one on its last frame, and only then restarts everything together. The
+  durations differ a lot — the Football success/failure pair is 20.8 s against 64.0 s — so
+  independent loops would leave the two sides showing different moments within one cycle, which
+  is the one thing a comparison must never do.
+
+Anything whose box is sized from the media itself has to state that size in CSS instead, because
+a lazy clip has no intrinsic dimensions until it loads. `.inline-media-grid-recording` is the
+place this applies.
+
+## Verification
+
+There is no manual checklist: `npm run check` runs lint, markup validation and the page suite,
+and the same command is what CI runs on every pull request.
+
+| Suite | Asserts |
+| --- | --- |
+| `tests/render.spec.js` | The exact contents of every collection; that each table-of-contents link resolves; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
+| `tests/accessibility.spec.js` | No serious or critical axe violations |
+| `tests/links.spec.js` | Every outgoing link answers — scheduled rather than gating, since it needs the live internet |
+
+`tests/baseline.json` holds the expected numbers. The counts are exact and platform-independent;
+the layout figures are a band, because font metrics differ between machines. A change that
+legitimately moves them updates that file in the same commit.
+
+The asset budget is the cheap half of a Lighthouse run and the half that actually applies here:
+`maxFileBytes` sits just above the current heaviest file, so it clears what ships today and still
+fails an oversized newcomer — it was written for a 14 MB clip that was re-encoded to 3.9 MB. The
+budget only moves in the direction of smaller assets.
 
 ## Deployment
 

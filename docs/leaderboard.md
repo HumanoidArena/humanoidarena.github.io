@@ -1,8 +1,9 @@
 # Leaderboard
 
-The leaderboard ranks policy–tracker pairs on the paper's in-GMT evaluation. It lives in the
-`#leaderboard` section of `index.html` and is rendered in the browser from two data arrays in
-the same file, so adding an entry is a data edit — no markup, no build.
+The leaderboard ranks policy–tracker pairs on the paper's in-GMT evaluation. It lives in
+`js/leaderboard.js`, which holds the data, the view definitions and the renderer; the section in
+`index.html` provides only the heading, the controls and two containers (`#lb-tabs` and
+`#lb-panels`) that the module fills. Adding an entry is a data edit — no markup, no build.
 
 Data provenance: every entry is an in-GMT baseline reported in the paper, measured as success
 rate over 60 episodes (3 seeds × 20 trials) under matched training and inference GMTs. The
@@ -12,20 +13,24 @@ numbers are the paper's; treat the paper draft as the source of truth.
 
 ```
 #leaderboard
-  .lb-meta                     "Updated <date>"
+  .lb-meta                     "Updated <date>" — filled from LB_UPDATED
   .lb-controls
-    .lb-tabs                   views:      Overall | HOI | HSI
-    .lb-filter                 GMT filter: All | TWIST2 | SONIC
+    #lb-tabs                   views:      Overall | HOI | HSI   (rendered from VIEWS)
+    .lb-filter                 GMT filter: All | TWIST2 | SONIC (written in index.html)
   .lb-live                     screen-reader announcements (visually hidden)
-  .lb-panels
+  #lb-panels                   one .lb-panel per view              (rendered from VIEWS)
     .lb-panel#lb-panel-overall
       .lb-caption              (HOI and HSI panels only)
       .lb-chart-card
         .lb-chart-head         scale row: Model · 0 · 50 · 100 · SR (%)
         .lb-chart#lb-chart-overall
       .lb-scroll > table.lb-table
-        tbody#lb-body-overall   rows rendered here
+        thead                  one <th> per entry in the view's `columns`
+        tbody#lb-body-overall  rows rendered here
 ```
+
+The tabs, the panels, each panel's chart head and each table's header row are generated from
+`VIEWS`, so a column is declared once and the header cannot disagree with the cells below it.
 
 | Element | Id |
 | --- | --- |
@@ -37,9 +42,31 @@ numbers are the paper's; treat the paper draft as the source of truth.
 | GMT filter buttons | `[data-gmt="all" \| "twist2" \| "sonic"]` |
 | Live region, date | `lb-live`, `lb-updated` |
 
+Ids are derived as `lb-<kind>-<view key>`, so a new view needs no id bookkeeping.
+
+## Views
+
+`VIEWS` is one entry per view, and it is the single place a view is described:
+
+| Field | Meaning |
+| --- | --- |
+| `key` | View key; every id for the view is built from it |
+| `tab` | Tab label |
+| `caption` | Line above the chart, on the suite views only |
+| `chartAria` | Accessible name for the chart group |
+| `columns` | Table header cells, in order, as `{ label, cls }` |
+| `metric` | Row accessor the table sorts by and the chart bars show |
+| `tiebreak` | Row accessor that orders entries whose `metric` prints the same |
+| `cells` | Builds a row's `<td>`s — its order must match `columns` |
+
+The two suite views (HOI, HSI) are built by `suiteView()`, which derives both `columns` and
+`cells` from the suite's task list. Add a task to `SUITES` and its column appears in both places
+at once.
+
 ## Data
 
-`LB_UPDATED` is the date printed above the controls — set it when the numbers change.
+`LB_UPDATED` is the date printed above the controls — set it when the numbers change. It is the
+only copy of the date; the page fills `#lb-updated` from it.
 
 `LB_MODELS` — one object per policy family:
 
@@ -62,7 +89,16 @@ numbers are the paper's; treat the paper draft as the source of truth.
 | `tasks` | One entry per task, `[mean, std]` in % SR |
 
 Task keys group into two suites: `football`, `doubledesk`, `ppbox` are HOI; `opendoor`,
-`sitsofa`, `boxing`, `visnavi` are HSI. All seven must be present in every entry.
+`sitsofa`, `boxing`, `visnavi` are HSI. All seven must be present in every entry. `SUITES` holds
+those two lists, and `TASK_LABELS` the display name of each key.
+
+## Tracker colours
+
+`GMT_CLASSES` maps a tracker to the three class names it wears — its table row, its chart bar and
+its GMT chip. They are written out in full rather than built from the tracker name, so searching
+`components.css` for a rule also finds the code that applies it. A tracker missing from that
+table renders without its colour rather than guessing one; adding TWIST2 or SONIC's successor
+means a `GMT_CLASSES` entry and the matching `--<tracker>` rules in `css/components.css`.
 
 ## Derived values and display rules
 
@@ -106,6 +142,8 @@ redraw is otherwise invisible to screen readers.
 
 ## Adding or changing an entry
 
+All of these are edits to `js/leaderboard.js`.
+
 1. **New policy family** — add an object to `LB_MODELS` with `name`, `cite`, `logo`,
    `logoTitle`, `paper` and an optional `repo`. Put the mark in `assets/images/orgs/` (square
    tile, see [assets.md](assets.md)).
@@ -114,6 +152,10 @@ redraw is otherwise invisible to screen readers.
 3. **Changed numbers** — edit them in place; suite averages, Overall, ranks, medals and bar
    lengths are all recomputed on load, so nothing else needs updating.
 4. **Set `LB_UPDATED`** to the date of the change.
+5. **New view or column** — add or edit a `VIEWS` entry. `columns` is the header and `cells` the
+   body, so both change together; a suite view gets the pair for free from `suiteView()`.
+6. **New tracker** — add it to `GMT_CLASSES` and add its `--<tracker>` rules to
+   `css/components.css`; the filter's own buttons live in `index.html`.
 
 Reported numbers must come from the same protocol as the rest of the table (in-GMT, 60
 episodes per entry), otherwise the column is not comparable.

@@ -1,15 +1,21 @@
+/* ── No-JavaScript notice ── */
+.page-notice {
+  margin: 0 0 20px;
+  padding: 16px 20px;
+  border: 1px solid rgba(196, 108, 56, 0.35);
+  border-radius: var(--radius-md);
+  background: rgba(196, 108, 56, 0.08);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
 /* ── Card / panel base ── */
 .hero-copy,
 .hero-media,
-.info-card,
 .paper-card,
-.visual-panel,
 .text-panel,
 .protocol-card,
-.pipeline-step,
-.support-panel,
-.resource-card,
-.task-card {
+.resource-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -18,9 +24,7 @@
 
 .hero-copy,
 .hero-media,
-.visual-panel,
-.text-panel,
-.support-panel {
+.text-panel {
   padding: 28px;
 }
 
@@ -86,57 +90,9 @@
   border: 1px solid rgba(31, 41, 55, 0.08);
 }
 
-.media-frame video {
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  object-fit: cover;
-  background: #000;
-}
-
-/* ── Hero caption ── */
-.hero-caption {
-  margin-top: 14px;
-  font-size: 0.96rem;
-}
-
-.hero-caption span {
-  display: inline-block;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.76rem;
-  color: var(--warm);
-}
-
 /* ── Paper card ── */
 .paper-card {
   padding: 24px;
-}
-
-.paper-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.paper-actions a {
-  text-decoration: none;
-  padding: 11px 16px;
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1px solid rgba(40, 95, 135, 0.18);
-}
-
-/* ── Info card ── */
-.info-card {
-  padding: 24px;
-}
-
-.info-card h2 {
-  font-size: 2rem;
-  margin-bottom: 12px;
 }
 
 /* ── Task row copy ── */
@@ -161,7 +117,6 @@
 /* ── Media card ── */
 .media-card,
 .pipeline-step-card,
-.recovery-card,
 .example-card {
   background: rgba(255, 255, 255, 0.66);
   border: 1px solid rgba(31, 41, 55, 0.08);
@@ -192,10 +147,6 @@
   color: var(--accent);
 }
 
-.media-card-header strong {
-  font-size: 0.82rem;
-}
-
 .media-card video,
 .media-card img {
   width: 100%;
@@ -204,30 +155,19 @@
   background: #0f1720;
 }
 
+/* The recording clips are shown whole, at their own aspect ratio. That ratio has to
+   be stated here rather than left to the file: the clips are lazy, so an
+   intrinsic-size box would collapse to the default replaced-element size until the
+   metadata arrived and then jump. The wrist cameras are portrait, the ego camera
+   between them is landscape. */
 .inline-media-grid-recording .media-card video {
-  aspect-ratio: auto;
+  aspect-ratio: 3 / 4;
   object-fit: contain;
   max-height: 460px;
 }
 
-/* ── Media placeholder ── */
-.media-placeholder {
-  min-height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-  color: var(--muted);
-  background:
-    linear-gradient(135deg, rgba(40, 95, 135, 0.08), rgba(196, 108, 56, 0.08)),
-    repeating-linear-gradient(
-      45deg,
-      rgba(31, 41, 55, 0.03),
-      rgba(31, 41, 55, 0.03) 12px,
-      transparent 12px,
-      transparent 24px
-    );
+.inline-media-grid-recording .media-card:nth-child(2) video {
+  aspect-ratio: 4 / 3;
 }
 
 /* ── Video loading skeleton ── */
@@ -278,8 +218,6 @@
 }
 
 .pipeline-step-card p,
-.recovery-summary,
-.recovery-card figcaption,
 .task-row-copy p,
 .scenario-copy p,
 .example-card p,
@@ -392,44 +330,6 @@ li:has(.content-toc-item.active) .content-toc-sub {
   font-weight: 600;
 }
 
-/* ── Old pipeline step ── */
-.pipeline-step {
-  padding: 20px;
-}
-
-.pipeline-step span {
-  display: inline-flex;
-  width: 38px;
-  height: 38px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 800;
-  margin-bottom: 14px;
-}
-
-/* ── Recovery card ── */
-.recovery-card {
-  margin: 0;
-}
-
-.recovery-card img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-.recovery-card figcaption {
-  padding: 12px 14px;
-  font-size: 0.92rem;
-}
-
-.recovery-summary {
-  margin: 14px 0 0;
-}
-
 /* ── Resource card ── */
 .resource-card {
   padding: 28px;
@@ -477,7 +377,8 @@ li:has(.content-toc-item.active) .content-toc-sub {
   box-sizing: border-box;
 }
 
-.resource-card-bibtex {
+/* The BibTeX panel and the contact card each span the resource grid. */
+.resource-card-wide {
   grid-column: 1 / -1;
 }
 

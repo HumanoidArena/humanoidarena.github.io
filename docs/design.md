@@ -247,8 +247,10 @@ Publishing runs through a pull request from `dev` to `main`, rebase-merged. `mai
 three `checks.yml` jobs, linear history and no force-push, so nothing reaches the live site
 without having passed lint, the rendered-page suite and the deploy dry run.
 
-One ordering wrinkle is worth recording. GitHub runs a `pull_request` workflow only if that
-workflow file already exists on the default branch, so the first pull request from `dev` to
-`main` cannot report the checks it is subject to — they are not on `main` yet. That one merge
-uses the admin override; the tree has already passed the same jobs on the `dev` push. The same
-rule is why Dependabot, the issue templates and `CODEOWNERS` only take effect from `main`.
+Actions are referenced by major version rather than by commit SHA. The stricter SHA-pinning
+policy is unavailable here for a concrete reason: `actions/upload-pages-artifact` is a composite
+action that references `actions/upload-artifact@v4` internally, and a SHA-only policy rejects it,
+which breaks the deploy.
+
+Dependabot's configuration, the issue templates and `CODEOWNERS` are read from the default
+branch, so they take effect from `main` rather than from `dev`.

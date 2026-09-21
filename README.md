@@ -58,8 +58,12 @@ run it from one of them.
 | `static.yml` | pushes to `main`/`dev` | publishes the site |
 | `link-check.yml` | weekly, and on demand | checks the outgoing links and opens an issue if one rots |
 
-Actions are pinned to commit SHAs; Dependabot (`.github/dependabot.yml`) keeps those SHAs and the
-development dependencies current, monthly and grouped.
+Actions are referenced by major version (`@v4`). Dependabot (`.github/dependabot.yml`) moves
+them and the development dependencies on a monthly, grouped schedule.
+
+Note that the repository's actions policy deliberately does **not** require SHA pinning: it
+would reject `actions/upload-pages-artifact`, which is a composite action that references
+`actions/upload-artifact@v4` internally and so cannot satisfy a SHA-only policy.
 
 ## Deploy
 
@@ -80,20 +84,15 @@ unrelated histories.
 The deploy strips the development files — `package.json`, `tests/`, `.github/` and the tooling
 configs — so none of them is published.
 
-### Branch protection and the one-time bootstrap
+### Branch protection
 
 `main` requires the three `checks.yml` jobs, linear history, and no force-push. Every pull
-request into it therefore has to pass lint, the rendered page suite, and the deploy dry run.
+request into it therefore has to pass lint, the rendered-page suite and the deploy dry run
+before it can be merged.
 
-There is one ordering wrinkle worth knowing about. GitHub only runs a `pull_request` workflow
-whose file already exists on the **default branch**, so the very first pull request from `dev`
-to `main` cannot report those checks — they are not on `main` yet. That first merge has to go
-through the admin override ("Merge without waiting for requirements"), after which the gate is
-live for every future pull request. The tree being merged has already passed all three jobs:
-pushing to `dev` runs the same workflow.
-
-The same default-branch rule is why **Dependabot, the issue templates and `CODEOWNERS` only
-take effect once this reaches `main`** — GitHub reads all of them from the default branch.
+One default-branch rule still applies to the rest of the configuration: GitHub reads
+**Dependabot's config, the issue templates and `CODEOWNERS` from the default branch**, so those
+only take effect once this work reaches `main`.
 
 ## Links
 

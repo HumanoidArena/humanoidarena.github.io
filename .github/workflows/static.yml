@@ -9,9 +9,10 @@
 # Every run rebuilds both halves from the branches as they currently stand, so
 # pushing dev cannot blank production and pushing main cannot drop the preview.
 #
-# Actions are pinned to a commit SHA rather than a tag, because a tag can be moved
-# and this workflow holds `pages: write` and `id-token: write`. Dependabot keeps the
-# SHAs current and adds the trailing version comment when it does.
+# Actions are referenced by major version (`@v4`), not by commit SHA. A SHA pin is
+# stricter in principle, but `actions/upload-pages-artifact` is a composite action that
+# references `actions/upload-artifact@v4` internally, so it cannot run under a
+# repository policy that requires SHA pinning. Dependabot moves these versions.
 name: Deploy static content to Pages
 
 on:
@@ -40,7 +41,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out main
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@v4
         with:
           ref: main
           path: _site
@@ -50,7 +51,7 @@ jobs:
       - name: Check out dev
         id: dev
         continue-on-error: true
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@v4
         with:
           ref: dev
           path: _site/dev
@@ -79,10 +80,10 @@ jobs:
           done
 
       - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        uses: actions/upload-pages-artifact@v3
         with:
           # main at the root, its dev preview nested under /dev/
           path: "_site"
@@ -97,4 +98,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
+        uses: actions/deploy-pages@v5

@@ -1,8 +1,8 @@
 version: 2
 updates:
-  # The only thing here with a supply chain: the deploy workflow holds `pages: write`
-  # and `id-token: write`, so its actions are pinned to commit SHAs and this keeps
-  # those SHAs current (Dependabot moves the SHA and updates the version comment).
+  # The workflows reference actions by major version; this is what moves those
+  # versions. The deploy workflow also holds `pages: write` and `id-token: write`,
+  # so a bump here is worth reading rather than merging blind.
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

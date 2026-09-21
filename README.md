@@ -1,5 +1,18 @@
-# HumanoidArena
+# HumanoidArena — Project Page
 
-Project page for [HumanoidArena](https://github.com/HumanoidArena/humanoid_arena), a simulation-first benchmark for egocentric hierarchical whole-body humanoid control.
+The source of <https://humanoidarena.github.io>: one static page (plain HTML and CSS, no build
+step) presenting the benchmark, its seven leg-critical HOI/HSI tasks, the pipeline, the
+evaluation protocols and the leaderboard. Pushes to `main` publish it through GitHub Pages.
 
-Visit the page at <https://humanoidarena.github.io> to see task videos, pipeline overviews, evaluation protocols, and results across seven leg-critical HOI/HSI tasks.
+## Local preview
+
+```sh
+python3 -m http.server 8000    # then open http://localhost:8000
+```
+
+## Links
+
+- Page — <https://humanoidarena.github.io>
+- Code — <https://github.com/William-wAng618/HumanoidArena>
+
+Working notes on the page itself are in [`docs/`](docs/).

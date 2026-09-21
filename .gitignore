@@ -6,6 +6,7 @@ Thumbs.db
 
 # AI assistant
 .opencode/
+.zcode/
 
 # Dependencies
 node_modules/

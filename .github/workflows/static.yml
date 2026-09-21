@@ -80,9 +80,8 @@ jobs:
       - name: Check the artifact
         run: |
           test -f _site/index.html
-          test -f _site/js/main.js
-          test -f _site/css/components.css
-          test ! -e _site/package.json
+          leaked=$(find _site \( -name package.json -o -name playwright.config.js -o -name eslint.config.js \) | wc -l)
+          test "$leaked" -eq 0
           echo "publishing $(find _site -type f | wc -l) files"
 
       - name: Setup Pages

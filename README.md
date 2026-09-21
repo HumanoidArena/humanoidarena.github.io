@@ -72,9 +72,28 @@ Both branches are published by one workflow, which always rebuilds them together
 
 Because GitHub Pages allows a single site per repository, the `dev` preview is a
 subdirectory of the same site rather than a second deployment. Work on the page on `dev`,
-check it at the preview URL, then merge `main` to publish. The deploy strips the development
-files — `package.json`, `tests/`, `.github/` and the tooling configs — so none of them is
-published.
+check it at the preview URL, then publish by opening a pull request from `dev` to `main` and
+**rebase-merging** it — `main` requires linear history, and a rebase is what keeps `main` a
+literal fast-forward of `dev`. A squash would work but would leave the two branches with
+unrelated histories.
+
+The deploy strips the development files — `package.json`, `tests/`, `.github/` and the tooling
+configs — so none of them is published.
+
+### Branch protection and the one-time bootstrap
+
+`main` requires the three `checks.yml` jobs, linear history, and no force-push. Every pull
+request into it therefore has to pass lint, the rendered page suite, and the deploy dry run.
+
+There is one ordering wrinkle worth knowing about. GitHub only runs a `pull_request` workflow
+whose file already exists on the **default branch**, so the very first pull request from `dev`
+to `main` cannot report those checks — they are not on `main` yet. That first merge has to go
+through the admin override ("Merge without waiting for requirements"), after which the gate is
+live for every future pull request. The tree being merged has already passed all three jobs:
+pushing to `dev` runs the same workflow.
+
+The same default-branch rule is why **Dependabot, the issue templates and `CODEOWNERS` only
+take effect once this reaches `main`** — GitHub reads all of them from the default branch.
 
 ## Links
 

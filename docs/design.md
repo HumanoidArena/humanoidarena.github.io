@@ -238,3 +238,17 @@ above buys.
 The `/dev/` copy carries a fixed corner badge, added by
 `.github/scripts/mark-dev-preview.py` at deploy time rather than committed, so the preview is
 never mistaken for the live page and the two branches' page sources stay identical.
+
+The artifact is the page and only the page: the deploy strips `package.json`, `package-lock.json`,
+`tests/`, `.github/` and the tooling configs before uploading, so the development toolchain is
+never published alongside the site.
+
+Publishing runs through a pull request from `dev` to `main`, rebase-merged. `main` requires the
+three `checks.yml` jobs, linear history and no force-push, so nothing reaches the live site
+without having passed lint, the rendered-page suite and the deploy dry run.
+
+One ordering wrinkle is worth recording. GitHub runs a `pull_request` workflow only if that
+workflow file already exists on the default branch, so the first pull request from `dev` to
+`main` cannot report the checks it is subject to — they are not on `main` yet. That one merge
+uses the admin override; the tree has already passed the same jobs on the `dev` push. The same
+rule is why Dependabot, the issue templates and `CODEOWNERS` only take effect from `main`.

@@ -61,15 +61,13 @@ Total: 30 MP4 clips, 1 figure SVG, 4 institution marks.
 - H.264 MP4, first frame removed, `muted loop playsinline controls preload="none"`. The attribute
   set is written once, in `mediaCard()` in `js/dom.js`; the absence of `autoplay` is deliberate,
   because a clip is fetched only as it nears the viewport. See [page.md](page.md).
-- **Encode for the size it is shown at.** The clips are displayed a few hundred pixels wide, so a
-  1080p file is a waste of the reader's bandwidth. `teleop-third-person.mp4` was 14 MB at
-  1920×1080 — twelve times the bitrate of its own pair partner — and was re-encoded to 960×540 at
-  CRF 23, which is 3.9 MB and indistinguishable at display size. Keep an eye on the asset budget
-  in `tests/baseline.json`, which fails a file over 8.5 MB.
-- **A clip with a stated box size must state it in CSS.** `preload="none"` means no intrinsic
-  dimensions until load, so anything sizing itself from the file — the recording row, which shows
-  each clip whole at its own ratio — declares that ratio in `css/components.css`. Otherwise the
-  box collapses to the default replaced-element size and jumps when the metadata lands.
+- **Encode for the size it is displayed at.** Clips render a few hundred pixels wide, so 960×540
+  H.264 at CRF 23 is ample and a 1080p file only wastes the reader's bandwidth. The per-file
+  budget is in `tests/baseline.json`, currently 8.5 MB.
+- **A clip whose box is sized from the file states that size in CSS.** `preload="none"` means no
+  intrinsic dimensions until load, so the recording row — which shows each clip whole at its own
+  ratio — declares that ratio in `css/components.css`. Otherwise the box collapses to the default
+  replaced-element size and jumps when the metadata arrives.
 - Results clips are sampled at 1 FPS to keep them small; the benchmark itself runs inference on
   the native stream at training frame rate. The Results footnote states this on the page.
 - The task gallery pairs one SONIC and one TWIST2 rollout per task; keep filenames aligned

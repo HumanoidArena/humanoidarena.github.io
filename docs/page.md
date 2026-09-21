@@ -1,13 +1,13 @@
 # The page, section by section
 
 `index.html` holds the page's own markup: its shell, one frame per section, and the prose that
-appears exactly once — the hero, the abstract, the four pipeline stages. Every collection that
-would otherwise be copied out by hand (task rows, protocol cards, result scenarios, resource
-cards, the table of contents) lives as a table in `js/content.js` and is rendered into a
-`[data-render]` container on load. Styles are in `css/base.css` (tokens, reset, typography),
-`css/layout.css` (shell, grids, breakpoints) and `css/components.css` (every component).
+appears exactly once — the hero, the abstract, the four pipeline stages. The collections whose
+blocks repeat (task rows, protocol cards, result scenarios, resource cards, the table of contents)
+are tables in `js/content.js`, rendered into a `[data-render]` container on load. Styles are in
+`css/base.css` (tokens, reset, typography), `css/layout.css` (shell, grids, breakpoints) and
+`css/components.css` (every component).
 
-There is still no build step: the browser loads these files directly as ES modules.
+There is no build step: the browser loads these files directly as ES modules.
 
 The paper draft `HUMANOIDARENA- Benchmarking … .md` is the source of truth for copy, numbers
 and terminology.
@@ -154,10 +154,8 @@ for the secondary mirror of a pair. The BibTeX panel and the contact card both c
 ## Running without JavaScript
 
 The hero, the abstract, the pipeline prose and every section heading are in `index.html`, so they
-render. The collections do not: there are no clips, no protocol cards, no resource links and no
-leaderboard without JavaScript. The `<noscript>` notices say so. This is a deliberate trade —
-each repeated block is written once instead of copied — and it is why the prose was kept in
-markup rather than moved into the content tables.
+render. The collections do not: no clips, no protocol cards, no resource links and no leaderboard.
+The `<noscript>` notices say so.
 
 ## Adding content
 

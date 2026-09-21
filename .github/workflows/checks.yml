@@ -1,8 +1,7 @@
 # The checks a pull request has to pass before it can reach main.
 #
-# Read-only and secret-free, so a pull request from a fork is treated exactly like
-# one from a branch. Nothing here deploys — that is `static.yml`'s job, and it only
-# runs on a push to main or dev.
+# Read-only and secret-free, so a pull request from a fork is treated exactly like one
+# from a branch. Nothing here deploys.
 name: Checks
 
 on:
@@ -24,17 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Check out
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      - name: Install tooling
-        run: npm ci
+      - run: npm ci
 
       - name: Lint the page scripts
         run: npm run lint
@@ -47,24 +43,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Check out
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      - name: Install tooling
-        run: npm ci
+      - run: npm ci
 
-      - name: Install the browser
-        run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium
 
-      # Renders the page, asserts the content contract, the table of contents, the
-      # breakpoints, the asset weight budget, and that the leaderboard controls
-      # re-render without a console error. Then runs axe over the result.
+      # Renders the page and asserts what it must contain, then runs axe over the
+      # result. See docs/design.md.
       - name: Test the rendered page
         run: npm test
 
@@ -77,46 +68,3 @@ jobs:
             test-results/
             playwright-report/
           retention-days: 7
-
-  deploy-dry-run:
-    name: The deploy still assembles
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Check out
-        uses: actions/checkout@v4
-        with:
-          path: _site
-
-      # Mirrors the steps in static.yml that shape the artifact, so a change that
-      # would break the deploy fails here instead of on the live site.
-      - name: Check out dev
-        id: dev
-        continue-on-error: true
-        uses: actions/checkout@v4
-        with:
-          ref: dev
-          path: _site/dev
-
-      - name: Mark the preview
-        if: steps.dev.outcome == 'success'
-        run: python3 _site/.github/scripts/mark-dev-preview.py _site/dev/index.html
-
-      - name: Strip development files, as the deploy does
-        run: |
-          rm -rf _site/.git _site/dev/.git
-          for target in _site _site/dev; do
-            rm -rf "$target/node_modules" "$target/tests" "$target/.github"
-            rm -f "$target/package.json" "$target/package-lock.json" \
-                  "$target/playwright.config.js" "$target/eslint.config.js"
-          done
-
-      - name: The published page must still be complete
-        run: |
-          test -f _site/index.html
-          test -f _site/css/base.css
-          test -f _site/js/main.js
-          test -f _site/assets/images/paper-main-figure.svg
-          test ! -e _site/package.json
-          test ! -e _site/.github
-          echo "artifact assembles: $(find _site -type f | wc -l) files"

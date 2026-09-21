@@ -1,18 +1,18 @@
 {
   "name": "humanoidarena-gh-page",
   "private": true,
-  "description": "Tooling for the HumanoidArena project page. Nothing in here is shipped: the page itself is plain HTML, CSS and ES modules with no build step.",
+  "description": "Checks for the HumanoidArena project page. Nothing here is shipped: the page is plain HTML, CSS and ES modules with no build step.",
   "type": "module",
   "scripts": {
     "serve": "python3 -m http.server 4173",
-    "test": "playwright test --project=page",
-    "test:links": "playwright test --project=links",
+    "test": "playwright test",
     "lint": "eslint js",
     "validate": "html-validate index.html",
-    "check": "npm run lint && npm run validate && npm run test"
+    "check": "npm run lint && npm run validate && npm test"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
+    "@eslint/js": "^9.15.0",
     "@playwright/test": "^1.56.0",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",

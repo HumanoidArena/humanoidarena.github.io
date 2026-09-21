@@ -1,22 +1,19 @@
 /**
- * The page's editorial content, and the renderers that turn it into markup.
+ * The page content, and the renderers that turn it into markup.
  *
- * Any collection that repeats the same structure lives here as a table rather
- * than as copied markup: adding a task, a scenario or a resource card is one
- * entry, and the table of contents follows automatically. Prose that appears
- * exactly once — the hero, the abstract, the pipeline stages — stays in
- * `index.html`, where it reads as the HTML it is.
+ * Any collection whose blocks repeat the same structure is a table here rather than
+ * copied markup, so adding a task or a resource card is one entry and the table of
+ * contents follows. Prose that appears exactly once stays in `index.html`, where it
+ * reads as the HTML it is.
  *
- * Plain-text fields (title, blurb, label, desc) are escaped on render. The
- * fields that carry intentional markup — `caption` on an example and `desc` on
- * the contact card — are marked in a comment and injected as written.
+ * Plain-text fields are escaped on render. Fields carrying intentional markup — the
+ * example `caption` and the contact card's `desc` — are noted below and written as HTML.
  */
 
 import { cls, esc, mediaCard, mediaPair } from "./dom.js";
 
 // ── Tasks ────────────────────────────────────────────────────────────────────
-// The seven leg-critical tasks. Each row, its two clips and its table-of-contents
-// sub-item all come from this entry, so a task cannot drift out of sync.
+// Each row's clips and its table-of-contents sub-item come from the same entry.
 
 const TASKS = [
   {
@@ -92,8 +89,7 @@ const TASKS = [
 ];
 
 // ── Pipeline ─────────────────────────────────────────────────────────────────
-// The step cards beside the pipeline prose, and the clips that sit inside the
-// first and third stage cards. The stage prose itself is in `index.html`.
+// The step cards beside the pipeline prose, and the clips inside the stage cards.
 
 const PIPELINE_STEPS = [
   { number: "01", title: "Capture", blurb: "PICO egocentric stream and human motion capture feed the shared teleop loop." },
@@ -290,8 +286,7 @@ const RESOURCES = [
 ];
 
 // ── Table of contents ────────────────────────────────────────────────────────
-// Derived from the collections above wherever it mirrors them, so a new task or
-// scenario appears in the contents without a second edit.
+// Derived from the collections above where it mirrors them.
 
 const TOC = [
   { href: "#paper", label: "Abstract" },
@@ -392,7 +387,6 @@ function resourceCard(resource) {
       </article>`;
   }
 
-  // The contact card spans the grid, like the BibTeX panel it follows.
   const id = resource.id ? ` id="${esc(resource.id)}"` : "";
   const actions = resource.links
     ? `<div class="resource-card-actions">${resource.links
@@ -429,9 +423,9 @@ function tocItem(entry) {
 }
 
 /**
- * One renderer per `data-render` value used in `index.html`. The container is
- * passed in so a renderer can read its own attributes — `pipelineClips` uses
- * `data-clips` to pick which set of videos it holds.
+ * One renderer per `data-render` value used in `index.html`. The container is passed in
+ * so a renderer can read its own attributes — `pipelineClips` uses `data-clips` to pick
+ * which set of videos it holds.
  */
 const RENDERERS = {
   tasks: () => TASKS.map(taskRow),

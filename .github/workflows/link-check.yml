@@ -1,10 +1,8 @@
-# The page's value is that its artifacts are reachable, and download links rot
-# silently: a dataset URL that starts 404ing is invisible until someone clicks it.
-# The dev preview and the fonts are preconnected origins, so only real links are
-# checked (see the exceptions in tests/links.spec.js).
+# Checks that every link the page points at still resolves.
 #
-# Weekly rather than per-pull-request: a host being briefly down should not block a
-# documentation fix, and nothing about a code change can break an external link.
+# A dataset or paper link that starts 404ing is invisible until someone clicks it, and
+# no code change can break an external link — so this runs weekly rather than gating
+# pull requests. GitHub notifies when a scheduled run fails.
 name: Link check
 
 on:
@@ -15,11 +13,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-
-concurrency:
-  group: link-check
-  cancel-in-progress: false
 
 jobs:
   links:
@@ -27,44 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Check out
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Check the links
+        uses: lycheeverse/lychee-action@v2
         with:
-          node-version: 22
-          cache: npm
-
-      - name: Install tooling
-        run: npm ci
-
-      - name: Check every outgoing link
-        id: links
-        continue-on-error: true
-        run: npm run test:links
-
-      # One open issue, commented on rather than duplicated, so a stubborn dead link
-      # does not accumulate a new issue every week.
-      - name: Open or update an issue
-        if: steps.links.outcome == 'failure'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh label create link-check --color B60205 \
-            --description "Reported by the scheduled link check" 2>/dev/null || true
-
-          body=$(printf 'The scheduled link check found a link that no longer resolves.\n\nRun: %s/%s/actions/runs/%s\n\nRerun locally with `npm run test:links`.\n' \
-            "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
-
-          existing=$(gh issue list --label link-check --state open --limit 1 --json number --jq '.[0].number')
-          if [ -n "$existing" ]; then
-            gh issue comment "$existing" --body "$body"
-          else
-            gh issue create --title "A link on the page no longer resolves" \
-              --body "$body" --label link-check
-          fi
-
-      - name: Fail the run when a link is broken
-        if: steps.links.outcome == 'failure'
-        run: exit 1
+          # The page's links live in the markup, the content tables in js/, and the docs.
+          args: --no-progress --config .lychee.toml index.html README.md js docs
+          fail: true

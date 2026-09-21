@@ -25,9 +25,9 @@ function wireScrolling(nav) {
 }
 
 /**
- * Mark the contents entry whose section is in view, and open its sub-list. The
- * observer band is the upper part of the viewport, so the entry changes as a
- * heading passes the top of the screen rather than when the section fills it.
+ * Mark the contents entry whose section is in view and open its sub-list. The observer
+ * band is the upper part of the viewport, so the entry changes as a heading passes the
+ * top of the screen.
  */
 function watchSections() {
   const items = Array.from(document.querySelectorAll(".content-toc-item"));

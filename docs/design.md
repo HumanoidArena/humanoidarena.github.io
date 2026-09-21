@@ -172,53 +172,48 @@ cross-GMT. Prefer short claim lines and concrete nouns; avoid hype adjectives.
 ## Where the content lives
 
 `index.html` holds the shell, the section frames and the prose that appears once. Repeated
-collections are tables in the JavaScript modules and are rendered into `[data-render]`
-containers on load, so a repeated block is written once. The trade is explicit: **the page now
-needs JavaScript** for its media, downloads and tables.
+collections are tables in the JavaScript modules, rendered into `[data-render]` containers on
+load, so a repeated block is written once. The consequence is deliberate: **the page needs
+JavaScript** for its media, downloads and tables.
 
-The division is deliberate rather than total. Long prose — the abstract, the four pipeline
-stages — stays in markup, where it is legible as HTML and readable by anything that does not run
-scripts. Only structure is generated. `docs/page.md` describes the contract and the content
-tables.
+Long prose — the abstract, the four pipeline stages — stays in markup, where it is legible as
+HTML. Only structure is generated. `docs/page.md` describes the contract and the content tables.
 
 ## Media delivery
 
-Clips are treated as footage rather than decoration, which means two rules that are easy to break
-by accident:
+Two rules apply to every clip:
 
-- **Nothing is fetched until it is nearly on screen.** Every card renders with `preload="none"`
-  and no `autoplay`; `js/media.js` starts a clip as it approaches the viewport and pauses it on
-  the way out. Without this the page requests tens of megabytes of video while the reader is
-  still looking at the hero.
-- **A side-by-side group plays as one clip.** The pair waits for its longest member to finish,
-  holding the finished one on its last frame, and only then restarts everything together. The
-  durations differ a lot — the Football success/failure pair is 20.8 s against 64.0 s — so
-  independent loops would leave the two sides showing different moments within one cycle, which
-  is the one thing a comparison must never do.
+- **Nothing is fetched until it is nearly on screen.** A card renders with `preload="none"` and no
+  `autoplay`; `js/media.js` starts a clip as it approaches the viewport and pauses it on the way
+  out. Otherwise the page requests tens of megabytes of footage while the reader is still on the
+  hero.
+- **A side-by-side group plays as one clip.** The set waits for its longest member to finish,
+  holding the finished ones on their last frame, then restarts everything together. Clip lengths
+  differ — the Football success/failure pair is 20.8 s against 64.0 s — so independent loops would
+  show a different moment on each side, which is the one thing a comparison must not do.
 
-Anything whose box is sized from the media itself has to state that size in CSS instead, because
-a lazy clip has no intrinsic dimensions until it loads. `.inline-media-grid-recording` is the
-place this applies.
+Anything whose box is sized from the media itself states that size in CSS instead, because a lazy
+clip has no intrinsic dimensions until it loads. `.inline-media-grid-recording` is where this
+applies.
 
 ## Verification
 
-There is no manual checklist: `npm run check` runs lint, markup validation and the page suite,
-and the same command is what CI runs on every pull request.
+`npm run check` runs lint, markup validation and the page suite; CI runs the same on every pull
+request.
 
 | Suite | Asserts |
 | --- | --- |
-| `tests/render.spec.js` | The exact contents of every collection; that each table-of-contents link resolves; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
+| `tests/render.spec.js` | The exact contents of every collection; that each contents link resolves; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
 | `tests/accessibility.spec.js` | No serious or critical axe violations |
-| `tests/links.spec.js` | Every outgoing link answers — scheduled rather than gating, since it needs the live internet |
+| `link-check.yml` | Every outgoing link resolves — scheduled rather than gating, since it needs the live internet |
 
 `tests/baseline.json` holds the expected numbers. The counts are exact and platform-independent;
 the layout figures are a band, because font metrics differ between machines. A change that
 legitimately moves them updates that file in the same commit.
 
-The asset budget is the cheap half of a Lighthouse run and the half that actually applies here:
-`maxFileBytes` sits just above the current heaviest file, so it clears what ships today and still
-fails an oversized newcomer — it was written for a 14 MB clip that was re-encoded to 3.9 MB. The
-budget only moves in the direction of smaller assets.
+The asset budget covers what a Lighthouse run would, for this page: `maxFileBytes` sits just above
+the current heaviest file, so what ships today passes and an oversized newcomer does not. It only
+moves in the direction of smaller assets.
 
 ## Deployment
 
@@ -244,13 +239,12 @@ The artifact is the page and only the page: the deploy strips `package.json`, `p
 never published alongside the site.
 
 Publishing runs through a pull request from `dev` to `main`, rebase-merged. `main` requires the
-three `checks.yml` jobs, linear history and no force-push, so nothing reaches the live site
-without having passed lint, the rendered-page suite and the deploy dry run.
+two `checks.yml` jobs, linear history and no force-push, so nothing reaches the live site without
+having passed lint, the rendered-page suite and axe.
 
-Actions are referenced by major version rather than by commit SHA. The stricter SHA-pinning
-policy is unavailable here for a concrete reason: `actions/upload-pages-artifact` is a composite
-action that references `actions/upload-artifact@v4` internally, and a SHA-only policy rejects it,
-which breaks the deploy.
+Actions are referenced by major version rather than by commit SHA, because a SHA-only policy
+cannot be used here: `actions/upload-pages-artifact` is a composite action that references
+`actions/upload-artifact@v4` internally, and such a policy rejects it.
 
-Dependabot's configuration, the issue templates and `CODEOWNERS` are read from the default
-branch, so they take effect from `main` rather than from `dev`.
+Dependabot's configuration, the issue templates and `CODEOWNERS` are read from the default branch,
+so they take effect from `main` rather than from `dev`.

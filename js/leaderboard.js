@@ -1,13 +1,9 @@
 /**
  * Leaderboard: the paper's in-GMT evaluation, its three views, and the GMT filter.
  *
- * The numbers are the paper's; the paper draft is the source of truth. Editing an
- * entry is a data edit — suite averages, Overall, ranks, medals and bar lengths are
- * all recomputed on load. See `docs/leaderboard.md`.
- *
- * Everything the section needs is declared here: `VIEWS` carries each view's tab,
- * columns and cells, so the tabs, the panel markup and the rendered rows cannot
- * disagree about what a column is.
+ * `VIEWS` carries each view's tab, columns and cells, so the tabs, the panel markup and
+ * the rows cannot disagree about what a column is. Everything else derives from it.
+ * See `docs/leaderboard.md`.
  */
 
 import { cls, esc } from "./dom.js";
@@ -20,9 +16,7 @@ import { cls, esc } from "./dom.js";
 // the task values when omitted. Overall is always computed here.
 const LB_UPDATED = "2026-09-21";
 
-// One object per policy family. `logo` is the mark of the cited paper's first
-// author and `logoTitle` names it for the hover tooltip; the table shows no
-// affiliation text of its own.
+// One object per policy family. `logo` is the cited paper's first author's institution.
 const LB_MODELS = {
   act: {
     name: "ACT",
@@ -133,11 +127,8 @@ const TASK_LABELS = {
   visnavi: "VisNavi",
 };
 
-// The tracker-specific class names, written out in full so that searching for a
-// rule in components.css also finds the code that applies it. SONIC is the
-// accent-coloured default and needs no overrides, but it gets its marker class
-// anyway, so a row always says which tracker it belongs to. A tracker that is not
-// listed here renders without its colour rather than guessing one.
+// Tracker-specific class names, written out so searching components.css for a rule also
+// finds the code that applies it. A tracker missing here renders without its colour.
 const GMT_CLASSES = {
   TWIST2: { row: "lb-row--twist2", bar: "lb-chart-row--twist2", chip: "lb-gmt--twist2" },
   SONIC: { row: "lb-row--sonic", bar: "lb-chart-row--sonic", chip: "lb-gmt--sonic" },
@@ -211,9 +202,8 @@ function rowId(viewKey, entry) {
 
 // ── Derived rows ─────────────────────────────────────────────────────────────
 
-// A displayed suite average prefers the paper's printed value so the page matches
-// Table 1 exactly; the recomputed ("precise") average breaks ties when two entries
-// display the same number.
+// A displayed average prefers the paper's printed value, so the page matches Table 1;
+// the recomputed ("precise") one breaks ties between entries showing the same number.
 const rows = LB_ENTRIES.map((entry) => {
   const hoiPrecise = meanOf(entry.tasks, SUITES.hoi);
   const hsiPrecise = meanOf(entry.tasks, SUITES.hsi);
@@ -232,9 +222,8 @@ const rows = LB_ENTRIES.map((entry) => {
 });
 
 // ── Views ────────────────────────────────────────────────────────────────────
-// One entry per view: its tab, its table columns, and how a row's cells are built.
-// `metric` is also what the chart bars show and what the table sorts by; `metric`
-// names the row field whose unrounded twin (`<metric>Precise`) breaks ties.
+// One entry per view. `metric` is what the bars show and the table sorts by; its
+// unrounded twin (`<metric>Precise`) breaks ties.
 
 const RANK_COLUMN = { label: "Rank", cls: "lb-rank-col" };
 const MODEL_COLUMN = { label: "Model", cls: "lb-model-col" };
@@ -300,16 +289,14 @@ const VIEWS = [
 
 // ── State ────────────────────────────────────────────────────────────────────
 
-// Which bar is selected in each view, so a redraw can keep it. The chosen entry is
-// remembered even while a filter hides it, so filtering away and back restores it.
+// Which bar is selected in each view. Remembered even while a filter hides it.
 const selectedBar = {};
 
-// The view currently on screen, so a filter change knows what to animate.
+// The view on screen, so a filter change knows what to animate.
 let activeViewKey = VIEWS[0].key;
 
-// The GMT filter is global: it applies to every view, so switching views never
-// silently changes which entries are on screen. Ranks are recomputed inside the
-// filtered set.
+// The GMT filter is global: it applies to every view, so switching views never changes
+// which entries are on screen. Ranks are recomputed inside the filtered set.
 let activeFilter = "all";
 
 function visibleRows() {
@@ -360,10 +347,9 @@ function panelMarkup() {
 
 // ── Row rendering ────────────────────────────────────────────────────────────
 
-// One bar per entry on a fixed 0-100 SR scale, so the three views stay comparable.
-// The target width lives in --lb-w and --lb-i staggers the reveal, so bars grow
-// from zero when the chart first scrolls into view. Each bar is a button that
-// jumps to its table row.
+// One bar per entry on a fixed 0-100 SR scale, so the views stay comparable. Each bar is
+// a button that jumps to its table row; `--lb-w` is the width and `--lb-i` the reveal
+// stagger, so the bars grow in sequence when the chart first comes into view.
 function chartRow(view, row, index) {
   const meta = LB_MODELS[row.entry.model];
   const score = view.metric(row);
@@ -431,10 +417,8 @@ function renderAllPanels() {
 
 // ── Motion ───────────────────────────────────────────────────────────────────
 
-// One motion vocabulary for every redraw — a tab switch or a GMT filter change: the
-// view rises into place and its bars grow back in sequence, so a re-rank is
-// something you watch happen instead of a silent swap. Skipped entirely when the
-// reader asked for reduced motion.
+// A redraw — a tab switch or a filter change — rises the view into place while its bars
+// grow back, so a re-rank is visible rather than a silent swap. Skipped under reduced motion.
 function redrawMotion(viewKey) {
   if (prefersReducedMotion()) return;
 
@@ -455,8 +439,8 @@ function redrawMotion(viewKey) {
   }
 }
 
-// Grow the bars once, the first time a chart comes into view. Panels that start
-// hidden reveal when their tab is opened.
+// Grow the bars once, the first time a chart comes into view. A panel that starts hidden
+// reveals when its tab is opened.
 function revealChartsOnScroll() {
   const charts = Array.from(document.querySelectorAll(".lb-chart"));
   const reveal = (chart) => chart.classList.add("is-revealed");
@@ -482,9 +466,8 @@ function revealChartsOnScroll() {
 
 // ── Selection ────────────────────────────────────────────────────────────────
 
-// Selecting a bar highlights its table row and the bar itself, tinted with that
-// entry's GMT colour; the highlight stays until another bar in the same panel is
-// chosen, or until a filter drops that entry from the view.
+// Selecting a bar highlights its row and the bar, tinted with that entry's GMT colour,
+// until another bar in the same panel is chosen or a filter drops the entry.
 function selectRow(button, id, viewKey) {
   const target = document.getElementById(id);
   if (!target) return;
@@ -510,8 +493,7 @@ function selectRow(button, id, viewKey) {
 
 // ── Announcements ────────────────────────────────────────────────────────────
 
-// Screen readers get told what the re-render did, since the tables are drawn
-// client-side and a redraw is otherwise invisible.
+// The tables are drawn client-side, so a redraw is otherwise invisible to a screen reader.
 function announce(prefix) {
   const live = document.getElementById("lb-live");
   if (!live) return;
@@ -531,10 +513,9 @@ function startFilter() {
   const segments = document.querySelector(".lb-filter-segments");
   const thumb = document.querySelector(".lb-filter-thumb");
 
-  // The white thumb slides from the segment it is leaving to the one being picked,
-  // so the selection reads as one object moving rather than two backgrounds
-  // swapping. Positioned without animating on first paint, on resize, and after the
-  // web font settles the segment widths.
+  // The thumb slides from the segment it is leaving to the one being picked, so the
+  // selection reads as one object moving rather than two backgrounds swapping. Positioned
+  // without animating on first paint, on resize, and once the web font settles the widths.
   function positionThumb(animate) {
     if (!segments || !thumb) return;
 
@@ -601,7 +582,7 @@ function startFilter() {
   }
 }
 
-// ── Views ────────────────────────────────────────────────────────────────────
+// ── View tabs ────────────────────────────────────────────────────────────────
 
 function startTabs() {
   const tabs = Array.from(document.querySelectorAll(".lb-tab"));

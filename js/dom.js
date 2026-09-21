@@ -1,10 +1,9 @@
 /* Markup primitives shared by the page renderers. */
 
 /**
- * Escape a value for use in markup. Content is authored text rather than user
- * input, but several fields carry characters that a parser would otherwise read
- * as markup ("P&PBox", "policy&tracker"), so every plain-text field goes through
- * here. Fields holding intentional markup are marked as such in `content.js`.
+ * Escape a value for use in markup. Content is authored text, but fields carry
+ * characters a parser would read as markup ("P&PBox"), so plain-text fields go through
+ * here. Fields holding intentional markup are marked in `content.js`.
  */
 export function esc(value) {
   return String(value)
@@ -20,15 +19,8 @@ export function cls(...names) {
 }
 
 /**
- * One clip card: a labelled header above the video. Every video on the page is
- * one of these, so the playback attributes live in exactly one place.
- *
- * `preload="none"` and the absence of `autoplay` are deliberate: between them they
- * stop the browser fetching any of the footage until `js/media.js` starts a clip
- * as it nears the viewport. Thirty-two clips would otherwise pull tens of
- * megabytes before the reader scrolls anywhere.
- *
- * `clip` is `{ label, src }`.
+ * One clip card. `preload="none"` and the missing `autoplay` are deliberate: no clip is
+ * fetched until `js/media.js` starts it near the viewport. `clip` is `{ label, src }`.
  */
 export function mediaCard(clip) {
   return `<figure class="media-card">

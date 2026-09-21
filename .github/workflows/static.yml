@@ -9,10 +9,9 @@
 # Every run rebuilds both halves from the branches as they currently stand, so
 # pushing dev cannot blank production and pushing main cannot drop the preview.
 #
-# Actions are referenced by major version (`@v4`), not by commit SHA. A SHA pin is
-# stricter in principle, but `actions/upload-pages-artifact` is a composite action that
-# references `actions/upload-artifact@v4` internally, so it cannot run under a
-# repository policy that requires SHA pinning. Dependabot moves these versions.
+# Actions are referenced by major version, not by commit SHA: `upload-pages-artifact` is a
+# composite action that references `actions/upload-artifact@v4` internally, so it cannot run
+# under a repository policy that requires SHA pinning.
 name: Deploy static content to Pages
 
 on:
@@ -68,9 +67,8 @@ jobs:
         if: steps.dev.outcome == 'success'
         run: python3 _site/.github/scripts/mark-dev-preview.py _site/dev/index.html
 
-      # The tooling in package.json is for development only and must never be
-      # published. This also keeps the artifact small.
-      - name: Strip development files from the artifact
+      # The tooling in package.json is for development only and never published.
+      - name: Strip development files
         run: |
           rm -rf _site/.git _site/dev/.git
           for target in _site _site/dev; do
@@ -78,6 +76,14 @@ jobs:
             rm -f "$target/package.json" "$target/package-lock.json" \
                   "$target/playwright.config.js" "$target/eslint.config.js"
           done
+
+      - name: Check the artifact
+        run: |
+          test -f _site/index.html
+          test -f _site/js/main.js
+          test -f _site/css/components.css
+          test ! -e _site/package.json
+          echo "publishing $(find _site -type f | wc -l) files"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

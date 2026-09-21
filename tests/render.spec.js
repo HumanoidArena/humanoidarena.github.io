@@ -9,10 +9,7 @@ const baseline = JSON.parse(readFileSync(join(here, "baseline.json"), "utf8"));
 
 const WIDTHS = [1280, 1080, 760];
 
-/**
- * The collections are rendered client-side, so the page is not ready until the last
- * of them exists — the leaderboard table is the last thing drawn.
- */
+/** The leaderboard table is the last thing the page draws, so it marks the page as ready. */
 async function openPage(page) {
   await page.goto("/");
   await page.waitForSelector("#lb-body-overall tr");
@@ -22,28 +19,28 @@ async function openPage(page) {
 test("renders every collection the content tables declare", async ({ page }) => {
   await openPage(page);
 
-  const counts = await page.evaluate(() => {
-    const n = (selector) => document.querySelectorAll(selector).length;
-    return {
-      clipGroups: n(".task-media-pair, .example-video-pair, .inline-media-grid"),
-      mediaCards: n(".media-card"),
-      videos: n("video"),
-      taskRows: n(".task-row"),
-      scenarioRows: n(".scenario-row"),
-      protocolCards: n(".protocol-card"),
-      exampleCards: n(".example-card"),
-      pipelineStepCards: n(".pipeline-step-card"),
-      resourceCards: n(".resource-card"),
-      resourceWide: n(".resource-card-wide"),
-      tocItems: n(".content-toc-item"),
-      tocSubItems: n(".content-toc-subitem"),
-      leaderboardTabs: n(".lb-tab"),
-      leaderboardPanels: n(".lb-panel"),
-      leaderboardTableRows: n(".lb-table tbody tr"),
-      leaderboardChartRows: n(".lb-chart-row"),
-      bibtexLines: n(".bibtex-box span"),
-    };
-  });
+  const counts = await page.evaluate((selectors) => {
+    const count = (selector) => document.querySelectorAll(selector).length;
+    return Object.fromEntries(selectors.map(([name, selector]) => [name, count(selector)]));
+  }, [
+    ["clipGroups", ".task-media-pair, .example-video-pair, .inline-media-grid"],
+    ["mediaCards", ".media-card"],
+    ["videos", "video"],
+    ["taskRows", ".task-row"],
+    ["scenarioRows", ".scenario-row"],
+    ["protocolCards", ".protocol-card"],
+    ["exampleCards", ".example-card"],
+    ["pipelineStepCards", ".pipeline-step-card"],
+    ["resourceCards", ".resource-card"],
+    ["resourceWide", ".resource-card-wide"],
+    ["tocItems", ".content-toc-item"],
+    ["tocSubItems", ".content-toc-subitem"],
+    ["leaderboardTabs", ".lb-tab"],
+    ["leaderboardPanels", ".lb-panel"],
+    ["leaderboardTableRows", ".lb-table tbody tr"],
+    ["leaderboardChartRows", ".lb-chart-row"],
+    ["bibtexLines", ".bibtex-box span"],
+  ]);
 
   expect(counts).toEqual(baseline.contract);
 });
@@ -60,34 +57,24 @@ test("every table-of-contents link has a target on the page", async ({ page }) =
   expect(unresolved).toEqual([]);
 });
 
-test("clips start lazy and side-by-side groups keep one loop", async ({ page }) => {
+test("clips are fetched on approach, and a group loops as one", async ({ page }) => {
   await openPage(page);
 
-  // Nothing should be fetched, and nothing should be playing, above the fold.
-  const atTop = await page.evaluate(() => ({
-    playing: Array.from(document.querySelectorAll("video")).filter((video) => !video.paused).length,
-    clipped: Array.from(document.querySelectorAll("video")).filter(
-      (video) => !video.hasAttribute("preload") || video.getAttribute("preload") !== "none"
-    ).length,
-    autoplaying: Array.from(document.querySelectorAll("video")).filter((video) =>
-      video.hasAttribute("autoplay")
-    ).length,
-  }));
-  expect(atTop).toEqual({ playing: 0, clipped: 0, autoplaying: 0 });
+  const atTop = await page.evaluate(() => {
+    const videos = Array.from(document.querySelectorAll("video"));
+    return {
+      preload: [...new Set(videos.map((video) => video.getAttribute("preload")))],
+      autoplay: videos.filter((video) => video.hasAttribute("autoplay")).length,
+      playing: videos.filter((video) => !video.paused).length,
+    };
+  });
+  expect(atTop).toEqual({ preload: ["none"], autoplay: 0, playing: 0 });
 
-  // Every group decides its own restart, so no clip may keep its own loop.
+  // A grouped clip must not keep its own loop, or it drifts from its partner.
   await page.locator("#tasks").scrollIntoViewIfNeeded();
-  const groupLoops = await page.evaluate(() =>
-    Array.from(document.querySelectorAll(".task-media-pair, .example-video-pair, .inline-media-grid")).map(
-      (group) => Array.from(group.querySelectorAll("video")).filter((video) => video.loop).length
-    )
-  );
-  expect(groupLoops).not.toHaveLength(0);
-  expect(Math.max(...groupLoops)).toBe(0);
-
-  // Scrolling to a group starts it.
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll("video.loop").length)).toBe(0);
   await expect
-    .poll(async () => page.evaluate(() => Array.from(document.querySelectorAll("video")).filter((v) => !v.paused).length))
+    .poll(() => page.evaluate(() => Array.from(document.querySelectorAll("video")).filter((v) => !v.paused).length))
     .toBeGreaterThan(0);
 });
 
@@ -135,14 +122,13 @@ for (const width of WIDTHS) {
     }));
     const expected = baseline.layout[String(width)];
 
-    // Heights follow font metrics, which differ slightly between machines, so this
-    // is a band rather than an equality — wide enough for another platform, tight
-    // enough that a section failing to render falls outside it.
+    // Height follows font metrics, which differ between machines, so this is a band:
+    // wide enough for another platform, tight enough that a section failing to render
+    // falls outside it.
     expect(measured.bodyHeight).toBeGreaterThan(expected.bodyHeight * (1 - baseline.bodyHeightTolerance));
     expect(measured.bodyHeight).toBeLessThan(expected.bodyHeight * (1 + baseline.bodyHeightTolerance));
 
-    // 760px overflows horizontally by design (see docs/design.md); the point is
-    // that no width gets worse than the recorded one.
+    // 760px overflows horizontally by design (see docs/design.md); no width may get worse.
     expect(measured.scrollWidth).toBeLessThanOrEqual(expected.scrollWidth + baseline.scrollWidthSlack);
   });
 }

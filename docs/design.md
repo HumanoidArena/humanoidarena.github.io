@@ -159,3 +159,22 @@ cross-GMT. Prefer short claim lines and concrete nouns; avoid hype adjectives.
 - Styling keeps to the tokens in `css/base.css`; component rules live in `css/components.css`,
   layout and grids in `css/layout.css`.
 - Changes are verified by previewing over a local static server; there is no test suite.
+
+## Deployment
+
+GitHub Pages allows a repository one site, so `.github/workflows/static.yml` publishes both
+branches as one artifact rather than as two deployments:
+
+| Branch | Served at | URL |
+| --- | --- | --- |
+| `main` | `/` | <https://humanoidarena.github.io> |
+| `dev` | `/dev/` | <https://humanoidarena.github.io/dev/> |
+
+Each run checks out both branches and rebuilds the pair, so a push to either branch republishes
+both halves: the preview can never blank the live page, and a live push can never drop the
+preview. Serving the same files from `/` and from `/dev/` is what the relative-path constraint
+above buys.
+
+The `/dev/` copy carries a fixed corner badge, added by
+`.github/scripts/mark-dev-preview.py` at deploy time rather than committed, so the preview is
+never mistaken for the live page and the two branches' page sources stay identical.

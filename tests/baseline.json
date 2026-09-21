@@ -1,0 +1,34 @@
+{
+  "_comment": "What the rendered page must contain. Counts are exact and platform-independent; layout figures come from a local run and are compared with tolerance because font metrics differ between machines.",
+  "contract": {
+    "clipGroups": 15,
+    "mediaCards": 32,
+    "videos": 32,
+    "taskRows": 7,
+    "scenarioRows": 3,
+    "protocolCards": 5,
+    "exampleCards": 3,
+    "pipelineStepCards": 6,
+    "resourceCards": 8,
+    "resourceWide": 2,
+    "tocItems": 7,
+    "tocSubItems": 18,
+    "leaderboardTabs": 3,
+    "leaderboardPanels": 3,
+    "leaderboardTableRows": 24,
+    "leaderboardChartRows": 24,
+    "bibtexLines": 6
+  },
+  "layout": {
+    "1280": { "bodyHeight": 11387, "scrollWidth": 1265 },
+    "1080": { "bodyHeight": 15278, "scrollWidth": 1065 },
+    "760": { "bodyHeight": 25395, "scrollWidth": 975 }
+  },
+  "bodyHeightTolerance": 0.08,
+  "scrollWidthSlack": 40,
+  "assetBudget": {
+    "_comment": "maxFileBytes sits just above the current ceiling, visionnavi.mp4 at 7.9 MB, so it clears what ships today while still failing an oversized newcomer (the 14 MB clip this budget was written for). maxTotalBytes is the current 60.6 MB plus ~10%. Lower either one as the assets are trimmed.",
+    "maxFileBytes": 8912896,
+    "maxTotalBytes": 73400320
+  }
+}

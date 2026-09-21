@@ -576,3 +576,710 @@ a:focus-visible {
   outline-offset: 4px;
   border-radius: 8px;
 }
+
+/* ── Leaderboard ── */
+.lb-meta {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* Views on the left, the GMT filter on the right; they wrap into two rows when
+   there is not enough width. */
+.lb-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 18px;
+  margin-bottom: 16px;
+}
+
+.lb-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lb-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lb-filter-label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Segmented control: distinct from the view pills so the two controls do not read
+   as one row of the same thing. The white thumb slides between segments (anchored to
+   the segment it came from), so the selection reads as one object moving rather than
+   two backgrounds swapping. */
+.lb-filter-segments {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: rgba(31, 41, 55, 0.06);
+}
+
+.lb-filter-thumb {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: calc(100% - 6px);
+  width: 0;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  box-shadow: 0 1px 3px rgba(25, 35, 45, 0.12);
+  pointer-events: none;
+  /* critically damped: settles without overshoot, ~0.3s response */
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), width 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.lb-filter-button {
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.lb-filter-button:hover {
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+}
+
+.lb-filter-button.is-active:hover {
+  background: transparent;
+}
+
+/* Feedback lands on pointer-down, and instantly. */
+.lb-filter-button:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+
+.lb-filter-button:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 2px;
+}
+
+.lb-filter-button.is-active {
+  color: var(--ink);
+}
+
+/* Announces the result of a filter or view change to screen readers. */
+.lb-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lb-tab {
+  appearance: none;
+  padding: 9px 20px;
+  border: 1px solid rgba(40, 95, 135, 0.28);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+}
+
+/* Feedback lands on pointer-down, and instantly. */
+.lb-tab:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+
+.lb-tab:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.lb-tab.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.lb-tab.is-active:hover {
+  background: #1e4a6b;
+  border-color: #1e4a6b;
+}
+
+.lb-tab:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 4px;
+}
+
+.lb-panel[hidden] {
+  display: none;
+}
+
+/* The panel arrives where the previous one sat — a short rise and fade, no sideways
+   slide, so switching views never implies a spatial direction that is not there. */
+.lb-panel.is-entering {
+  animation: lb-panel-in 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes lb-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lb-caption {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.lb-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Everything centres, header row included, so every column reads as one unit. */
+.lb-table th,
+.lb-table td {
+  padding: 13px 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Breathing room at the card edges: the outer columns never sit flush against the
+   rounded border. Matches the chart card's inset above, so both left edges line up. */
+.lb-table th:first-child,
+.lb-table td:first-child {
+  padding-left: 26px;
+}
+
+.lb-table th:last-child,
+.lb-table td:last-child {
+  padding-right: 26px;
+}
+
+.lb-table th {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.lb-table td {
+  border-bottom: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+.lb-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lb-table tbody tr:hover td {
+  background: rgba(40, 95, 135, 0.06);
+}
+
+/* Numbers stay tabular so centred columns still line up digit for digit. */
+.lb-table .lb-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-rank {
+  width: 52px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.lb-rank-top {
+  font-size: 1.05rem;
+}
+
+.lb-model-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Institution mark — first author's institution of the cited paper. Every mark
+   sits in the same square tile, so a wide wordmark and a narrow glyph read as one
+   consistent column of badges. */
+.lb-logo {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+/* The name + repository pill reserve a constant width, so the block is the same size in
+   every row: centring it keeps the badge at the same x — icons line up down the column —
+   while the column itself still reads as centred. */
+.lb-model-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 106px;
+  font-weight: 700;
+}
+
+.lb-model-link,
+.lb-model-name {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.lb-model-link {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(40, 95, 135, 0.3);
+}
+
+.lb-model-link:hover {
+  color: var(--accent);
+}
+
+.lb-repo {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.lb-repo:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.lb-gmt {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.lb-gmt--sonic {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.lb-gmt--twist2 {
+  background: rgba(196, 108, 56, 0.14);
+  color: var(--warm);
+}
+
+.lb-value {
+  font-weight: 600;
+}
+
+.lb-std {
+  margin-left: 5px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.lb-emph .lb-value {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.lb-note {
+  max-width: 92ch;
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.75;
+}
+
+/* Table note: one chunk per term, so a term never separates from its definition.
+   Wide screens flow several per line; narrow ones give each its own line. */
+.lb-note-item {
+  display: inline-block;
+  margin-right: 18px;
+}
+
+.lb-note-term {
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Leaderboard score chart ── */
+/* A lighter surface than the table card below it: material weight encodes
+   hierarchy, and the table stays the primary reading surface. */
+.lb-chart-card {
+  --lb-chart-cols: minmax(112px, 190px) 1fr auto;
+  --lb-chart-pad-x: 10px;
+  /* 16px card inset + 10px row inset = the table's 26px outer cell padding, so the
+     chart and the table below it share one left edge */
+  padding: 14px 16px 10px;
+  margin: 0 0 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  border-radius: var(--radius-lg);
+}
+
+.lb-chart-head {
+  display: grid;
+  grid-template-columns: var(--lb-chart-cols);
+  align-items: end;
+  gap: 14px;
+  padding: 0 var(--lb-chart-pad-x) 8px;
+}
+
+.lb-chart-head-label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lb-chart-head-label--right {
+  text-align: right;
+}
+
+/* Scale ticks aligned to the track column's 0 / 50 / 100 positions. */
+.lb-chart-head-scale {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-chart-head-scale i {
+  font-style: normal;
+}
+
+.lb-chart {
+  display: grid;
+  gap: 5px;
+}
+
+.lb-chart-row {
+  display: grid;
+  grid-template-columns: var(--lb-chart-cols);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 6px var(--lb-chart-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.14s ease, border-color 0.14s ease;
+}
+
+.lb-chart-row:hover {
+  background: rgba(40, 95, 135, 0.06);
+  border-color: rgba(40, 95, 135, 0.16);
+}
+
+/* Press feedback lands on pointer-down, not on release. */
+.lb-chart-row:active {
+  background: rgba(40, 95, 135, 0.11);
+  transition: none;
+}
+
+.lb-chart-row:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 2px;
+}
+
+.lb-chart-row.is-selected {
+  background: rgba(40, 95, 135, 0.08);
+  border-color: rgba(40, 95, 135, 0.22);
+}
+
+.lb-chart-row.is-selected.lb-chart-row--twist2 {
+  background: rgba(196, 108, 56, 0.1);
+  border-color: rgba(196, 108, 56, 0.26);
+}
+
+.lb-chart-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.lb-logo--chart {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 6px;
+}
+
+.lb-chart-gmt {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.lb-chart-track {
+  position: relative;
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(31, 41, 55, 0.08);
+  /* 50% midpoint tick, since every bar is drawn on a fixed 0-100 SR scale */
+  background-image: linear-gradient(
+    to right,
+    transparent calc(50% - 0.5px),
+    rgba(31, 41, 55, 0.18) calc(50% - 0.5px),
+    rgba(31, 41, 55, 0.18) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+  overflow: hidden;
+}
+
+/* Bars grow from zero the first time the chart is revealed; --lb-i staggers them
+   so the set reads as one gesture instead of eight separate ones. */
+.lb-chart-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%);
+  transition: width 0.72s cubic-bezier(0.32, 0.72, 0, 1);
+  transition-delay: calc(var(--lb-i, 0) * 45ms);
+}
+
+.lb-chart.is-revealed .lb-chart-fill {
+  width: var(--lb-w, 0%);
+}
+
+/* Redraw: bars snap back to zero without animating, then grow again in sequence. */
+.lb-chart.is-resetting .lb-chart-fill {
+  transition: none;
+}
+
+.lb-chart-row--twist2 .lb-chart-fill {
+  background-color: var(--warm);
+}
+
+.lb-chart-value {
+  min-width: 46px;
+  color: var(--accent);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.lb-chart-row--twist2 .lb-chart-value {
+  color: var(--warm);
+}
+
+/* Row a chart bar was sent to. The wash carries that entry's GMT colour, matching
+   the GMT chip in the row and the bar it came from, and it stays put until another
+   bar in the same panel is picked. */
+.lb-row:focus {
+  outline: none;
+}
+
+.lb-table tbody tr.lb-row.is-selected td {
+  background: rgba(40, 95, 135, 0.14);
+}
+
+.lb-table tbody tr.lb-row.is-selected td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.lb-row.is-selected .lb-rank,
+.lb-row.is-selected .lb-model-name,
+.lb-row.is-selected .lb-model-link {
+  color: #1e4a6b;
+}
+
+.lb-table tbody tr.lb-row.is-selected.lb-row--twist2 td {
+  background: rgba(196, 108, 56, 0.16);
+}
+
+.lb-table tbody tr.lb-row.is-selected.lb-row--twist2 td:first-child {
+  box-shadow: inset 3px 0 0 var(--warm);
+}
+
+.lb-row.is-selected.lb-row--twist2 .lb-rank,
+.lb-row.is-selected.lb-row--twist2 .lb-model-name,
+.lb-row.is-selected.lb-row--twist2 .lb-model-link {
+  color: #a4541f;
+}
+
+@media (max-width: 760px) {
+  .lb-table th,
+  .lb-table td {
+    padding: 10px 12px;
+  }
+
+  /* keep the same 16px inset as the chart card on narrow screens */
+  .lb-table th:first-child,
+  .lb-table td:first-child {
+    padding-left: 16px;
+  }
+
+  .lb-table th:last-child,
+  .lb-table td:last-child {
+    padding-right: 16px;
+  }
+
+  .lb-table {
+    font-size: 0.78rem;
+  }
+
+  .lb-caption,
+  .lb-meta {
+    font-size: 0.76rem;
+  }
+
+  /* narrower type needs less reserved room to stay aligned */
+  .lb-model-line {
+    min-width: 92px;
+  }
+
+  .lb-note {
+    font-size: 0.74rem;
+    line-height: 1.7;
+  }
+
+  .lb-note-item {
+    display: block;
+    margin-right: 0;
+  }
+
+  .lb-chart-card {
+    --lb-chart-cols: minmax(84px, 1fr) 1.3fr auto;
+    --lb-chart-pad-x: 6px;
+    padding: 10px 10px 8px;
+  }
+
+  .lb-chart-head {
+    gap: 10px;
+  }
+
+  .lb-chart-row {
+    gap: 10px;
+    font-size: 0.76rem;
+  }
+
+  .lb-chart-label {
+    gap: 6px;
+  }
+
+  /* Keep the narrow-screen chart readable: bar colour already encodes the GMT. */
+  .lb-logo--chart,
+  .lb-chart-gmt {
+    display: none;
+  }
+
+  .lb-logo {
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Bars appear at their final width instead of growing into it. */
+  .lb-chart-fill {
+    transition: none;
+  }
+
+  /* The thumb jumps to its segment; the incoming panel cross-fades in place,
+     keeping the comprehension cue without the movement. */
+  .lb-filter-thumb {
+    transition: none;
+  }
+
+  .lb-panel.is-entering {
+    animation: lb-panel-fade 0.18s linear;
+  }
+
+  .lb-tab:active,
+  .lb-filter-button:active {
+    transform: none;
+  }
+}
+
+@keyframes lb-panel-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lb-chart-card {
+    background: var(--surface);
+  }
+
+  .lb-logo {
+    border-color: rgba(31, 41, 55, 0.22);
+  }
+}

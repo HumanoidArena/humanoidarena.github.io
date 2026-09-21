@@ -1,10 +1,19 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Publishes the project page to GitHub Pages.
+#
+# A repository has exactly one Pages site, so the two branches share a single
+# artifact instead of fighting over the deployment:
+#
+#   main -> /        https://humanoidarena.github.io/
+#   dev  -> /dev/    https://humanoidarena.github.io/dev/
+#
+# Every run rebuilds both halves from the branches as they currently stand, so
+# pushing dev cannot blank production and pushing main cannot drop the preview.
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes to either published branch
   push:
-    branches: ["main"]
+    branches: ["main", "dev"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,22 +31,56 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _site
+
+      # Optional. A repository with no dev branch upstream still deploys, it
+      # simply has nothing at /dev/.
+      - name: Check out dev
+        id: dev
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: _site/dev
+
+      - name: Drop the preview when there is no dev branch
+        if: steps.dev.outcome != 'success'
+        run: |
+          rm -rf _site/dev
+          echo "::notice title=No dev branch upstream::publishing main only"
+
+      # The marker script is taken from main's checkout rather than dev's, so a
+      # half-finished dev branch cannot break the deploy.
+      - name: Mark the preview
+        if: steps.dev.outcome == 'success'
+        run: python3 _site/.github/scripts/mark-dev-preview.py _site/dev/index.html
+
+      - name: Strip git directories
+        run: rm -rf _site/.git _site/dev/.git
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # main at the root, its dev preview nested under /dev/
+          path: "_site"
+
   deploy:
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

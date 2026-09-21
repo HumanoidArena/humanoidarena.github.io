@@ -74,14 +74,20 @@ jobs:
           for target in _site _site/dev; do
             rm -rf "$target/node_modules" "$target/tests" "$target/.github"
             rm -f "$target/package.json" "$target/package-lock.json" \
-                  "$target/playwright.config.js" "$target/eslint.config.js"
+                  "$target/playwright.config.js" "$target/eslint.config.js" \
+                  "$target/.editorconfig" "$target/.htmlvalidate.json" "$target/.lychee.toml"
           done
 
+      # Only what exists on both branches: `js/` is absent from main until a page change
+      # has been merged, and this workflow publishes both.
       - name: Check the artifact
         run: |
           test -f _site/index.html
-          leaked=$(find _site \( -name package.json -o -name playwright.config.js -o -name eslint.config.js \) | wc -l)
-          test "$leaked" -eq 0
+          for leaked in package.json package-lock.json playwright.config.js eslint.config.js \
+                        .editorconfig .htmlvalidate.json .lychee.toml tests .github; do
+            test ! -e "_site/$leaked"
+            test ! -e "_site/dev/$leaked"
+          done
           echo "publishing $(find _site -type f | wc -l) files"
 
       - name: Setup Pages

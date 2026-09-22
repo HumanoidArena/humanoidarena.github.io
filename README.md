@@ -28,7 +28,7 @@ Nothing in `package.json` ships; the published site is plain files served from t
 ```sh
 npm ci            # once
 npm run check     # lint + markup validation + the rendered-page suite
-npm test          # just the rendered-page and accessibility suites
+npm test          # just the rendered-page, clip-group and accessibility suites
 npm run lint      # eslint over js/
 npm run validate  # html-validate over index.html
 ```
@@ -37,7 +37,8 @@ npm run validate  # html-validate over index.html
 | --- | --- | --- |
 | ESLint | `eslint.config.js` | A typo'd import or a bug in `js/`, which would otherwise surface only in the browser console |
 | html-validate | `.htmlvalidate.json` | Malformed markup in `index.html` |
-| Rendered page | `tests/render.spec.js` | A section that failed to render, a broken contents anchor, a console error from the leaderboard controls, a layout change beyond tolerance at any breakpoint, an asset over the weight budget |
+| Rendered page | `tests/render.spec.js` | A section that failed to render, a missing documented anchor, a wrong dataset URL, a broken contents link, a console error from the leaderboard controls, a layout change beyond tolerance at any breakpoint, an asset over the weight budget |
+| Clip playback | `tests/media.spec.js` | The clip-group restart rules, including a clip that fails to load |
 | Accessibility | `tests/accessibility.spec.js` | Serious or critical axe violations |
 | Links | `.github/workflows/link-check.yml` | A dataset or paper link that has started 404ing |
 

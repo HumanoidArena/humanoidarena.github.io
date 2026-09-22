@@ -26,9 +26,12 @@ function addLoader(card, video) {
   }
 }
 
-/** One set of clips that play as a unit; `entered`/`left` track whether it is on screen. */
-function createGroup(element) {
-  const videos = Array.from(element.querySelectorAll("video"));
+/**
+ * One set of clips that play as a unit; `entered`/`left` track whether it is on screen.
+ * Takes the clips rather than an element, so the behaviour can be tested without a browser
+ * that can decode video.
+ */
+export function createClipGroup(videos) {
   if (!videos.length) return null;
 
   // The shared restart replaces the per-clip loop.
@@ -37,25 +40,32 @@ function createGroup(element) {
   });
 
   let onScreen = false;
-  let finished = 0;
+
+  // A clip that fails to load never reports `ended`, so it is dropped from the set the
+  // restart waits on. Counting it as finished once is not enough: it would stall every
+  // cycle after the first, leaving its partners frozen on their last frame.
+  const failed = new Set();
+  const liveClips = () => videos.filter((video) => !failed.has(video));
 
   const restart = () => {
-    finished = 0;
-    videos.forEach((video) => {
+    liveClips().forEach((video) => {
       video.currentTime = 0;
     });
-    if (onScreen) videos.forEach((video) => video.play().catch(() => {}));
+    if (onScreen) liveClips().forEach((video) => video.play().catch(() => {}));
   };
 
-  const markFinished = () => {
-    finished += 1;
-    if (finished >= videos.length) restart();
+  // State rather than a tally, so it can be re-checked whenever anything changes.
+  const restartOnceEveryClipHasFinished = () => {
+    const live = liveClips();
+    if (live.length && live.every((video) => video.ended)) restart();
   };
 
   videos.forEach((video) => {
-    video.addEventListener("ended", markFinished);
-    // A clip that cannot load must not hold the set open for ever.
-    video.addEventListener("error", markFinished);
+    video.addEventListener("ended", restartOnceEveryClipHasFinished);
+    video.addEventListener("error", () => {
+      failed.add(video);
+      restartOnceEveryClipHasFinished();
+    });
   });
 
   return {
@@ -64,7 +74,7 @@ function createGroup(element) {
       // An already-finished clip restarts by itself when played, which would strand
       // its partners mid-cycle, so the whole set starts over instead.
       if (videos.some((video) => video.ended)) restart();
-      else videos.forEach((video) => video.play().catch(() => {}));
+      else liveClips().forEach((video) => video.play().catch(() => {}));
     },
     left() {
       onScreen = false;
@@ -84,7 +94,7 @@ export function startMedia() {
   const units = new Map();
   cards.forEach((card) => {
     const element = card.closest(GROUPS) || card;
-    if (!units.has(element)) units.set(element, createGroup(element));
+    if (!units.has(element)) units.set(element, createClipGroup(Array.from(element.querySelectorAll("video"))));
   });
 
   const observer = new IntersectionObserver(

@@ -19,14 +19,91 @@
     "bibtexLines": 6
   },
   "layout": {
-    "1280": { "bodyHeight": 11387, "scrollWidth": 1265 },
-    "1080": { "bodyHeight": 15278, "scrollWidth": 1065 },
-    "760": { "bodyHeight": 25395, "scrollWidth": 975 }
+    "1280": {
+      "bodyHeight": 11387,
+      "scrollWidth": 1265
+    },
+    "1080": {
+      "bodyHeight": 15278,
+      "scrollWidth": 1065
+    },
+    "760": {
+      "bodyHeight": 25395,
+      "scrollWidth": 975
+    }
   },
   "bodyHeightTolerance": 0.08,
   "scrollWidthSlack": 40,
   "assetBudget": {
     "maxFileBytes": 8912896,
     "maxTotalBytes": 73400320
-  }
+  },
+  "anchors": [
+    "hero",
+    "paper",
+    "tasks",
+    "pipeline",
+    "evaluation",
+    "results",
+    "leaderboard",
+    "resources",
+    "task-football",
+    "task-doubledesk",
+    "task-ppbox",
+    "task-opendoor",
+    "task-sitsofa",
+    "task-boxing",
+    "task-visnavi",
+    "results-ppbox",
+    "results-football",
+    "results-opendoor",
+    "pipeline-capture",
+    "pipeline-action",
+    "pipeline-recording",
+    "pipeline-training",
+    "eval-base",
+    "eval-semantic",
+    "eval-vision",
+    "eval-execution",
+    "eval-crossgmt",
+    "eval-protocol",
+    "eval-example",
+    "contact"
+  ],
+  "links": [
+    "https://arxiv.org/abs/2606.17833",
+    "https://arxiv.org/pdf/2606.17833",
+    "https://github.com/William-wAng618/HumanoidArena/tree/release/open-source-prep",
+    "https://huggingface.co/datasets/WilliamWang16/HumanoidArena_dataset_v3_1",
+    "https://www.modelscope.cn/datasets/Twang2026/HumanoidArenaV3.1",
+    "https://huggingface.co/WilliamWang16/HumanoidArena_models",
+    "https://www.modelscope.cn/models/Twang2026/HumanoidArena_models",
+    "https://drive.google.com/file/d/1TCa_aVRmFrZs_l4wlxkqanNebvDtChNk/view?usp=sharing",
+    "https://www.modelscope.cn/datasets/Twang2026/HumanoidArena_raw",
+    "https://www.modelscope.cn/datasets/Twang2026/test_raw_HOI_pp_box",
+    "https://arxiv.org/abs/2304.13705",
+    "https://github.com/tonyzhaozh/aloha",
+    "https://arxiv.org/abs/2303.04137",
+    "https://github.com/real-stanford/diffusion_policy",
+    "https://bostondynamics.com/blog/large-behavior-models-atlas-find-new-footing/",
+    "https://arxiv.org/abs/2504.16054"
+  ],
+  "segments": [
+    [
+      "Overall",
+      "HOI",
+      "HSI"
+    ],
+    [
+      "All",
+      "TWIST2",
+      "SONIC"
+    ]
+  ],
+  "models": [
+    "ACT",
+    "DP",
+    "FM",
+    "π0.5"
+  ]
 }

@@ -205,7 +205,8 @@ request.
 
 | Suite | Asserts |
 | --- | --- |
-| `tests/render.spec.js` | The exact contents of every collection; that each contents link resolves; that every section is a named landmark; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
+| `tests/render.spec.js` | The exact contents of every collection; the documented anchors, outgoing links and control labels; that every section is a named landmark; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
+| `tests/media.spec.js` | The clip-group state machine, driven by doubles: a restart waits for every clip, a clip that failed to load does not hold the group open, and leaving the viewport stops playback. Those states need a browser that decodes H.264, which Playwright's Chromium does not, so the logic was pulled out of the DOM to be testable at all |
 | `tests/accessibility.spec.js` | No serious or critical axe violations |
 | `link-check.yml` | Every outgoing link resolves — scheduled rather than gating, since it needs the live internet |
 

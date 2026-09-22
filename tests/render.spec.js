@@ -69,6 +69,30 @@ test("every section is a named landmark", async ({ page }) => {
   expect(unnamed).toEqual([]);
 });
 
+test("carries the documented anchors, outgoing links and control labels", async ({ page }) => {
+  await openPage(page);
+
+  const found = await page.evaluate(() => ({
+    anchors: Array.from(document.querySelectorAll("[id]")).map((element) => element.id),
+    links: Array.from(document.querySelectorAll("a[href^='http']")).map((anchor) => anchor.href),
+    segments: Array.from(document.querySelectorAll(".lb-seg")).map((control) =>
+      Array.from(control.querySelectorAll(".lb-seg-item")).map((item) => item.textContent.trim())
+    ),
+    models: [
+      ...new Set(
+        Array.from(document.querySelectorAll(".lb-model-name, .lb-model-link")).map((name) => name.textContent.trim())
+      ),
+    ].sort(),
+  }));
+
+  // The ids the docs promise, and every address the page points at. Both caught real drift:
+  // a renamed anchor and a wrong-but-live URL both pass the other tests.
+  expect(baseline.anchors.filter((id) => !found.anchors.includes(id)), "documented anchors").toEqual([]);
+  expect(baseline.links.filter((href) => !found.links.includes(href)), "outgoing links").toEqual([]);
+  expect(found.segments).toEqual(baseline.segments);
+  expect(found.models).toEqual(baseline.models);
+});
+
 test("clips are fetched on approach, and a group loops as one", async ({ page }) => {
   await openPage(page);
 

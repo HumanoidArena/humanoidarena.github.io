@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "python3 -m http.server 4173",
     "test": "playwright test",
-    "lint": "eslint js",
+    "lint": "eslint js tests",
     "validate": "html-validate index.html",
     "check": "npm run lint && npm run validate && npm test"
   },

@@ -63,7 +63,7 @@ hidden below 1080px.
 | 5 | `#evaluation` | *Evaluation protocol* — "Four tests plus cross-GMT." | Four `.protocol-card`s plus a full-width cross-GMT card; below it the `#eval-example` block | `PROTOCOLS` + `EXAMPLES` |
 | 6 | `#results` | *Results* — "Success, failure, recovery." | Three `.scenario-row`s, each a success/failure video pair, and a section footnote | `SCENARIOS` |
 | 7 | `#leaderboard` | *Leaderboard* — "How policy–tracker pairs compare." | Views, charts and tables | `js/leaderboard.js` — see [leaderboard.md](leaderboard.md) |
-| 8 | `#resources` | *Resources* — "Paper, code, and more." | Six `.resource-card`s, the BibTeX panel and the contact card | `RESOURCES` |
+| 8 | `#resources` | *Resources* — "Paper, code, and more." | Eight `.resource-card`s: six with links, the BibTeX panel and the contact card | `RESOURCES` |
 
 ### Anchor ids
 
@@ -76,6 +76,7 @@ Ids in the first two groups come from the content tables; the rest are written i
 | Result scenarios | `results-ppbox`, `results-football`, `results-opendoor` (from `SCENARIOS[].id`) |
 | Pipeline stages | `pipeline-capture`, `pipeline-action`, `pipeline-recording`, `pipeline-training` |
 | Protocol cards | `eval-base`, `eval-semantic`, `eval-vision`, `eval-execution`, `eval-crossgmt` (from `PROTOCOLS[].id`) |
+| Protocol grid | `eval-protocol` (the contents sub-item's target) |
 | P&PBox example | `eval-example` |
 | Resources | `contact` (`RESOURCES[]` with `kind: "contact"`) |
 | Leaderboard | see [leaderboard.md](leaderboard.md) |
@@ -147,8 +148,8 @@ for the secondary mirror of a pair. The BibTeX panel and the contact card both c
 - **Captions** — `.example-caption` explains a comparison; the term being varied is wrapped in
   `<strong>`, which styles it in the red highlight colour.
 - **Footnotes** — `.footnote` with a `.footnote-marker`; used by the Results section to state
-  that clips are sampled at 1 FPS while inference uses the native stream. It does not wrap, so
-  keep footnote text short.
+  that clips play at the rate they were captured while inference uses the native stream. It does
+  not wrap, so keep footnote text short.
 - **No-JavaScript notice** — `.page-notice` inside a `<noscript>` at the top of the shell.
 
 ## Running without JavaScript

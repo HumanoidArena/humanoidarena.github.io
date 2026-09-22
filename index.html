@@ -8,6 +8,22 @@
       name="description"
       content="HumanoidArena is a simulation-first benchmark for egocentric hierarchical whole-body humanoid control."
     />
+    <meta name="theme-color" content="#f4efe7" />
+    <link rel="canonical" href="https://humanoidarena.github.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HumanoidArena" />
+    <meta property="og:title" content="HumanoidArena: Benchmarking Egocentric Hierarchical Whole-body Learning" />
+    <meta
+      property="og:description"
+      content="A simulation-first benchmark evaluating seven leg-critical HOI/HSI tasks across two general motion trackers, under perturbation and cross-GMT protocols."
+    />
+    <meta property="og:url" content="https://humanoidarena.github.io/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="HumanoidArena: Benchmarking Egocentric Hierarchical Whole-body Learning" />
+    <meta
+      name="twitter:description"
+      content="A simulation-first benchmark evaluating seven leg-critical HOI/HSI tasks across two general motion trackers, under perturbation and cross-GMT protocols."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -34,10 +50,10 @@
         </p>
       </noscript>
       <main>
-        <section class="hero" id="hero">
+        <section class="hero" id="hero" aria-labelledby="hero-title">
           <div class="hero-copy">
             <p class="eyebrow">Simulation-first benchmark for humanoid control</p>
-            <h1>HumanoidArena:<br />Benchmarking Egocentric Hierarchical Whole-body Learning.</h1>
+            <h1 id="hero-title">HumanoidArena:<br />Benchmarking Egocentric Hierarchical Whole-body Learning.</h1>
             <div class="author-block">
               <p class="author-names">
                 <span>Taowen Wang<sup>1,*</sup></span>
@@ -104,10 +120,10 @@
           </div>
         </section>
 
-        <section class="section" id="paper">
+        <section class="section" id="paper" aria-labelledby="paper-title">
           <div class="section-heading">
             <p class="eyebrow">Abstract</p>
-            <h2>Paper abstract.</h2>
+            <h2 id="paper-title">Paper abstract.</h2>
           </div>
           <div class="paper-grid">
             <article class="paper-card">
@@ -137,18 +153,18 @@
           </div>
         </section>
 
-        <section class="section" id="tasks">
+        <section class="section" id="tasks" aria-labelledby="tasks-title">
           <div class="section-heading">
             <p class="eyebrow">Task gallery</p>
-            <h2>Seven tasks across both GMTs.</h2>
+            <h2 id="tasks-title">Seven tasks across both GMTs.</h2>
           </div>
           <div class="task-suite" data-render="tasks"></div>
         </section>
 
-        <section class="section feature-split" id="pipeline">
+        <section class="section feature-split" id="pipeline" aria-labelledby="pipeline-title">
           <div class="section-heading">
             <p class="eyebrow">Pipeline</p>
-            <h2>From teleop to benchmark.</h2>
+            <h2 id="pipeline-title">From teleop to benchmark.</h2>
           </div>
           <div class="split-layout">
             <div class="text-panel text-panel-flow">
@@ -204,12 +220,12 @@
           </div>
         </section>
 
-        <section class="section" id="evaluation">
+        <section class="section" id="evaluation" aria-labelledby="evaluation-title">
           <div class="section-heading">
             <p class="eyebrow">Evaluation protocol</p>
-            <h2>Four tests plus cross-GMT.</h2>
+            <h2 id="evaluation-title">Four tests plus cross-GMT.</h2>
           </div>
-          <div class="protocol-grid" data-render="protocols"></div>
+          <div class="protocol-grid" id="eval-protocol" data-render="protocols"></div>
           <div class="evaluation-example" id="eval-example">
             <div class="section-heading section-heading-compact">
               <p class="eyebrow">Example task</p>
@@ -219,13 +235,13 @@
           </div>
         </section>
 
-        <section class="section" id="results">
+        <section class="section" id="results" aria-labelledby="results-title">
           <div class="section-heading">
             <p class="eyebrow">Results</p>
-            <h2>Success, failure, recovery.</h2>
+            <h2 id="results-title">Success, failure, recovery.</h2>
           </div>
           <div class="scenario-suite" data-render="scenarios"></div>
-          <div class="footnote"><span class="footnote-marker">*</span> Videos shown here are sampled at 1 FPS for storage and efficiency considerations. Inference uses the native video stream at the same frame rate as training.</div>
+          <div class="footnote"><span class="footnote-marker">*</span> Clips are shown at the frame rate they were captured at; inference runs on the native video stream.</div>
         </section>
 
         <!--
@@ -233,10 +249,10 @@
           from that module's VIEWS table, so a column is declared once. The numbers
           live in that module too — see docs/leaderboard.md.
         -->
-        <section class="section" id="leaderboard">
+        <section class="section" id="leaderboard" aria-labelledby="leaderboard-title">
           <div class="section-heading">
             <p class="eyebrow">Leaderboard</p>
-            <h2>How policy&ndash;tracker pairs compare.</h2>
+            <h2 id="leaderboard-title">How policy&ndash;tracker pairs compare.</h2>
           </div>
           <p class="lb-meta">Updated <span id="lb-updated"></span></p>
           <div class="lb-controls">
@@ -261,10 +277,10 @@
           <noscript><p class="lb-note">Enable JavaScript to view the leaderboard tables and charts.</p></noscript>
         </section>
 
-        <section class="section" id="resources">
+        <section class="section" id="resources" aria-labelledby="resources-title">
           <div class="section-heading">
             <p class="eyebrow">Resources</p>
-            <h2>Paper, code, and more.</h2>
+            <h2 id="resources-title">Paper, code, and more.</h2>
           </div>
           <div class="resource-grid" data-render="resources"></div>
         </section>

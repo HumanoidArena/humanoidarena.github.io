@@ -83,7 +83,7 @@ export function startMedia() {
   // One unit per set. A clip outside any set is watched on its own.
   const units = new Map();
   cards.forEach((card) => {
-    const element = (card.closest && card.closest(GROUPS)) || card;
+    const element = card.closest(GROUPS) || card;
     if (!units.has(element)) units.set(element, createGroup(element));
   });
 

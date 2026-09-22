@@ -244,7 +244,7 @@
 }
 
 .example-caption strong {
-  color: #d93838;
+  color: var(--highlight);
   font-weight: 700;
 }
 
@@ -470,6 +470,13 @@ li:has(.content-toc-item.active) .content-toc-sub {
 /* ── Interactive states ── */
 .quick-links a:hover {
   color: var(--accent);
+}
+
+/* Every control answers on pointer-down, immediately (see docs/design.md §Motion). */
+.btn-pill:active,
+.quick-links a:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
 }
 
 a:focus-visible {
@@ -915,7 +922,8 @@ a:focus-visible {
 /* Press feedback lands on pointer-down, not on release. */
 .lb-chart-row:active {
   background: rgba(40, 95, 135, 0.11);
-  transition: none;
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
 }
 
 .lb-chart-row:focus-visible {

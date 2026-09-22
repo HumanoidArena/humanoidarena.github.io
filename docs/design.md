@@ -79,7 +79,8 @@ light shadows; motion that is restrained and state-driven.
 | `--muted` | `#4c5a66` | Secondary text |
 | `--accent` | `#285f87` | Links, SONIC colour, the selected view's thumb |
 | `--accent-soft` | `#d9e8f1` | Accent tints |
-| `--warm` | `#c46c38` | Highlight term, TWIST2 colour, focus ring |
+| `--warm` | `#c46c38` | TWIST2 colour, table-tag labels, focus ring |
+| `--highlight` | `#d93838` | The varied term in an example caption |
 | `--shadow` | `0 18px 50px rgba(25, 35, 45, 0.09)` | Card elevation |
 | `--radius-lg` / `--radius-md` / `--radius-sm` | `28px` / `20px` / `999px` | Cards, inner blocks, pills |
 
@@ -94,6 +95,7 @@ tracking; micro-labels (table headers, eyebrows, control labels) uppercase, `0.6
 | Press on any control | `scale(0.97)` on pointer-down, 100 ms, no delay |
 | Hover | Background/border tint, 0.14–0.22 s |
 | Segmented controls (view switcher, GMT filter) | Thumb slides between segments, 0.32 s |
+| Anchor link in the contents | Native smooth scroll, which the platform disables under reduced motion |
 | Chart bars | Grow from zero in sequence, 0.72 s with a 45 ms stagger per bar |
 | View switch or filter change | The view rises 5 px and fades in, 0.34 s, while its bars regrow |
 
@@ -116,8 +118,8 @@ There is no component library: styles are plain classes in `css/components.css`,
 | Table of contents | `.content-toc`, `-title`, `-list`, `-item`, `-sub`, `-subitem` |
 | Leaderboard | `.lb-*` — segmented controls, chart, table, note (see [leaderboard.md](leaderboard.md)) |
 
-States and variants: link pills (primary and ghost), video vs image card, available vs
-unavailable resource, SONIC vs TWIST2 colouring, selected leaderboard row.
+States and variants: link pills (primary and ghost), video vs image card, SONIC vs TWIST2
+colouring, selected leaderboard row.
 
 ## Responsive behaviour
 
@@ -203,7 +205,7 @@ request.
 
 | Suite | Asserts |
 | --- | --- |
-| `tests/render.spec.js` | The exact contents of every collection; that each contents link resolves; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
+| `tests/render.spec.js` | The exact contents of every collection; that each contents link resolves; that every section is a named landmark; that clips start lazy and no group keeps its own loop; that the leaderboard controls re-render with a clean console; layout within tolerance at 1280/1080/760; and the asset weight budget |
 | `tests/accessibility.spec.js` | No serious or critical axe violations |
 | `link-check.yml` | Every outgoing link resolves — scheduled rather than gating, since it needs the live internet |
 
@@ -234,9 +236,10 @@ The `/dev/` copy carries a fixed corner badge, added by
 `.github/scripts/mark-dev-preview.py` at deploy time rather than committed, so the preview is
 never mistaken for the live page and the two branches' page sources stay identical.
 
-The artifact is the page and only the page: the deploy strips `package.json`, `package-lock.json`,
-`tests/`, `.github/` and the tooling configs before uploading, so the development toolchain is
-never published alongside the site.
+The artifact is the site, not the working tree: the deploy strips the toolchain — `package.json`,
+`package-lock.json`, `tests/`, `.github/`, the tooling configs, `.gitignore` — and the unpublished
+paper draft, so none of them is published. `README.md` and `docs/` stay, and `docs/` is linked
+from the README.
 
 Publishing runs through a pull request from `dev` to `main`, rebase-merged. `main` requires the
 two `checks.yml` jobs, linear history and no force-push, so nothing reaches the live site without

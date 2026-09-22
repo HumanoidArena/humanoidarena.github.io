@@ -6,6 +6,7 @@
  * See `docs/leaderboard.md`.
  */
 
+import { TASK_NAMES } from "./content.js";
 import { cls, esc } from "./dom.js";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
@@ -117,16 +118,6 @@ const SUITES = {
   hsi: ["opendoor", "sitsofa", "boxing", "visnavi"],
 };
 
-const TASK_LABELS = {
-  football: "Football",
-  doubledesk: "DoubleDesk",
-  ppbox: "P&PBox",
-  opendoor: "OpenDoor",
-  sitsofa: "SitSofa",
-  boxing: "Boxing",
-  visnavi: "VisNavi",
-};
-
 // Tracker-specific class names, written out so searching components.css for a rule also
 // finds the code that applies it. A tracker missing here renders without its colour.
 const GMT_CLASSES = {
@@ -177,11 +168,11 @@ function modelCell(entry) {
   const repo = meta.repo
     ? `<a class="lb-repo" href="${esc(meta.repo)}" target="_blank" rel="noopener noreferrer">code</a>`
     : "";
-  return `<td class="lb-model-col"><div class="lb-model-cell">${logoImg(meta)}<div class="lb-model-line">${name}${repo}</div></div></td>`;
+  return `<td><div class="lb-model-cell">${logoImg(meta)}<div class="lb-model-line">${name}${repo}</div></div></td>`;
 }
 
 function gmtCell(entry) {
-  return `<td class="lb-gmt-col"><span class="${cls("lb-gmt", gmtClasses(entry.gmt).chip)}">${esc(entry.gmt)}</span></td>`;
+  return `<td><span class="${cls("lb-gmt", gmtClasses(entry.gmt).chip)}">${esc(entry.gmt)}</span></td>`;
 }
 
 function numberCell(value, decimals, std, extraClass) {
@@ -225,9 +216,9 @@ const rows = LB_ENTRIES.map((entry) => {
 // One entry per view. `metric` is what the bars show and the table sorts by; its
 // unrounded twin (`<metric>Precise`) breaks ties.
 
-const RANK_COLUMN = { label: "Rank", cls: "lb-rank-col" };
-const MODEL_COLUMN = { label: "Model", cls: "lb-model-col" };
-const GMT_COLUMN = { label: "GMT", cls: "lb-gmt-col" };
+const RANK_COLUMN = { label: "Rank" };
+const MODEL_COLUMN = { label: "Model" };
+const GMT_COLUMN = { label: "GMT" };
 
 /** A view for one task suite: a column per task, then the suite average. */
 function suiteView({ key, label, suite, metric, averageLabel, caption }) {
@@ -237,7 +228,7 @@ function suiteView({ key, label, suite, metric, averageLabel, caption }) {
     caption,
     chartAria: `${label} success rate comparison by policy and tracker`,
     columns: [RANK_COLUMN, MODEL_COLUMN, GMT_COLUMN]
-      .concat(suite.map((taskKey) => ({ label: TASK_LABELS[taskKey], cls: "lb-num" })))
+      .concat(suite.map((taskKey) => ({ label: TASK_NAMES[taskKey], cls: "lb-num" })))
       .concat([{ label: averageLabel, cls: "lb-num" }]),
     metric: (row) => row[metric],
     tiebreak: (row) => row[`${metric}Precise`],
@@ -346,7 +337,9 @@ const filterAttributes = (filter, selected) =>
 
 function panelMarkup() {
   const columns = (view) =>
-    view.columns.map((column) => `<th class="${column.cls}" scope="col">${esc(column.label)}</th>`).join("");
+    view.columns
+      .map((column) => `<th${column.cls ? ` class="${column.cls}"` : ""} scope="col">${esc(column.label)}</th>`)
+      .join("");
 
   return VIEWS.map((view, index) => `<div class="lb-panel" id="lb-panel-${view.key}" role="tabpanel" ` +
     `aria-labelledby="lb-tab-${view.key}"${index === 0 ? "" : " hidden"}>
@@ -497,7 +490,7 @@ function selectRow(button, id, viewKey) {
   const target = document.getElementById(id);
   if (!target) return;
 
-  const panel = target.closest ? target.closest(".lb-panel") : null;
+  const panel = target.closest(".lb-panel");
   if (panel) {
     panel.querySelectorAll(".lb-row.is-selected, .lb-chart-row.is-selected").forEach((node) => {
       node.classList.remove("is-selected");
@@ -646,7 +639,7 @@ export function startLeaderboard() {
 
   document.querySelectorAll(".lb-chart").forEach((chart) => {
     chart.addEventListener("click", (event) => {
-      const button = event.target.closest ? event.target.closest(".lb-chart-row") : null;
+      const button = event.target.closest(".lb-chart-row");
       if (!button || !chart.contains(button)) return;
       selectRow(button, button.getAttribute("data-target"), chart.id.replace("lb-chart-", ""));
     });

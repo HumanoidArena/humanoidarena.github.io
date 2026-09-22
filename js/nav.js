@@ -1,33 +1,19 @@
 /**
- * Table of contents: smooth scrolling and the entry for the section in view.
+ * Table of contents: the entry for the section in view, and the open sub-list beneath it.
  *
- * The contents are rendered by `content.js`, so this runs after it.
+ * The contents are rendered by `content.js`, so this runs after it. Scrolling is left to the
+ * browser — the links are plain anchors and `html` carries `scroll-behavior: smooth`, so
+ * `prefers-reduced-motion` turns the animation off without any code here.
  */
-
-const LINK_SELECTOR = ".content-toc-item, .content-toc-subitem";
 
 /** The element a contents link points at, or null when the id is not on the page. */
 function targetFor(link) {
   return document.querySelector(link.getAttribute("href"));
 }
 
-function wireScrolling(nav) {
-  nav.addEventListener("click", (event) => {
-    const link = event.target.closest(LINK_SELECTOR);
-    if (!link || !nav.contains(link)) return;
-
-    const target = targetFor(link);
-    if (!target) return;
-
-    event.preventDefault();
-    target.scrollIntoView({ behavior: "smooth" });
-  });
-}
-
 /**
- * Mark the contents entry whose section is in view and open its sub-list. The observer
- * band is the upper part of the viewport, so the entry changes as a heading passes the
- * top of the screen.
+ * Mark the contents entry whose section is in view and open its sub-list. The observer band
+ * is the upper part of the viewport, so the entry changes as a heading passes the top.
  */
 function watchSections() {
   const items = Array.from(document.querySelectorAll(".content-toc-item"));
@@ -60,6 +46,5 @@ function watchSections() {
 }
 
 export function startNavigation() {
-  document.querySelectorAll(".content-toc").forEach(wireScrolling);
   watchSections();
 }

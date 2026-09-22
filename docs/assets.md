@@ -62,14 +62,16 @@ Total: 30 MP4 clips, 1 figure SVG, 4 institution marks.
   set is written once, in `mediaCard()` in `js/dom.js`; the absence of `autoplay` is deliberate,
   because a clip is fetched only as it nears the viewport. See [page.md](page.md).
 - **Encode for the size it is displayed at.** Clips render a few hundred pixels wide, so 960×540
-  H.264 at CRF 23 is ample and a 1080p file only wastes the reader's bandwidth. The per-file
-  budget is in `tests/baseline.json`, currently 8.5 MB.
+  H.264 at CRF 23 is ample; `teleop-third-person.mp4` is encoded that way. The task-gallery clips
+  are still 1920×1080 and are the heaviest files here, so they set the per-file budget in
+  `tests/baseline.json`.
 - **A clip whose box is sized from the file states that size in CSS.** `preload="none"` means no
   intrinsic dimensions until load, so the recording row — which shows each clip whole at its own
   ratio — declares that ratio in `css/components.css`. Otherwise the box collapses to the default
   replaced-element size and jumps when the metadata arrives.
-- Results clips are sampled at 1 FPS to keep them small; the benchmark itself runs inference on
-  the native stream at training frame rate. The Results footnote states this on the page.
+- Every clip plays at the rate it was captured at — the results and task-gallery clips at 30 fps,
+  the recording row at about 13.6 fps. The Results footnote says so on the page, because the
+  benchmark itself runs inference on the native stream.
 - The task gallery pairs one SONIC and one TWIST2 rollout per task; keep filenames aligned
   across the two directories when adding a task.
 - `ppbox-origin.mp4` is the shared base episode for all four perturbation examples.

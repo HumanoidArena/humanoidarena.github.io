@@ -22,6 +22,7 @@ numbers are the paper's; treat the paper draft as the source of truth.
       .lb-seg-label              "GMT"
       .lb-seg                    #lb-filters, role=radiogroup (rendered from FILTERS)
   .lb-live                       screen-reader announcements (visually hidden)
+  .lb-note                       the legend below the tables
   #lb-panels                     one .lb-panel per view    (rendered from VIEWS)
     .lb-panel#lb-panel-overall
       .lb-caption                (HOI and HSI panels only)
@@ -64,10 +65,10 @@ Ids are derived as `lb-<kind>-<view key>`, so a new view needs no id bookkeeping
 | Field | Meaning |
 | --- | --- |
 | `key` | View key; every id for the view is built from it |
-| `tab` | Tab label |
+| `label` | Tab label |
 | `caption` | Line above the chart, on the suite views only |
 | `chartAria` | Accessible name for the chart group |
-| `columns` | Table header cells, in order, as `{ label, cls }` |
+| `columns` | Table header cells, in order. `cls` is optional — the numeric columns carry `lb-num` |
 | `metric` | Row accessor the table sorts by and the chart bars show |
 | `tiebreak` | Row accessor that orders entries whose `metric` prints the same |
 | `cells` | Builds a row's `<td>`s — its order must match `columns` |
@@ -170,8 +171,8 @@ All of these are edits to `js/leaderboard.js`.
 4. **Set `LB_UPDATED`** to the date of the change.
 5. **New view or column** — add or edit a `VIEWS` entry. `columns` is the header and `cells` the
    body, so both change together; a suite view gets the pair for free from `suiteView()`.
-6. **New tracker** — add it to `GMT_CLASSES` and add its `--<tracker>` rules to
-   `css/components.css`; the filter's own buttons live in `index.html`.
+6. **New tracker** — three edits: an entry in `FILTERS`, an entry in `GMT_CLASSES`, and its
+   `--<tracker>` rules in `css/components.css`.
 
 Reported numbers must come from the same protocol as the rest of the table (in-GMT, 60
 episodes per entry), otherwise the column is not comparable.

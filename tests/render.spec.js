@@ -57,6 +57,18 @@ test("every table-of-contents link has a target on the page", async ({ page }) =
   expect(unresolved).toEqual([]);
 });
 
+test("every section is a named landmark", async ({ page }) => {
+  await openPage(page);
+
+  const unnamed = await page.evaluate(() =>
+    Array.from(document.querySelectorAll("section"))
+      .filter((section) => !section.getAttribute("aria-label") && !section.getAttribute("aria-labelledby"))
+      .map((section) => section.id || "(no id)")
+  );
+
+  expect(unnamed).toEqual([]);
+});
+
 test("clips are fetched on approach, and a group loops as one", async ({ page }) => {
   await openPage(page);
 

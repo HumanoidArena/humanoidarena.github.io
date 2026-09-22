@@ -9,6 +9,7 @@
   --accent: #285f87;
   --accent-soft: #d9e8f1;
   --warm: #c46c38;
+  --highlight: #d93838;
   --shadow: 0 18px 50px rgba(25, 35, 45, 0.09);
   --radius-lg: 28px;
   --radius-md: 20px;
@@ -24,11 +25,19 @@ html {
   scroll-behavior: smooth;
 }
 
+/* The only motion that is not opt-out by class: anchor jumps, which the platform animates. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   font-family: "Manrope", sans-serif;
   color: var(--ink);
-  background:
+  background-color: var(--bg);
+  background-image:
     radial-gradient(circle at top left, rgba(40, 95, 135, 0.13), transparent 32%),
     radial-gradient(circle at top right, rgba(196, 108, 56, 0.12), transparent 28%),
     linear-gradient(180deg, #f7f2ea 0%, #efe7dc 100%);

@@ -70,8 +70,8 @@ the same site rather than a second deployment. Work on the page on `dev`, check 
 publish by opening a pull request from `dev` to `main` and **rebase-merging** it — `main` requires
 linear history, and a rebase keeps `main` a fast-forward of `dev`.
 
-The deploy strips the development files, so `package.json`, `tests/`, `.github/` and the tooling
-configs are never published.
+The deploy strips the toolchain (`package.json`, `tests/`, `.github/`, the tooling configs) and the
+unpublished paper draft, so only the page, `README.md` and `docs/` are published.
 
 ## Links
 

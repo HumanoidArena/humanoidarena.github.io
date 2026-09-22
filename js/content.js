@@ -13,11 +13,13 @@
 import { cls, esc, mediaCard, mediaPair } from "./dom.js";
 
 // ── Tasks ────────────────────────────────────────────────────────────────────
-// Each row's clips and its table-of-contents sub-item come from the same entry.
+// Each row's clips and its table-of-contents sub-item come from the same entry, and `key`
+// is what the leaderboard's rows are keyed by.
 
 const TASKS = [
   {
     id: "task-football",
+    key: "football",
     tag: "HOI",
     title: "Football",
     blurb: "Leg-object interaction with ball approach, kick timing, and balance-aware whole-body control.",
@@ -28,6 +30,7 @@ const TASKS = [
   },
   {
     id: "task-doubledesk",
+    key: "doubledesk",
     tag: "HOI",
     title: "DoubleDesk",
     blurb: "Cross-surface object transfer with stepping, reach planning, and whole-body reorientation.",
@@ -38,6 +41,7 @@ const TASKS = [
   },
   {
     id: "task-ppbox",
+    key: "ppbox",
     tag: "HOI",
     title: "P&PBox",
     blurb: "Leg-assisted high placement requiring crouch, posture change, and shelf-height interaction.",
@@ -48,6 +52,7 @@ const TASKS = [
   },
   {
     id: "task-opendoor",
+    key: "opendoor",
     tag: "HSI",
     title: "OpenDoor",
     blurb: "Handle manipulation, body turning, and doorway traversal under egocentric perception.",
@@ -58,6 +63,7 @@ const TASKS = [
   },
   {
     id: "task-sitsofa",
+    key: "sitsofa",
     tag: "HSI",
     title: "SitSofa",
     blurb: "Obstacle-aware navigation and stable sitting transition with lower-body alignment constraints.",
@@ -68,6 +74,7 @@ const TASKS = [
   },
   {
     id: "task-boxing",
+    key: "boxing",
     tag: "HSI",
     title: "Boxing",
     blurb: "Height-adaptive striking that requires crouch control and coordinated whole-body adjustment.",
@@ -78,6 +85,7 @@ const TASKS = [
   },
   {
     id: "task-visnavi",
+    key: "visnavi",
     tag: "HSI",
     title: "VisNavi",
     blurb: "Obstacle-aware visual navigation in constrained scenes using an egocentric camera stream.",
@@ -144,8 +152,8 @@ const PROTOCOLS = [
     title: "Cross-GMT deployment",
     wide: true,
     blurb:
-      "The homepage reserves prominent space for results showing how policies transfer across different GMT " +
-      "backends. This is currently a content placeholder waiting for plots or summary tables.",
+      "Trains with one general motion tracker and evaluates with the other, measuring whether the intermediate " +
+      "whole-body action transfers. Reported in the paper.",
   },
 ];
 
@@ -285,6 +293,9 @@ const RESOURCES = [
   },
 ];
 
+/** The seven task display names, keyed as the leaderboard's rows are. */
+export const TASK_NAMES = Object.fromEntries(TASKS.map((task) => [task.key, task.title]));
+
 // ── Table of contents ────────────────────────────────────────────────────────
 // Derived from the collections above where it mirrors them.
 
@@ -309,7 +320,7 @@ const TOC = [
     href: "#evaluation",
     label: "Evaluation",
     children: [
-      { href: "#evaluation", label: "Protocol" },
+      { href: "#eval-protocol", label: "Protocol" },
       { href: "#eval-example", label: "Example: P&PBox" },
     ],
   },
@@ -331,25 +342,24 @@ const TOC = [
 
 // ── Renderers ────────────────────────────────────────────────────────────────
 
-function taskRow(task) {
-  return `<article class="task-row" id="${esc(task.id)}">
-        <div class="task-row-copy">
-          <p class="task-tag">${esc(task.tag)}</p>
-          <h3>${esc(task.title)}</h3>
-          <p>${esc(task.blurb)}</p>
-        </div>
-        ${mediaPair(task.clips)}
-      </article>`;
-}
+/**
+ * A row of copy beside a pair of clips. A task row and a result scenario are the same shape,
+ * differing only in the class names their styles hang off.
+ */
+const ROW_CLASSES = {
+  task: { row: "task-row", copy: "task-row-copy" },
+  scenario: { row: "scenario-row", copy: "scenario-copy" },
+};
 
-function scenarioRow(scenario) {
-  return `<article class="scenario-row" id="${esc(scenario.id)}">
-        <div class="scenario-copy">
-          <p class="task-tag">${esc(scenario.tag)}</p>
-          <h3>${esc(scenario.title)}</h3>
-          <p>${esc(scenario.blurb)}</p>
+function clipRow(kind, entry) {
+  const classes = ROW_CLASSES[kind];
+  return `<article class="${classes.row}" id="${esc(entry.id)}">
+        <div class="${classes.copy}">
+          <p class="task-tag">${esc(entry.tag)}</p>
+          <h3>${esc(entry.title)}</h3>
+          <p>${esc(entry.blurb)}</p>
         </div>
-        ${mediaPair(scenario.clips)}
+        ${mediaPair(entry.clips)}
       </article>`;
 }
 
@@ -378,35 +388,51 @@ function exampleCard(example) {
       </article>`;
 }
 
-function resourceCard(resource) {
-  if (resource.kind === "bibtex") {
-    const lines = BIBTEX_LINES.map((line) => `<span>${esc(line)}</span>`).join("");
-    return `<article class="resource-card resource-card-wide">
-        <h3>${esc(resource.title)}</h3>
-        <div class="bibtex-box" aria-label="BibTeX citation">${lines}</div>
-      </article>`;
-  }
-
+function linkCard(resource) {
   const id = resource.id ? ` id="${esc(resource.id)}"` : "";
-  const actions = resource.links
-    ? `<div class="resource-card-actions">${resource.links
-        .map(
-          (link) =>
-            `<a href="${esc(link.href)}" class="${cls("btn-pill", link.ghost && "btn-pill--ghost")}" ` +
-            `target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`
-        )
-        .join("")}</div>`
-    : "";
+  const actions = `<div class="resource-card-actions">${resource.links
+    .map(
+      (link) =>
+        `<a href="${esc(link.href)}" class="${cls("btn-pill", link.ghost && "btn-pill--ghost")}" ` +
+        `target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`
+    )
+    .join("")}</div>`;
 
-  return `<article class="${cls("resource-card", resource.kind === "contact" && "resource-card-wide")}"${id}>
+  return `<article class="resource-card"${id}>
         <div class="resource-card-inner">
           <div class="resource-card-copy">
             <h3>${esc(resource.title)}</h3>
-            <p class="resource-card-desc">${resource.kind === "contact" ? resource.desc : esc(resource.desc)}</p>
+            <p class="resource-card-desc">${esc(resource.desc)}</p>
           </div>
           ${actions}
         </div>
       </article>`;
+}
+
+function bibtexCard(resource) {
+  const lines = BIBTEX_LINES.map((line) => `<span>${esc(line)}</span>`).join("");
+  return `<article class="resource-card resource-card-wide">
+        <h3>${esc(resource.title)}</h3>
+        <div class="bibtex-box" aria-label="BibTeX citation">${lines}</div>
+      </article>`;
+}
+
+// `desc` is authored HTML here: the two WeChat handles wear a code style.
+function contactCard(resource) {
+  return `<article class="resource-card resource-card-wide" id="${esc(resource.id)}">
+        <div class="resource-card-inner">
+          <div class="resource-card-copy">
+            <h3>${esc(resource.title)}</h3>
+            <p class="resource-card-desc">${resource.desc}</p>
+          </div>
+        </div>
+      </article>`;
+}
+
+const RESOURCE_KINDS = { link: linkCard, bibtex: bibtexCard, contact: contactCard };
+
+function resourceCard(resource) {
+  return RESOURCE_KINDS[resource.kind || "link"](resource);
 }
 
 function tocItem(entry) {
@@ -428,12 +454,12 @@ function tocItem(entry) {
  * which set of videos it holds.
  */
 const RENDERERS = {
-  tasks: () => TASKS.map(taskRow),
+  tasks: () => TASKS.map((task) => clipRow("task", task)),
   pipelineSteps: () => PIPELINE_STEPS.map(pipelineStepCard),
   pipelineClips: (node) => (PIPELINE_CLIPS[node.dataset.clips] || []).map(mediaCard),
   protocols: () => PROTOCOLS.map(protocolCard),
   examples: () => EXAMPLES.map(exampleCard),
-  scenarios: () => SCENARIOS.map(scenarioRow),
+  scenarios: () => SCENARIOS.map((scenario) => clipRow("scenario", scenario)),
   resources: () => RESOURCES.map(resourceCard),
   toc: () => TOC.map(tocItem),
 };

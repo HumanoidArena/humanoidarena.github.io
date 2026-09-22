@@ -1,0 +1,11 @@
+# Who owns what. This repository publishes a live site, so page-affecting changes and
+# deployment changes are worth routing to the maintainer.
+#
+# Note that "require review from code owners" is deliberately NOT switched on in the
+# branch protection rules: with a single maintainer it would block every pull
+# request, since GitHub does not let you approve your own.
+
+* @LihanChen2004
+
+/.github/ @LihanChen2004
+/docs/ @LihanChen2004

@@ -1,15 +1,21 @@
+/* ── No-JavaScript notice ── */
+.page-notice {
+  margin: 0 0 20px;
+  padding: 16px 20px;
+  border: 1px solid rgba(196, 108, 56, 0.35);
+  border-radius: var(--radius-md);
+  background: rgba(196, 108, 56, 0.08);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
 /* ── Card / panel base ── */
 .hero-copy,
 .hero-media,
-.info-card,
 .paper-card,
-.visual-panel,
 .text-panel,
 .protocol-card,
-.pipeline-step,
-.support-panel,
-.resource-card,
-.task-card {
+.resource-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -18,9 +24,7 @@
 
 .hero-copy,
 .hero-media,
-.visual-panel,
-.text-panel,
-.support-panel {
+.text-panel {
   padding: 28px;
 }
 
@@ -86,57 +90,9 @@
   border: 1px solid rgba(31, 41, 55, 0.08);
 }
 
-.media-frame video {
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  object-fit: cover;
-  background: #000;
-}
-
-/* ── Hero caption ── */
-.hero-caption {
-  margin-top: 14px;
-  font-size: 0.96rem;
-}
-
-.hero-caption span {
-  display: inline-block;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.76rem;
-  color: var(--warm);
-}
-
 /* ── Paper card ── */
 .paper-card {
   padding: 24px;
-}
-
-.paper-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.paper-actions a {
-  text-decoration: none;
-  padding: 11px 16px;
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1px solid rgba(40, 95, 135, 0.18);
-}
-
-/* ── Info card ── */
-.info-card {
-  padding: 24px;
-}
-
-.info-card h2 {
-  font-size: 2rem;
-  margin-bottom: 12px;
 }
 
 /* ── Task row copy ── */
@@ -161,7 +117,6 @@
 /* ── Media card ── */
 .media-card,
 .pipeline-step-card,
-.recovery-card,
 .example-card {
   background: rgba(255, 255, 255, 0.66);
   border: 1px solid rgba(31, 41, 55, 0.08);
@@ -192,10 +147,6 @@
   color: var(--accent);
 }
 
-.media-card-header strong {
-  font-size: 0.82rem;
-}
-
 .media-card video,
 .media-card img {
   width: 100%;
@@ -204,30 +155,19 @@
   background: #0f1720;
 }
 
+/* The recording clips are shown whole, at their own aspect ratio. That ratio has to
+   be stated here rather than left to the file: the clips are lazy, so an
+   intrinsic-size box would collapse to the default replaced-element size until the
+   metadata arrived and then jump. The wrist cameras are portrait, the ego camera
+   between them is landscape. */
 .inline-media-grid-recording .media-card video {
-  aspect-ratio: auto;
+  aspect-ratio: 3 / 4;
   object-fit: contain;
   max-height: 460px;
 }
 
-/* ── Media placeholder ── */
-.media-placeholder {
-  min-height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-  color: var(--muted);
-  background:
-    linear-gradient(135deg, rgba(40, 95, 135, 0.08), rgba(196, 108, 56, 0.08)),
-    repeating-linear-gradient(
-      45deg,
-      rgba(31, 41, 55, 0.03),
-      rgba(31, 41, 55, 0.03) 12px,
-      transparent 12px,
-      transparent 24px
-    );
+.inline-media-grid-recording .media-card:nth-child(2) video {
+  aspect-ratio: 4 / 3;
 }
 
 /* ── Video loading skeleton ── */
@@ -278,8 +218,6 @@
 }
 
 .pipeline-step-card p,
-.recovery-summary,
-.recovery-card figcaption,
 .task-row-copy p,
 .scenario-copy p,
 .example-card p,
@@ -306,7 +244,7 @@
 }
 
 .example-caption strong {
-  color: #d93838;
+  color: var(--highlight);
   font-weight: 700;
 }
 
@@ -392,44 +330,6 @@ li:has(.content-toc-item.active) .content-toc-sub {
   font-weight: 600;
 }
 
-/* ── Old pipeline step ── */
-.pipeline-step {
-  padding: 20px;
-}
-
-.pipeline-step span {
-  display: inline-flex;
-  width: 38px;
-  height: 38px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 800;
-  margin-bottom: 14px;
-}
-
-/* ── Recovery card ── */
-.recovery-card {
-  margin: 0;
-}
-
-.recovery-card img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-.recovery-card figcaption {
-  padding: 12px 14px;
-  font-size: 0.92rem;
-}
-
-.recovery-summary {
-  margin: 14px 0 0;
-}
-
 /* ── Resource card ── */
 .resource-card {
   padding: 28px;
@@ -477,7 +377,8 @@ li:has(.content-toc-item.active) .content-toc-sub {
   box-sizing: border-box;
 }
 
-.resource-card-bibtex {
+/* The BibTeX panel and the contact card each span the resource grid. */
+.resource-card-wide {
   grid-column: 1 / -1;
 }
 
@@ -571,8 +472,696 @@ li:has(.content-toc-item.active) .content-toc-sub {
   color: var(--accent);
 }
 
+/* Every control answers on pointer-down, immediately (see docs/design.md §Motion). */
+.btn-pill:active,
+.quick-links a:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+
 a:focus-visible {
   outline: 2px solid var(--warm);
   outline-offset: 4px;
   border-radius: 8px;
+}
+
+/* ── Leaderboard ── */
+.lb-meta {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* The two segmented controls: the view switcher on the left, the GMT filter on the
+   right. They wrap onto two rows when there is not enough width. */
+.lb-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 18px;
+  margin-bottom: 16px;
+}
+
+.lb-seg-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Names the control beside it. */
+.lb-seg-label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* The track both controls share. The thumb inside is the only thing that differs, so
+   the two read as one control family; the selected item is marked by its ARIA state,
+   not by a separate class. */
+.lb-seg {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: rgba(31, 41, 55, 0.06);
+}
+
+.lb-seg-thumb {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: calc(100% - 6px);
+  width: 0;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  /* critically damped: settles without overshoot, ~0.3s response */
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), width 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.lb-seg-item {
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  padding: 7px 16px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.lb-seg-item:hover {
+  color: var(--ink);
+}
+
+/* Feedback lands on pointer-down, and instantly. */
+.lb-seg-item:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+
+.lb-seg-item:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 2px;
+}
+
+/* The view switcher is the primary control, so its thumb carries the accent and its
+   selected label reverses out of it. The filter keeps the lighter white thumb. */
+.lb-seg--primary .lb-seg-thumb {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.lb-seg--primary .lb-seg-item {
+  color: var(--accent);
+}
+
+.lb-seg--primary .lb-seg-item[aria-selected="true"] {
+  color: #fff;
+}
+
+.lb-seg--primary .lb-seg-item:hover {
+  color: #1e4a6b;
+}
+
+.lb-seg--primary .lb-seg-item[aria-selected="true"]:hover {
+  color: #fff;
+}
+
+.lb-seg-item[aria-checked="true"] {
+  color: var(--ink);
+}
+
+.lb-seg:not(.lb-seg--primary) .lb-seg-thumb {
+  background: #fff;
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  box-shadow: 0 1px 3px rgba(25, 35, 45, 0.12);
+}
+
+/* Announces the result of a filter or view change to screen readers. */
+.lb-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lb-panel[hidden] {
+  display: none;
+}
+
+/* The panel arrives where the previous one sat — a short rise and fade, no sideways
+   slide, so switching views never implies a spatial direction that is not there. */
+.lb-panel.is-entering {
+  animation: lb-panel-in 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes lb-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lb-caption {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.lb-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Everything centres, header row included, so every column reads as one unit. */
+.lb-table th,
+.lb-table td {
+  padding: 13px 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Breathing room at the card edges: the outer columns never sit flush against the
+   rounded border. Matches the chart card's inset above, so both left edges line up. */
+.lb-table th:first-child,
+.lb-table td:first-child {
+  padding-left: 26px;
+}
+
+.lb-table th:last-child,
+.lb-table td:last-child {
+  padding-right: 26px;
+}
+
+.lb-table th {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.lb-table td {
+  border-bottom: 1px solid rgba(31, 41, 55, 0.08);
+}
+
+.lb-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lb-table tbody tr:hover td {
+  background: rgba(40, 95, 135, 0.06);
+}
+
+/* Numbers stay tabular so centred columns still line up digit for digit. */
+.lb-table .lb-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-rank {
+  width: 52px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.lb-rank-top {
+  font-size: 1.05rem;
+}
+
+.lb-model-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Institution mark — first author's institution of the cited paper. Every mark
+   sits in the same square tile, so a wide wordmark and a narrow glyph read as one
+   consistent column of badges. */
+.lb-logo {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+/* The name + repository pill reserve a constant width, so the block is the same size in
+   every row: centring it keeps the badge at the same x — icons line up down the column —
+   while the column itself still reads as centred. */
+.lb-model-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 106px;
+  font-weight: 700;
+}
+
+.lb-model-link,
+.lb-model-name {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.lb-model-link {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(40, 95, 135, 0.3);
+}
+
+.lb-model-link:hover {
+  color: var(--accent);
+}
+
+.lb-repo {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.lb-repo:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.lb-gmt {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.lb-gmt--sonic {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.lb-gmt--twist2 {
+  background: rgba(196, 108, 56, 0.14);
+  color: var(--warm);
+}
+
+.lb-value {
+  font-weight: 600;
+}
+
+.lb-std {
+  margin-left: 5px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.lb-emph .lb-value {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.lb-note {
+  max-width: 92ch;
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.75;
+}
+
+/* Table note: one chunk per term, so a term never separates from its definition.
+   Wide screens flow several per line; narrow ones give each its own line. */
+.lb-note-item {
+  display: inline-block;
+  margin-right: 18px;
+}
+
+.lb-note-term {
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Leaderboard score chart ── */
+/* A lighter surface than the table card below it: material weight encodes
+   hierarchy, and the table stays the primary reading surface. */
+.lb-chart-card {
+  --lb-chart-cols: minmax(112px, 190px) 1fr auto;
+  --lb-chart-pad-x: 10px;
+  /* 16px card inset + 10px row inset = the table's 26px outer cell padding, so the
+     chart and the table below it share one left edge */
+  padding: 14px 16px 10px;
+  margin: 0 0 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  border-radius: var(--radius-lg);
+}
+
+.lb-chart-head {
+  display: grid;
+  grid-template-columns: var(--lb-chart-cols);
+  align-items: end;
+  gap: 14px;
+  padding: 0 var(--lb-chart-pad-x) 8px;
+}
+
+.lb-chart-head-label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lb-chart-head-label--right {
+  text-align: right;
+}
+
+/* Scale ticks aligned to the track column's 0 / 50 / 100 positions. */
+.lb-chart-head-scale {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-chart-head-scale i {
+  font-style: normal;
+}
+
+.lb-chart {
+  display: grid;
+  gap: 5px;
+}
+
+.lb-chart-row {
+  display: grid;
+  grid-template-columns: var(--lb-chart-cols);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 6px var(--lb-chart-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.14s ease, border-color 0.14s ease;
+}
+
+.lb-chart-row:hover {
+  background: rgba(40, 95, 135, 0.06);
+  border-color: rgba(40, 95, 135, 0.16);
+}
+
+/* Press feedback lands on pointer-down, not on release. */
+.lb-chart-row:active {
+  background: rgba(40, 95, 135, 0.11);
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+
+.lb-chart-row:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 2px;
+}
+
+.lb-chart-row.is-selected {
+  background: rgba(40, 95, 135, 0.08);
+  border-color: rgba(40, 95, 135, 0.22);
+}
+
+.lb-chart-row.is-selected.lb-chart-row--twist2 {
+  background: rgba(196, 108, 56, 0.1);
+  border-color: rgba(196, 108, 56, 0.26);
+}
+
+.lb-chart-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.lb-logo--chart {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 6px;
+}
+
+.lb-chart-gmt {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.lb-chart-track {
+  position: relative;
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(31, 41, 55, 0.08);
+  /* 50% midpoint tick, since every bar is drawn on a fixed 0-100 SR scale */
+  background-image: linear-gradient(
+    to right,
+    transparent calc(50% - 0.5px),
+    rgba(31, 41, 55, 0.18) calc(50% - 0.5px),
+    rgba(31, 41, 55, 0.18) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+  overflow: hidden;
+}
+
+/* Bars grow from zero the first time the chart is revealed; --lb-i staggers them
+   so the set reads as one gesture instead of eight separate ones. */
+.lb-chart-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%);
+  transition: width 0.72s cubic-bezier(0.32, 0.72, 0, 1);
+  transition-delay: calc(var(--lb-i, 0) * 45ms);
+}
+
+.lb-chart.is-revealed .lb-chart-fill {
+  width: var(--lb-w, 0%);
+}
+
+/* Redraw: bars snap back to zero without animating, then grow again in sequence. */
+.lb-chart.is-resetting .lb-chart-fill {
+  transition: none;
+}
+
+.lb-chart-row--twist2 .lb-chart-fill {
+  background-color: var(--warm);
+}
+
+.lb-chart-value {
+  min-width: 46px;
+  color: var(--accent);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.lb-chart-row--twist2 .lb-chart-value {
+  color: var(--warm);
+}
+
+/* Row a chart bar was sent to. The wash carries that entry's GMT colour, matching
+   the GMT chip in the row and the bar it came from, and it stays put until another
+   bar in the same panel is picked. */
+.lb-row:focus {
+  outline: none;
+}
+
+.lb-table tbody tr.lb-row.is-selected td {
+  background: rgba(40, 95, 135, 0.14);
+}
+
+.lb-table tbody tr.lb-row.is-selected td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.lb-row.is-selected .lb-rank,
+.lb-row.is-selected .lb-model-name,
+.lb-row.is-selected .lb-model-link {
+  color: #1e4a6b;
+}
+
+.lb-table tbody tr.lb-row.is-selected.lb-row--twist2 td {
+  background: rgba(196, 108, 56, 0.16);
+}
+
+.lb-table tbody tr.lb-row.is-selected.lb-row--twist2 td:first-child {
+  box-shadow: inset 3px 0 0 var(--warm);
+}
+
+.lb-row.is-selected.lb-row--twist2 .lb-rank,
+.lb-row.is-selected.lb-row--twist2 .lb-model-name,
+.lb-row.is-selected.lb-row--twist2 .lb-model-link {
+  color: #a4541f;
+}
+
+@media (max-width: 760px) {
+  .lb-table th,
+  .lb-table td {
+    padding: 10px 12px;
+  }
+
+  /* keep the same 16px inset as the chart card on narrow screens */
+  .lb-table th:first-child,
+  .lb-table td:first-child {
+    padding-left: 16px;
+  }
+
+  .lb-table th:last-child,
+  .lb-table td:last-child {
+    padding-right: 16px;
+  }
+
+  .lb-table {
+    font-size: 0.78rem;
+  }
+
+  .lb-caption,
+  .lb-meta {
+    font-size: 0.76rem;
+  }
+
+  /* narrower type needs less reserved room to stay aligned */
+  .lb-model-line {
+    min-width: 92px;
+  }
+
+  .lb-note {
+    font-size: 0.74rem;
+    line-height: 1.7;
+  }
+
+  .lb-note-item {
+    display: block;
+    margin-right: 0;
+  }
+
+  .lb-chart-card {
+    --lb-chart-cols: minmax(84px, 1fr) 1.3fr auto;
+    --lb-chart-pad-x: 6px;
+    padding: 10px 10px 8px;
+  }
+
+  .lb-chart-head {
+    gap: 10px;
+  }
+
+  .lb-chart-row {
+    gap: 10px;
+    font-size: 0.76rem;
+  }
+
+  .lb-chart-label {
+    gap: 6px;
+  }
+
+  /* Keep the narrow-screen chart readable: bar colour already encodes the GMT. */
+  .lb-logo--chart,
+  .lb-chart-gmt {
+    display: none;
+  }
+
+  .lb-logo {
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Bars appear at their final width instead of growing into it. */
+  .lb-chart-fill {
+    transition: none;
+  }
+
+  /* The thumb jumps to its segment; the incoming panel cross-fades in place,
+     keeping the comprehension cue without the movement. */
+  .lb-seg-thumb {
+    transition: none;
+  }
+
+  .lb-panel.is-entering {
+    animation: lb-panel-fade 0.18s linear;
+  }
+
+  .lb-seg-item:active {
+    transform: none;
+  }
+}
+
+@keyframes lb-panel-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lb-chart-card {
+    background: var(--surface);
+  }
+
+  .lb-logo {
+    border-color: rgba(31, 41, 55, 0.22);
+  }
 }

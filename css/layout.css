@@ -16,8 +16,7 @@
 
 /* ── Section spacing ── */
 .hero,
-.section,
-.intro-grid {
+.section {
   margin-bottom: 28px;
 }
 
@@ -78,22 +77,11 @@
 }
 
 /* ── Grid systems ── */
-.intro-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.paper-grid,
-.results-layout {
+.paper-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
   align-items: start;
-}
-
-.results-layout-secondary {
-  margin-top: 18px;
 }
 
 /* ── Task / scenario rows ── */
@@ -208,51 +196,10 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-/* ── Recovery grid ── */
-.recovery-section {
-  margin-top: 24px;
-}
-
-.recovery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-/* ── Support panel ── */
-.support-panel {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 22px;
-  align-items: center;
-}
-
 /* ── Misc layout ── */
-.visual-panel {
-  align-self: start;
-}
-
-.visual-panel-tight {
-  padding: 18px;
-}
-
-.visual-panel-tight img,
 .hero-media img {
   width: 100%;
   height: auto;
-}
-
-.support-panel img {
-  border-radius: 18px;
-  border: 1px solid rgba(31, 41, 55, 0.08);
-}
-
-/* ── Old pipeline (5-column) ── */
-.pipeline {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
 }
 
 /* ── Responsive ── */
@@ -262,7 +209,6 @@
   }
 
   .pipeline-steps,
-  .recovery-grid,
   .task-media-pair,
   .inline-media-grid-three,
   .example-grid {
@@ -286,10 +232,6 @@
   .example-video-pair--triple {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .pipeline {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 760px) {
@@ -299,15 +241,10 @@
 
   .section-heading,
   .hero-metrics,
-  .intro-grid,
   .paper-grid,
-  .results-layout,
-  .task-grid,
   .resource-grid,
   .protocol-grid,
-  .pipeline,
   .pipeline-steps,
-  .recovery-grid,
   .task-media-pair,
   .inline-media-grid,
   .example-grid {
@@ -319,9 +256,7 @@
   .hero-copy,
   .hero-media,
   .section,
-  .visual-panel,
-  .text-panel,
-  .support-panel {
+  .text-panel {
     padding: 20px;
   }
 
@@ -336,13 +271,5 @@
   .example-video-pair,
   .example-video-pair--triple {
     grid-template-columns: 1fr;
-  }
-
-  .media-frame video {
-    min-height: 280px;
-  }
-
-  .support-panel img {
-    width: 100%;
   }
 }

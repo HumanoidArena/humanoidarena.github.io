@@ -1,0 +1,11 @@
+# Link checking, used by .github/workflows/link-check.yml.
+
+# Not pages: a `preconnect` hint names a bare origin, which answers 404 by design, and
+# the README's preview address is local.
+exclude = [
+  "^https://fonts\\.(googleapis|gstatic)\\.com/?$",
+  "^http://localhost",
+]
+
+# A single failure is usually a blip, not a dead link.
+max_retries = 2

@@ -240,15 +240,13 @@
           </div>
           <p class="lb-meta">Updated <span id="lb-updated"></span></p>
           <div class="lb-controls">
-            <div class="lb-tabs" id="lb-tabs" role="tablist" aria-label="Leaderboard views"></div>
-            <div class="lb-filter" role="radiogroup" aria-label="Filter by general motion tracker">
-              <span class="lb-filter-label" aria-hidden="true">GMT</span>
-              <div class="lb-filter-segments">
-                <span class="lb-filter-thumb" aria-hidden="true"></span>
-                <button class="lb-filter-button is-active" type="button" role="radio" aria-checked="true" data-gmt="all">All</button>
-                <button class="lb-filter-button" type="button" role="radio" aria-checked="false" data-gmt="twist2" tabindex="-1">TWIST2</button>
-                <button class="lb-filter-button" type="button" role="radio" aria-checked="false" data-gmt="sonic" tabindex="-1">SONIC</button>
-              </div>
+            <div class="lb-seg-group">
+              <span class="lb-seg-label" aria-hidden="true">View</span>
+              <div class="lb-seg lb-seg--primary" id="lb-tabs" role="tablist" aria-label="Leaderboard views"></div>
+            </div>
+            <div class="lb-seg-group">
+              <span class="lb-seg-label" aria-hidden="true">GMT</span>
+              <div class="lb-seg" id="lb-filters" role="radiogroup" aria-label="Filter by general motion tracker"></div>
             </div>
           </div>
           <p class="lb-live" id="lb-live" aria-live="polite"></p>

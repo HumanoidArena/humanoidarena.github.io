@@ -1,7 +1,7 @@
 /**
  * Leaderboard: the paper's in-GMT evaluation, its three views, and the GMT filter.
  *
- * `VIEWS` carries each view's tab, columns and cells, so the tabs, the panel markup and
+ * `VIEWS` carries each view's label, columns and cells, so the tabs, the panel markup and
  * the rows cannot disagree about what a column is. Everything else derives from it.
  * See `docs/leaderboard.md`.
  */
@@ -230,12 +230,12 @@ const MODEL_COLUMN = { label: "Model", cls: "lb-model-col" };
 const GMT_COLUMN = { label: "GMT", cls: "lb-gmt-col" };
 
 /** A view for one task suite: a column per task, then the suite average. */
-function suiteView({ key, tab, suite, metric, averageLabel, caption }) {
+function suiteView({ key, label, suite, metric, averageLabel, caption }) {
   return {
     key,
-    tab,
+    label,
     caption,
-    chartAria: `${tab} success rate comparison by policy and tracker`,
+    chartAria: `${label} success rate comparison by policy and tracker`,
     columns: [RANK_COLUMN, MODEL_COLUMN, GMT_COLUMN]
       .concat(suite.map((taskKey) => ({ label: TASK_LABELS[taskKey], cls: "lb-num" })))
       .concat([{ label: averageLabel, cls: "lb-num" }]),
@@ -250,7 +250,7 @@ function suiteView({ key, tab, suite, metric, averageLabel, caption }) {
 const VIEWS = [
   {
     key: "overall",
-    tab: "Overall",
+    label: "Overall",
     chartAria: "Overall success rate comparison by policy and tracker",
     columns: [
       RANK_COLUMN,
@@ -271,7 +271,7 @@ const VIEWS = [
   },
   suiteView({
     key: "hoi",
-    tab: "HOI",
+    label: "HOI",
     suite: SUITES.hoi,
     metric: "hoi",
     averageLabel: "AVG",
@@ -279,12 +279,20 @@ const VIEWS = [
   }),
   suiteView({
     key: "hsi",
-    tab: "HSI",
+    label: "HSI",
     suite: SUITES.hsi,
     metric: "hsi",
     averageLabel: "AVG",
     caption: "Human-Scene Interaction (HSI) tasks — OpenDoor, SitSofa, Boxing, VisNavi.",
   }),
+];
+
+// The GMT filter's options, in the same shape as VIEWS. `value` is the tracker slug the
+// rows are matched on; the label is only what the reader sees. The first is the default.
+const FILTERS = [
+  { value: "all", label: "All" },
+  { value: "twist2", label: "TWIST2" },
+  { value: "sonic", label: "SONIC" },
 ];
 
 // ── State ────────────────────────────────────────────────────────────────────
@@ -297,7 +305,7 @@ let activeViewKey = VIEWS[0].key;
 
 // The GMT filter is global: it applies to every view, so switching views never changes
 // which entries are on screen. Ranks are recomputed inside the filtered set.
-let activeFilter = "all";
+let activeFilter = FILTERS[0].value;
 
 function visibleRows() {
   if (activeFilter === "all") return rows;
@@ -310,14 +318,31 @@ function prefersReducedMotion() {
 
 // ── Markup built once from VIEWS ─────────────────────────────────────────────
 
-function tabMarkup() {
-  return VIEWS.map((view, index) => {
-    const selected = index === 0;
-    return `<button class="${cls("lb-tab", selected && "is-active")}" id="lb-tab-${view.key}" type="button" ` +
-      `role="tab" aria-selected="${selected}" aria-controls="lb-panel-${view.key}"` +
-      `${selected ? "" : ' tabindex="-1"'}>${esc(view.tab)}</button>`;
-  }).join("");
+/**
+ * Both controls are the same segmented control, so they share this: a track, a thumb,
+ * and one button per option carrying its own ARIA state. Selection lives in that ARIA
+ * state alone — `aria-selected` for the tablist, `aria-checked` for the radiogroup —
+ * so the styles, the thumb and the keyboard handling all read the same source.
+ */
+function segmentMarkup(items, optionAttributes) {
+  const thumb = `<span class="lb-seg-thumb" aria-hidden="true"></span>`;
+  return (
+    thumb +
+    items
+      .map((item, index) => {
+        const selected = index === 0;
+        return `<button class="lb-seg-item" type="button" ${optionAttributes(item, selected)}` +
+          `${selected ? "" : ' tabindex="-1"'}>${esc(item.label)}</button>`;
+      })
+      .join("")
+  );
 }
+
+const tabAttributes = (view, selected) =>
+  `id="lb-tab-${view.key}" role="tab" aria-selected="${selected}" aria-controls="lb-panel-${view.key}"`;
+
+const filterAttributes = (filter, selected) =>
+  `role="radio" aria-checked="${selected}" data-gmt="${filter.value}"`;
 
 function panelMarkup() {
   const columns = (view) =>
@@ -503,135 +528,118 @@ function announce(prefix) {
 
 function activeViewName() {
   const view = VIEWS.find((candidate) => candidate.key === activeViewKey);
-  return view ? `${view.tab} view` : "View";
+  return view ? `${view.label} view` : "View";
 }
 
-// ── GMT filter ───────────────────────────────────────────────────────────────
+// ── The two segmented controls ───────────────────────────────────────────────
 
-function startFilter() {
-  const buttons = Array.from(document.querySelectorAll(".lb-filter-button"));
-  const segments = document.querySelector(".lb-filter-segments");
-  const thumb = document.querySelector(".lb-filter-thumb");
+/**
+ * Position a control's thumb under its selected item. Called without animation on first
+ * paint, on resize and once the web font has settled the item widths; with animation when
+ * the selection moves, so a change reads as one object moving rather than two
+ * backgrounds swapping.
+ */
+function positionThumb(control, animate) {
+  const thumb = control.querySelector(".lb-seg-thumb");
+  const selected = control.querySelector('[aria-selected="true"], [aria-checked="true"]');
+  if (!thumb || !selected) return;
 
-  // The thumb slides from the segment it is leaving to the one being picked, so the
-  // selection reads as one object moving rather than two backgrounds swapping. Positioned
-  // without animating on first paint, on resize, and once the web font settles the widths.
-  function positionThumb(animate) {
-    if (!segments || !thumb) return;
+  const apply = () => {
+    thumb.style.width = `${selected.offsetWidth}px`;
+    thumb.style.transform = `translateX(${selected.offsetLeft}px)`;
+  };
 
-    const active = buttons.find((button) => button.getAttribute("data-gmt") === activeFilter);
-    if (!active) return;
-
-    const apply = () => {
-      thumb.style.width = `${active.offsetWidth}px`;
-      thumb.style.transform = `translateX(${active.offsetLeft}px)`;
-    };
-
-    if (animate) {
-      apply();
-      return;
-    }
-    thumb.style.transition = "none";
+  if (animate) {
     apply();
-    void thumb.offsetWidth; // flush the jump before re-enabling movement
-    thumb.style.transition = "";
+    return;
   }
-
-  function selectFilter(value, focus) {
-    activeFilter = value;
-    buttons.forEach((button) => {
-      const active = button.getAttribute("data-gmt") === value;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-checked", active ? "true" : "false");
-      button.tabIndex = active ? 0 : -1;
-    });
-
-    renderAllPanels();
-    positionThumb(!prefersReducedMotion());
-    redrawMotion(activeViewKey);
-    announce(activeViewName());
-
-    if (focus) {
-      const active = buttons.find((button) => button.getAttribute("data-gmt") === value);
-      if (active) active.focus();
-    }
-  }
-
-  buttons.forEach((button, index) => {
-    button.addEventListener("click", () => selectFilter(button.getAttribute("data-gmt"), false));
-
-    button.addEventListener("keydown", (event) => {
-      const last = buttons.length - 1;
-      let next = null;
-      if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % buttons.length;
-      else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + buttons.length) % buttons.length;
-      else if (event.key === "Home") next = 0;
-      else if (event.key === "End") next = last;
-
-      if (next !== null) {
-        event.preventDefault();
-        selectFilter(buttons[next].getAttribute("data-gmt"), true);
-      }
-    });
-  });
-
-  positionThumb(false);
-  window.addEventListener("resize", () => positionThumb(false));
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => positionThumb(false));
-  }
+  thumb.style.transition = "none";
+  apply();
+  void thumb.offsetWidth; // flush the jump before re-enabling movement
+  thumb.style.transition = "";
 }
 
-// ── View tabs ────────────────────────────────────────────────────────────────
+/**
+ * Make a segmented control behave: one item selected and in the tab order, the arrow keys
+ * stepping through the rest, and `onSelect` told which index was chosen.
+ */
+function wireSegments(control, onSelect) {
+  const items = Array.from(control.querySelectorAll(".lb-seg-item"));
+  const stateAttribute = control.getAttribute("role") === "tablist" ? "aria-selected" : "aria-checked";
 
-function startTabs() {
-  const tabs = Array.from(document.querySelectorAll(".lb-tab"));
-  const panels = tabs.map((tab) => document.getElementById(tab.getAttribute("aria-controls")));
-
-  function selectTab(index, focus) {
-    tabs.forEach((tab, i) => {
-      const active = i === index;
-      tab.classList.toggle("is-active", active);
-      tab.setAttribute("aria-selected", active ? "true" : "false");
-      tab.tabIndex = active ? 0 : -1;
-      if (panels[i]) panels[i].hidden = !active;
+  const select = (index, focus) => {
+    items.forEach((item, i) => {
+      item.setAttribute(stateAttribute, i === index ? "true" : "false");
+      item.tabIndex = i === index ? 0 : -1;
     });
 
-    if (VIEWS[index]) activeViewKey = VIEWS[index].key;
-    redrawMotion(activeViewKey);
-    announce(activeViewName());
+    onSelect(index);
+    positionThumb(control, !prefersReducedMotion());
+    if (focus && items[index]) items[index].focus();
+  };
 
-    if (focus && tabs[index]) tabs[index].focus();
-  }
+  items.forEach((item, index) => {
+    item.addEventListener("click", () => select(index, false));
 
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => selectTab(index, false));
-
-    tab.addEventListener("keydown", (event) => {
-      const last = tabs.length - 1;
+    item.addEventListener("keydown", (event) => {
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
       let next = null;
-      if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
-      else if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+      if (step) next = (index + step + items.length) % items.length;
       else if (event.key === "Home") next = 0;
-      else if (event.key === "End") next = last;
+      else if (event.key === "End") next = items.length - 1;
 
       if (next !== null) {
         event.preventDefault();
-        selectTab(next, true);
+        select(next, true);
       }
     });
   });
+}
+
+function startControls(tabControl, filterControl) {
+  tabControl.innerHTML = segmentMarkup(VIEWS, tabAttributes);
+  filterControl.innerHTML = segmentMarkup(FILTERS, filterAttributes);
+
+  const panels = VIEWS.map((view) => document.getElementById(`lb-panel-${view.key}`));
+
+  wireSegments(tabControl, (index) => {
+    panels.forEach((panel, i) => {
+      if (panel) panel.hidden = i !== index;
+    });
+    activeViewKey = VIEWS[index].key;
+    redrawMotion(activeViewKey);
+    announce(activeViewName());
+  });
+
+  wireSegments(filterControl, (index) => {
+    activeFilter = FILTERS[index].value;
+    renderAllPanels();
+    redrawMotion(activeViewKey);
+    announce(activeViewName());
+  });
+
+  const reposition = () => {
+    positionThumb(tabControl, false);
+    positionThumb(filterControl, false);
+  };
+
+  reposition();
+  window.addEventListener("resize", reposition);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(reposition);
+  }
 }
 
 // ── Entry point ──────────────────────────────────────────────────────────────
 
 export function startLeaderboard() {
-  const tabs = document.getElementById("lb-tabs");
   const panels = document.getElementById("lb-panels");
-  if (!tabs || !panels) return;
+  const tabControl = document.getElementById("lb-tabs");
+  const filterControl = document.getElementById("lb-filters");
+  if (!panels || !tabControl || !filterControl) return;
 
-  tabs.innerHTML = tabMarkup();
   panels.innerHTML = panelMarkup();
+  startControls(tabControl, filterControl);
 
   const updated = document.getElementById("lb-updated");
   if (updated) updated.textContent = LB_UPDATED;
@@ -646,6 +654,4 @@ export function startLeaderboard() {
 
   renderAllPanels();
   revealChartsOnScroll();
-  startFilter();
-  startTabs();
 }

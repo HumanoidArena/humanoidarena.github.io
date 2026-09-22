@@ -77,7 +77,7 @@ light shadows; motion that is restrained and state-driven.
 | `--line` | `rgba(31, 41, 55, 0.12)` | Hairline borders |
 | `--ink` | `#16202a` | Primary text |
 | `--muted` | `#4c5a66` | Secondary text |
-| `--accent` | `#285f87` | Links, SONIC colour, active tab fill |
+| `--accent` | `#285f87` | Links, SONIC colour, the selected view's thumb |
 | `--accent-soft` | `#d9e8f1` | Accent tints |
 | `--warm` | `#c46c38` | Highlight term, TWIST2 colour, focus ring |
 | `--shadow` | `0 18px 50px rgba(25, 35, 45, 0.09)` | Card elevation |
@@ -93,7 +93,7 @@ tracking; micro-labels (table headers, eyebrows, control labels) uppercase, `0.6
 | --- | --- |
 | Press on any control | `scale(0.97)` on pointer-down, 100 ms, no delay |
 | Hover | Background/border tint, 0.14–0.22 s |
-| Segmented GMT filter | Thumb slides between segments, 0.32 s |
+| Segmented controls (view switcher, GMT filter) | Thumb slides between segments, 0.32 s |
 | Chart bars | Grow from zero in sequence, 0.72 s with a 45 ms stagger per bar |
 | View switch or filter change | The view rises 5 px and fades in, 0.34 s, while its bars regrow |
 
@@ -114,7 +114,7 @@ There is no component library: styles are plain classes in `css/components.css`,
 | Cards | `.paper-card`, `.stack-card`, `.pipeline-step-card`, `.protocol-card` (+ `-wide`), `.example-card` (+ `-wide`), `.resource-card` (+ `-inner`, `-copy`, `-actions`, `-wide`), `.bibtex-box` |
 | Buttons and links | `.btn-pill`, `.btn-pill--ghost`, `.lb-repo`, `.lb-model-link` |
 | Table of contents | `.content-toc`, `-title`, `-list`, `-item`, `-sub`, `-subitem` |
-| Leaderboard | `.lb-*` — controls, tabs, filter, chart, table, note (see [leaderboard.md](leaderboard.md)) |
+| Leaderboard | `.lb-*` — segmented controls, chart, table, note (see [leaderboard.md](leaderboard.md)) |
 
 States and variants: link pills (primary and ghost), video vs image card, available vs
 unavailable resource, SONIC vs TWIST2 colouring, selected leaderboard row.

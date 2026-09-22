@@ -35,7 +35,7 @@ test("renders every collection the content tables declare", async ({ page }) => 
     ["resourceWide", ".resource-card-wide"],
     ["tocItems", ".content-toc-item"],
     ["tocSubItems", ".content-toc-subitem"],
-    ["leaderboardTabs", ".lb-tab"],
+    ["leaderboardTabs", "#lb-tabs .lb-seg-item"],
     ["leaderboardPanels", ".lb-panel"],
     ["leaderboardTableRows", ".lb-table tbody tr"],
     ["leaderboardChartRows", ".lb-chart-row"],
@@ -87,6 +87,19 @@ test("the leaderboard controls re-render without console errors", async ({ page 
 
   await openPage(page);
 
+  // Both controls are the same segmented control: a thumb and one selected item each.
+  const controls = await page.evaluate(() =>
+    Array.from(document.querySelectorAll(".lb-controls .lb-seg")).map((control) => ({
+      items: control.querySelectorAll(".lb-seg-item").length,
+      thumbs: control.querySelectorAll(".lb-seg-thumb").length,
+      selected: control.querySelectorAll('[aria-selected="true"], [aria-checked="true"]').length,
+    }))
+  );
+  expect(controls).toEqual([
+    { items: 3, thumbs: 1, selected: 1 },
+    { items: 3, thumbs: 1, selected: 1 },
+  ]);
+
   // Three views x eight entries.
   await expect(page.locator(".lb-table tbody tr")).toHaveCount(24);
 
@@ -96,12 +109,12 @@ test("the leaderboard controls re-render without console errors", async ({ page 
   await expect(page.locator('[data-gmt="sonic"]')).toHaveAttribute("aria-checked", "true");
 
   // One view at a time.
-  await page.locator(".lb-tab").nth(1).click();
+  await page.locator("#lb-tabs .lb-seg-item").nth(1).click();
   await expect(page.locator("#lb-panel-hoi")).toBeVisible();
   await expect(page.locator("#lb-panel-overall")).toBeHidden();
 
   // Back to the unfiltered overall view, then jump from a bar to its row.
-  await page.locator(".lb-tab").nth(0).click();
+  await page.locator("#lb-tabs .lb-seg-item").nth(0).click();
   await page.locator('[data-gmt="all"]').click();
   await expect(page.locator(".lb-table tbody tr")).toHaveCount(24);
 

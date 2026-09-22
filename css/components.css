@@ -486,8 +486,8 @@ a:focus-visible {
   line-height: 1.6;
 }
 
-/* Views on the left, the GMT filter on the right; they wrap into two rows when
-   there is not enough width. */
+/* The two segmented controls: the view switcher on the left, the GMT filter on the
+   right. They wrap onto two rows when there is not enough width. */
 .lb-controls {
   display: flex;
   flex-wrap: wrap;
@@ -497,19 +497,14 @@ a:focus-visible {
   margin-bottom: 16px;
 }
 
-.lb-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.lb-filter {
+.lb-seg-group {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.lb-filter-label {
+/* Names the control beside it. */
+.lb-seg-label {
   color: var(--muted);
   font-size: 0.62rem;
   font-weight: 800;
@@ -517,11 +512,10 @@ a:focus-visible {
   text-transform: uppercase;
 }
 
-/* Segmented control: distinct from the view pills so the two controls do not read
-   as one row of the same thing. The white thumb slides between segments (anchored to
-   the segment it came from), so the selection reads as one object moving rather than
-   two backgrounds swapping. */
-.lb-filter-segments {
+/* The track both controls share. The thumb inside is the only thing that differs, so
+   the two read as one control family; the selected item is marked by its ARIA state,
+   not by a separate class. */
+.lb-seg {
   position: relative;
   display: flex;
   gap: 2px;
@@ -530,60 +524,82 @@ a:focus-visible {
   background: rgba(31, 41, 55, 0.06);
 }
 
-.lb-filter-thumb {
+.lb-seg-thumb {
   position: absolute;
   top: 3px;
   left: 0;
   height: calc(100% - 6px);
   width: 0;
   border-radius: var(--radius-sm);
-  background: #fff;
-  border: 1px solid rgba(31, 41, 55, 0.08);
-  box-shadow: 0 1px 3px rgba(25, 35, 45, 0.12);
   pointer-events: none;
   /* critically damped: settles without overshoot, ~0.3s response */
   transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), width 0.32s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.lb-filter-button {
+.lb-seg-item {
   position: relative;
   z-index: 1;
   appearance: none;
-  padding: 6px 14px;
-  border: 1px solid transparent;
+  padding: 7px 16px;
+  border: 0;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.02em;
+  white-space: nowrap;
   cursor: pointer;
   transition: background 0.18s ease, color 0.18s ease;
 }
 
-.lb-filter-button:hover {
-  background: rgba(255, 255, 255, 0.55);
+.lb-seg-item:hover {
   color: var(--ink);
 }
 
-.lb-filter-button.is-active:hover {
-  background: transparent;
-}
-
 /* Feedback lands on pointer-down, and instantly. */
-.lb-filter-button:active {
+.lb-seg-item:active {
   transform: scale(0.97);
   transition: transform 100ms ease-out;
 }
 
-.lb-filter-button:focus-visible {
+.lb-seg-item:focus-visible {
   outline: 2px solid var(--warm);
   outline-offset: 2px;
 }
 
-.lb-filter-button.is-active {
+/* The view switcher is the primary control, so its thumb carries the accent and its
+   selected label reverses out of it. The filter keeps the lighter white thumb. */
+.lb-seg--primary .lb-seg-thumb {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.lb-seg--primary .lb-seg-item {
+  color: var(--accent);
+}
+
+.lb-seg--primary .lb-seg-item[aria-selected="true"] {
+  color: #fff;
+}
+
+.lb-seg--primary .lb-seg-item:hover {
+  color: #1e4a6b;
+}
+
+.lb-seg--primary .lb-seg-item[aria-selected="true"]:hover {
+  color: #fff;
+}
+
+.lb-seg-item[aria-checked="true"] {
   color: var(--ink);
+}
+
+.lb-seg:not(.lb-seg--primary) .lb-seg-thumb {
+  background: #fff;
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  box-shadow: 0 1px 3px rgba(25, 35, 45, 0.12);
 }
 
 /* Announces the result of a filter or view change to screen readers. */
@@ -597,48 +613,6 @@ a:focus-visible {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
-}
-
-.lb-tab {
-  appearance: none;
-  padding: 9px 20px;
-  border: 1px solid rgba(40, 95, 135, 0.28);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--accent);
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
-}
-
-/* Feedback lands on pointer-down, and instantly. */
-.lb-tab:active {
-  transform: scale(0.97);
-  transition: transform 100ms ease-out;
-}
-
-.lb-tab:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-}
-
-.lb-tab.is-active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.lb-tab.is-active:hover {
-  background: #1e4a6b;
-  border-color: #1e4a6b;
-}
-
-.lb-tab:focus-visible {
-  outline: 2px solid var(--warm);
-  outline-offset: 4px;
 }
 
 .lb-panel[hidden] {
@@ -1152,7 +1126,7 @@ a:focus-visible {
 
   /* The thumb jumps to its segment; the incoming panel cross-fades in place,
      keeping the comprehension cue without the movement. */
-  .lb-filter-thumb {
+  .lb-seg-thumb {
     transition: none;
   }
 
@@ -1160,8 +1134,7 @@ a:focus-visible {
     animation: lb-panel-fade 0.18s linear;
   }
 
-  .lb-tab:active,
-  .lb-filter-button:active {
+  .lb-seg-item:active {
     transform: none;
   }
 }

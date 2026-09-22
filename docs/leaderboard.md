@@ -13,33 +13,46 @@ numbers are the paper's; treat the paper draft as the source of truth.
 
 ```
 #leaderboard
-  .lb-meta                     "Updated <date>" — filled from LB_UPDATED
-  .lb-controls
-    #lb-tabs                   views:      Overall | HOI | HSI   (rendered from VIEWS)
-    .lb-filter                 GMT filter: All | TWIST2 | SONIC (written in index.html)
-  .lb-live                     screen-reader announcements (visually hidden)
-  #lb-panels                   one .lb-panel per view              (rendered from VIEWS)
+  .lb-meta                       "Updated <date>" — filled from LB_UPDATED
+  .lb-controls                   two segmented controls, one row, wrapping to two
+    .lb-seg-group                View
+      .lb-seg-label              "View"
+      .lb-seg.lb-seg--primary    #lb-tabs, role=tablist   (rendered from VIEWS)
+    .lb-seg-group                GMT
+      .lb-seg-label              "GMT"
+      .lb-seg                    #lb-filters, role=radiogroup (rendered from FILTERS)
+  .lb-live                       screen-reader announcements (visually hidden)
+  #lb-panels                     one .lb-panel per view    (rendered from VIEWS)
     .lb-panel#lb-panel-overall
-      .lb-caption              (HOI and HSI panels only)
+      .lb-caption                (HOI and HSI panels only)
       .lb-chart-card
-        .lb-chart-head         scale row: Model · 0 · 50 · 100 · SR (%)
+        .lb-chart-head           scale row: Model · 0 · 50 · 100 · SR (%)
         .lb-chart#lb-chart-overall
       .lb-scroll > table.lb-table
-        thead                  one <th> per entry in the view's `columns`
-        tbody#lb-body-overall  rows rendered here
+        thead                    one <th> per entry in the view's `columns`
+        tbody#lb-body-overall    rows rendered here
 ```
 
-The tabs, the panels, each panel's chart head and each table's header row are generated from
-`VIEWS`, so a column is declared once and the header cannot disagree with the cells below it.
+Both controls are the same segmented control: a `.lb-seg` track holding one `.lb-seg-item`
+button per option and a `.lb-seg-thumb` that slides under the selected one. They are generated
+from two tables of the same shape, `VIEWS` and `FILTERS`, so a label is declared once; the panels,
+each chart head and each table header row come from `VIEWS` too. The view switcher carries the
+accent-coloured thumb and the filter a lighter white one, which is the only difference between
+them.
 
-| Element | Id |
+The selected item is marked by its ARIA state — `aria-selected` on the tablist, `aria-checked` on
+the radiogroup — so the styles, the thumb and the keyboard handling all read the same source
+rather than a class kept in step by hand.
+
+| Element | Id / selector |
 | --- | --- |
+| Controls | `lb-tabs` (views), `lb-filters` (GMT) |
 | View tabs | `lb-tab-overall`, `lb-tab-hoi`, `lb-tab-hsi` |
+| Filter options | `[data-gmt="all" \| "twist2" \| "sonic"]` |
 | Panels | `lb-panel-overall`, `lb-panel-hoi`, `lb-panel-hsi` |
 | Charts | `lb-chart-overall`, `lb-chart-hoi`, `lb-chart-hsi` |
 | Table bodies | `lb-body-overall`, `lb-body-hoi`, `lb-body-hsi` |
 | Rows | `lb-row-<view>-<model>-<gmt>`, e.g. `lb-row-overall-dp-sonic` |
-| GMT filter buttons | `[data-gmt="all" \| "twist2" \| "sonic"]` |
 | Live region, date | `lb-live`, `lb-updated` |
 
 Ids are derived as `lb-<kind>-<view key>`, so a new view needs no id bookkeeping.
@@ -116,14 +129,17 @@ one; the recomputed average orders entries that print the same number.
 
 ## Behaviour
 
-**Views.** `Overall`, `HOI` and `HSI` are an ARIA tablist: click or arrow-key, one panel
-visible at a time, inactive tabs removed from the tab order.
+**Views.** `Overall`, `HOI` and `HSI` are an ARIA tablist: click or arrow-key, one panel visible
+at a time, the inactive ones removed from the tab order.
 
-**GMT filter.** `All`, `TWIST2`, `SONIC` are an ARIA radiogroup; the selection is carried by a
-thumb that slides between segments (positioned without animating on first paint, on resize, and
-once the web font has loaded). The filter is global — it applies to every view at once, so
-switching views never changes which entries are on screen. Changing it re-renders every view,
-re-ranks inside the filtered set and redraws the charts.
+**GMT filter.** `All`, `TWIST2` and `SONIC` are an ARIA radiogroup. The filter is global — it
+applies to every view at once, so switching views never changes which entries are on screen.
+Changing it re-renders every view, re-ranks inside the filtered set and redraws the charts.
+
+**Both controls.** The thumb slides from the segment it is leaving to the one being picked, so a
+change reads as one object moving rather than two backgrounds swapping. It is positioned without
+animating on first paint, on resize, and once the web font has loaded, and the arrow keys (plus
+Home/End) step through the options.
 
 **Charts.** Bars grow in sequence the first time a chart scrolls into view, and whenever a view
 switch or filter change redraws it. Each bar is a button: choosing one scrolls its table row

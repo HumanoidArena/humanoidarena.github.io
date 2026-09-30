@@ -136,12 +136,12 @@ test("the leaderboard controls re-render without console errors", async ({ page 
     { items: 3, thumbs: 1, selected: 1 },
   ]);
 
-  // Three views x eight entries.
-  await expect(page.locator(".lb-table tbody tr")).toHaveCount(24);
+  // Three views x nine entries.
+  await expect(page.locator(".lb-table tbody tr")).toHaveCount(27);
 
   // The GMT filter narrows every view at once.
   await page.locator('[data-gmt="sonic"]').click();
-  await expect(page.locator(".lb-table tbody tr")).toHaveCount(12);
+  await expect(page.locator(".lb-table tbody tr")).toHaveCount(15);
   await expect(page.locator('[data-gmt="sonic"]')).toHaveAttribute("aria-checked", "true");
 
   // One view at a time.
@@ -152,7 +152,7 @@ test("the leaderboard controls re-render without console errors", async ({ page 
   // Back to the unfiltered overall view, then jump from a bar to its row.
   await page.locator("#lb-tabs .lb-seg-item").nth(0).click();
   await page.locator('[data-gmt="all"]').click();
-  await expect(page.locator(".lb-table tbody tr")).toHaveCount(24);
+  await expect(page.locator(".lb-table tbody tr")).toHaveCount(27);
 
   await page.locator("#lb-chart-overall .lb-chart-row").first().click();
   await expect(page.locator("#lb-body-overall tr.is-selected")).toHaveCount(1);

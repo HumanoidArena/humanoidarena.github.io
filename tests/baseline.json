@@ -14,8 +14,8 @@
     "tocSubItems": 18,
     "leaderboardTabs": 3,
     "leaderboardPanels": 3,
-    "leaderboardTableRows": 24,
-    "leaderboardChartRows": 24,
+    "leaderboardTableRows": 27,
+    "leaderboardChartRows": 27,
     "bibtexLines": 6
   },
   "layout": {
@@ -71,22 +71,25 @@
     "contact"
   ],
   "links": [
+    "https://arxiv.org/abs/2303.04137",
+    "https://arxiv.org/abs/2304.13705",
+    "https://arxiv.org/abs/2504.16054",
     "https://arxiv.org/abs/2606.17833",
+    "https://arxiv.org/abs/2609.34199",
     "https://arxiv.org/pdf/2606.17833",
+    "https://bostondynamics.com/blog/large-behavior-models-atlas-find-new-footing/",
+    "https://drive.google.com/file/d/1TCa_aVRmFrZs_l4wlxkqanNebvDtChNk/view?usp=sharing",
+    "https://github.com/Physical-Intelligence/openpi",
+    "https://github.com/WB-WaM/WB-WAM-Official",
     "https://github.com/William-wAng618/HumanoidArena/tree/release/open-source-prep",
+    "https://github.com/real-stanford/diffusion_policy",
+    "https://github.com/tonyzhaozh/aloha",
+    "https://huggingface.co/WilliamWang16/HumanoidArena_models",
     "https://huggingface.co/datasets/WilliamWang16/HumanoidArena_dataset_v3_1",
     "https://www.modelscope.cn/datasets/Twang2026/HumanoidArenaV3.1",
-    "https://huggingface.co/WilliamWang16/HumanoidArena_models",
-    "https://www.modelscope.cn/models/Twang2026/HumanoidArena_models",
-    "https://drive.google.com/file/d/1TCa_aVRmFrZs_l4wlxkqanNebvDtChNk/view?usp=sharing",
     "https://www.modelscope.cn/datasets/Twang2026/HumanoidArena_raw",
     "https://www.modelscope.cn/datasets/Twang2026/test_raw_HOI_pp_box",
-    "https://arxiv.org/abs/2304.13705",
-    "https://github.com/tonyzhaozh/aloha",
-    "https://arxiv.org/abs/2303.04137",
-    "https://github.com/real-stanford/diffusion_policy",
-    "https://bostondynamics.com/blog/large-behavior-models-atlas-find-new-footing/",
-    "https://arxiv.org/abs/2504.16054"
+    "https://www.modelscope.cn/models/Twang2026/HumanoidArena_models"
   ],
   "segments": [
     [
@@ -104,6 +107,7 @@
     "ACT",
     "DP",
     "FM",
+    "WB-WAM",
     "π0.5"
   ]
 }

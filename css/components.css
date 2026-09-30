@@ -724,7 +724,6 @@ a:focus-visible {
 .lb-model-cell {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
 }
 
@@ -743,14 +742,19 @@ a:focus-visible {
   border-radius: 8px;
 }
 
-/* The name + repository pill reserve a constant width, so the block is the same size in
-   every row: centring it keeps the badge at the same x — icons line up down the column —
-   while the column itself still reads as centred. */
+/* The model column is left-aligned, so the badge is the cell's first element and every row
+   starts it at the same x — no reserved width to keep in step with the longest name. Matched
+   against `.lb-table th`/`td`, which centre every other column. */
+.lb-table th.lb-model-col,
+.lb-table td.lb-model-col {
+  text-align: left;
+}
+
+/* Holds the name and its repository pill on one line. */
 .lb-model-line {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 106px;
   font-weight: 700;
 }
 
@@ -1079,10 +1083,6 @@ a:focus-visible {
     font-size: 0.76rem;
   }
 
-  /* narrower type needs less reserved room to stay aligned */
-  .lb-model-line {
-    min-width: 92px;
-  }
 
   .lb-note {
     font-size: 0.74rem;

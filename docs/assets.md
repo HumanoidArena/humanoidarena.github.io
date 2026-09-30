@@ -89,6 +89,7 @@ institution of the cited baseline paper, and its name appears in the mark's hove
 | `columbia.svg` | Columbia University (DP) | Wikimedia Commons, *Columbia College of Columbia University Crown 2020.svg* | CC BY-SA 4.0; cropped to the crown's bounds |
 | `boston-dynamics.svg` | Boston Dynamics (FM) | [bostondynamics.com](https://bostondynamics.com/wp-content/uploads/2023/03/Logo-v2.svg) | Trademark; the square mark from the official wordmark file |
 | `physical-intelligence.png` | Physical Intelligence (π0.5) | [physicalintelligence.company](https://www.physicalintelligence.company/) | Trademark |
+| `tsinghua.svg` | Tsinghua University (WB-WAM) | Provided by the WB-WAM authors | Trademark; the circular seal, square viewBox |
 
 Every mark renders inside one square tile (28 px in the table, 22 px in the chart), so the
 column stays uniform despite different aspect ratios. Files are cropped to their mark's content
@@ -96,5 +97,5 @@ bounds for that reason — the Boston Dynamics wordmark file, for instance, is a
 holding a 4.3:1 wordmark.
 
 The leaderboard itself has no other media: its numbers live in the `LB_MODELS` / `LB_ENTRIES`
-arrays, documented in [leaderboard.md](leaderboard.md). The four marks are provisional — they
-follow each cited paper's first author and are awaiting confirmation.
+arrays, documented in [leaderboard.md](leaderboard.md). The marks are provisional — they follow
+each cited paper's first author and are awaiting confirmation.

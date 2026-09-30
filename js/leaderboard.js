@@ -15,7 +15,7 @@ import { cls, esc } from "./dom.js";
 // 3 seeds x 20 trials). Task values are [mean, standard deviation]; hoiAvg /
 // hsiAvg are the paper's printed suite averages — optional, and recomputed from
 // the task values when omitted. Overall is always computed here.
-const LB_UPDATED = "2026-09-21";
+const LB_UPDATED = "2026-09-30";
 
 // One object per policy family. `logo` is the cited paper's first author's institution.
 const LB_MODELS = {
@@ -49,7 +49,15 @@ const LB_MODELS = {
     logo: "./assets/images/orgs/physical-intelligence.png",
     logoTitle: "Physical Intelligence",
     paper: "https://arxiv.org/abs/2504.16054",
-    repo: "",
+    repo: "https://github.com/Physical-Intelligence/openpi",
+  },
+  wbwam: {
+    name: "WB-WAM",
+    cite: "WB-WAM: Heterogeneous Body-Hand Pre-training for Humanoid Loco-Manipulation",
+    logo: "./assets/images/orgs/tsinghua.svg",
+    logoTitle: "Tsinghua University (first author)",
+    paper: "https://arxiv.org/abs/2609.34199",
+    repo: "https://github.com/WB-WaM/WB-WAM-Official",
   },
 };
 
@@ -110,6 +118,16 @@ const LB_ENTRIES = [
       opendoor: [66.7, 6.2], sitsofa: [73.3, 2.4], boxing: [70.0, 0.0], visnavi: [23.3, 6.2],
     },
   },
+  // WB-WAM (arXiv:2609.34199) evaluates on the benchmark under the same in-GMT protocol,
+  // with SONIC for both demonstration collection and execution. Its paper reports no fall
+  // rate and prints no suite averages, so both come from the task cells.
+  {
+    model: "wbwam", gmt: "SONIC",
+    tasks: {
+      football: [70.0, 8.2], doubledesk: [65.0, 4.1], ppbox: [86.7, 2.4],
+      opendoor: [98.3, 2.4], sitsofa: [95.0, 4.1], boxing: [81.7, 2.4], visnavi: [76.7, 4.7],
+    },
+  },
 ];
 
 /** The task keys behind each suite average, in column order. */
@@ -168,7 +186,7 @@ function modelCell(entry) {
   const repo = meta.repo
     ? `<a class="lb-repo" href="${esc(meta.repo)}" target="_blank" rel="noopener noreferrer">code</a>`
     : "";
-  return `<td><div class="lb-model-cell">${logoImg(meta)}<div class="lb-model-line">${name}${repo}</div></div></td>`;
+  return `<td class="lb-model-col"><div class="lb-model-cell">${logoImg(meta)}<div class="lb-model-line">${name}${repo}</div></div></td>`;
 }
 
 function gmtCell(entry) {
@@ -176,6 +194,9 @@ function gmtCell(entry) {
 }
 
 function numberCell(value, decimals, std, extraClass) {
+  if (typeof value !== "number") {
+    return `<td class="${cls("lb-num", extraClass)}"><span class="lb-value">&mdash;</span></td>`;
+  }
   let html = `<span class="lb-value">${fmt(value, decimals)}</span>`;
   if (typeof std === "number") {
     html += `<span class="lb-std">&plusmn;${fmt(std, 1)}</span>`;
@@ -217,7 +238,7 @@ const rows = LB_ENTRIES.map((entry) => {
 // unrounded twin (`<metric>Precise`) breaks ties.
 
 const RANK_COLUMN = { label: "Rank" };
-const MODEL_COLUMN = { label: "Model" };
+const MODEL_COLUMN = { label: "Model", cls: "lb-model-col" };
 const GMT_COLUMN = { label: "GMT" };
 
 /** A view for one task suite: a column per task, then the suite average. */

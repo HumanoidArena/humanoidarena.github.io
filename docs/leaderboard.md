@@ -5,9 +5,11 @@ The leaderboard ranks policy–tracker pairs on the paper's in-GMT evaluation. I
 `index.html` provides only the heading, the controls and two containers (`#lb-tabs` and
 `#lb-panels`) that the module fills. Adding an entry is a data edit — no markup, no build.
 
-Data provenance: every entry is an in-GMT baseline reported in the paper, measured as success
-rate over 60 episodes (3 seeds × 20 trials) under matched training and inference GMTs. The
-numbers are the paper's; treat the paper draft as the source of truth.
+Data provenance: every entry is an in-GMT baseline reported for this benchmark — by its own
+paper, or by a paper that evaluates on it — measured as success rate over 60 episodes (3 seeds
+× 20 trials) under matched training and inference GMTs. For the benchmark's own baselines the
+paper draft is the source of truth; for outside results, the paper that reports them is, and
+each entry names it through its model's `paper` link.
 
 ## On the page
 
@@ -88,7 +90,7 @@ only copy of the date; the page fills `#lb-updated` from it.
 | --- | --- |
 | `name` | Display name (`ACT`, `DP`, `FM`, `π0.5`) |
 | `cite` | Full title, shown as the hover tooltip on the name |
-| `logo`, `logoTitle` | Institution mark in `assets/images/orgs/` and the name shown in its tooltip. Marks follow the first author's institution |
+| `logo`, `logoTitle` | Optional. Institution mark in `assets/images/orgs/` and the name shown in its tooltip. Marks follow the first author's institution; an entry without one renders without a tile |
 | `paper` | Link for the model name |
 | `repo` | Optional repository link, rendered as a small `code` pill |
 
@@ -98,7 +100,7 @@ only copy of the date; the page fills `#lb-updated` from it.
 | --- | --- |
 | `model` | Key into `LB_MODELS` |
 | `gmt` | `TWIST2` or `SONIC` |
-| `afr` | Average fall rate in % (lower is better) |
+| `afr` | Optional. Average fall rate in % (lower is better); when the paper does not report one the Overall table shows a dash |
 | `hoiAvg`, `hsiAvg` | Optional. The paper's printed suite averages; when present they are what the table shows |
 | `tasks` | One entry per task, `[mean, std]` in % SR |
 
@@ -121,6 +123,7 @@ means a `GMT_CLASSES` entry and the matching `--<tracker>` rules in `css/compone
 | HOI AVG / HSI AVG | Mean of that suite's task means, unless `hoiAvg` / `hsiAvg` is given |
 | Overall | `(3 × HOI AVG + 4 × HSI AVG) / 7` — the mean success rate across all seven tasks |
 | Ranks | Recomputed per view *and* per filter, so a TWIST2-only table ranks 1–4 among TWIST2 entries. Ties break on the recomputed (unrounded) average, keeping order deterministic |
+| AFR | As reported. A paper that does not report one renders as a dash rather than a guess |
 | Medals | Ranks 1–3 show 🥇🥈🥉 |
 | Precision | Task cells one decimal with `±` standard deviation; suite averages, Overall and AFR two decimals |
 | Bar length | The view's own metric on a fixed 0–100 SR scale, with a 50 % tick, coloured by GMT |
@@ -161,11 +164,13 @@ redraw is otherwise invisible to screen readers.
 
 All of these are edits to `js/leaderboard.js`.
 
-1. **New policy family** — add an object to `LB_MODELS` with `name`, `cite`, `logo`,
-   `logoTitle`, `paper` and an optional `repo`. Put the mark in `assets/images/orgs/` (square
-   tile, see [assets.md](assets.md)).
-2. **New result** — add an object to `LB_ENTRIES`: the model key, the GMT, `afr`, the seven
-   `tasks` as `[mean, std]`, and `hoiAvg` / `hsiAvg` if the paper prints suite averages for it.
+1. **New policy family** — add an object to `LB_MODELS` with `name`, `cite`, `paper`, an
+   optional `repo`, and an optional `logo` / `logoTitle` once a cleared mark exists in
+   `assets/images/orgs/` (square tile, see [assets.md](assets.md)).
+2. **New result** — add an object to `LB_ENTRIES`: the model key, the GMT, `afr` if the paper
+   reports one, the seven `tasks` as `[mean, std]`, and `hoiAvg` / `hsiAvg` if the paper prints
+   suite averages for it. Both are optional: WB-WAM reports neither, so its suites and its
+   Overall come from the task cells.
 3. **Changed numbers** — edit them in place; suite averages, Overall, ranks, medals and bar
    lengths are all recomputed on load, so nothing else needs updating.
 4. **Set `LB_UPDATED`** to the date of the change.

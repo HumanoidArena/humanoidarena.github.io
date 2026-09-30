@@ -151,6 +151,8 @@ colouring, selected leaderboard row.
 - **Success** — external links state their destination and open in a new tab.
 - **Empty** — every GMT filter option matches entries in the shipped data, so the leaderboard
   tables never render an empty state.
+- **Not reported** — a number the source paper does not report (WB-WAM's fall rate) renders as
+  a dash. The page never fills a gap with a guess.
 - **No JavaScript** — the page keeps its headings and prose; the collections, media, downloads
   and leaderboard do not render, and a `.page-notice` in a `<noscript>` says so.
 

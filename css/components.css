@@ -742,7 +742,7 @@ a:focus-visible {
   box-sizing: border-box;
   width: 28px;
   height: 28px;
-  padding: 4px;
+  padding: 2px;
   flex: 0 0 auto;
   object-fit: contain;
   background: #fff;
@@ -957,7 +957,7 @@ a:focus-visible {
 .lb-logo--chart {
   width: 22px;
   height: 22px;
-  padding: 3px;
+  padding: 1.5px;
   border-radius: 6px;
 }
 
@@ -1122,7 +1122,7 @@ a:focus-visible {
   .lb-logo {
     width: 24px;
     height: 24px;
-    padding: 3px;
+    padding: 2px;
   }
 }
 

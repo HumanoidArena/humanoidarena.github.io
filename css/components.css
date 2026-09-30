@@ -672,6 +672,14 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+/* The model column is the exception, left-aligned so the badge is the cell's first element and
+   every row starts it at the same x. Stated for `th` as well as `td`: a header left to the
+   browser's default centres itself. */
+.lb-table th.lb-model-col,
+.lb-table td.lb-model-col {
+  text-align: left;
+}
+
 /* Breathing room at the card edges: the outer columns never sit flush against the
    rounded border. Matches the chart card's inset above, so both left edges line up. */
 .lb-table th:first-child,
@@ -740,14 +748,6 @@ a:focus-visible {
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
-}
-
-/* The model column is left-aligned, so the badge is the cell's first element and every row
-   starts it at the same x — no reserved width to keep in step with the longest name. Matched
-   against `.lb-table th`/`td`, which centre every other column. */
-.lb-table th.lb-model-col,
-.lb-table td.lb-model-col {
-  text-align: left;
 }
 
 /* Holds the name and its repository pill on one line. */

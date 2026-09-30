@@ -16,6 +16,9 @@ async function openPage(page) {
   await page.evaluate(() => document.fonts.ready);
 }
 
+// The page's collections, exactly. These are content: they change when the page changes, and
+// the numbers mirror copy the page itself states ("seven leg-critical tasks"). The leaderboard's
+// data is asserted from the rendered page instead, so adding an entry stays a one-line edit.
 test("renders every collection the content tables declare", async ({ page }) => {
   await openPage(page);
 
@@ -35,10 +38,6 @@ test("renders every collection the content tables declare", async ({ page }) => 
     ["resourceWide", ".resource-card-wide"],
     ["tocItems", ".content-toc-item"],
     ["tocSubItems", ".content-toc-subitem"],
-    ["leaderboardTabs", "#lb-tabs .lb-seg-item"],
-    ["leaderboardPanels", ".lb-panel"],
-    ["leaderboardTableRows", ".lb-table tbody tr"],
-    ["leaderboardChartRows", ".lb-chart-row"],
     ["bibtexLines", ".bibtex-box span"],
   ]);
 
@@ -136,12 +135,28 @@ test("the leaderboard controls re-render without console errors", async ({ page 
     { items: 3, thumbs: 1, selected: 1 },
   ]);
 
-  // Three views x nine entries.
-  await expect(page.locator(".lb-table tbody tr")).toHaveCount(27);
+  // Every view draws the same entries, and each view's chart agrees with its own table.
+  const perView = await page.evaluate(() =>
+    Array.from(document.querySelectorAll(".lb-panel")).map((panel) => ({
+      rows: panel.querySelectorAll(".lb-table tbody tr").length,
+      bars: panel.querySelectorAll(".lb-chart-row").length,
+    }))
+  );
+  const entries = perView[0].rows;
+  expect(entries).toBeGreaterThan(1);
+  expect(perView.every((view) => view.rows === entries && view.bars === entries)).toBe(true);
 
-  // The GMT filter narrows every view at once.
+  // The GMT filter narrows every view at once, and only to the tracker it names.
   await page.locator('[data-gmt="sonic"]').click();
-  await expect(page.locator(".lb-table tbody tr")).toHaveCount(15);
+  const filtered = await page.evaluate(() => ({
+    counts: Array.from(document.querySelectorAll(".lb-table tbody")).map((body) => body.children.length),
+    trackers: [
+      ...new Set(Array.from(document.querySelectorAll(".lb-table .lb-gmt")).map((chip) => chip.textContent.trim())),
+    ],
+  }));
+  expect(filtered.trackers).toEqual(["SONIC"]);
+  expect(new Set(filtered.counts).size).toBe(1);
+  expect(filtered.counts[0]).toBeLessThan(entries);
   await expect(page.locator('[data-gmt="sonic"]')).toHaveAttribute("aria-checked", "true");
 
   // One view at a time.
@@ -152,7 +167,7 @@ test("the leaderboard controls re-render without console errors", async ({ page 
   // Back to the unfiltered overall view, then jump from a bar to its row.
   await page.locator("#lb-tabs .lb-seg-item").nth(0).click();
   await page.locator('[data-gmt="all"]').click();
-  await expect(page.locator(".lb-table tbody tr")).toHaveCount(27);
+  await expect(page.locator("#lb-body-overall tr")).toHaveCount(entries);
 
   await page.locator("#lb-chart-overall .lb-chart-row").first().click();
   await expect(page.locator("#lb-body-overall tr.is-selected")).toHaveCount(1);

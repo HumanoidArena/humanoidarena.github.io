@@ -1,4 +1,4 @@
-/* Markup primitives shared by the page renderers. */
+/* Small primitives shared by the page's modules. */
 
 /**
  * Escape a value for use in markup. Content is authored text, but fields carry
@@ -32,4 +32,12 @@ export function mediaCard(clip) {
 /** A two-up row of clip cards, as used by a task row and a result scenario. */
 export function mediaPair(clips) {
   return `<div class="task-media-pair">${clips.map(mediaCard).join("")}</div>`;
+}
+
+/**
+ * Whether the reader has asked for reduced motion. The styles handle their own cases; this is
+ * for the decisions JavaScript has to make, like whether a scroll or a slide is animated.
+ */
+export function prefersReducedMotion() {
+  return Boolean(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 }

@@ -6,7 +6,7 @@
 import { renderPage } from "./content.js";
 import { startMedia } from "./media.js";
 import { startNavigation } from "./nav.js";
-import { startLeaderboard } from "./leaderboard.js";
+import { startLeaderboard } from "./leaderboard/index.js";
 
 renderPage(); // everything below binds to markup this creates
 startMedia();

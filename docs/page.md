@@ -22,7 +22,7 @@ and terminology.
 | `js/dom.js` | `esc()`, `cls()` and the clip-card primitives every renderer builds on |
 | `js/media.js` | Video loading: the shimmer, the lazy start on approach, and the lockstep of side-by-side clip groups |
 | `js/nav.js` | Table of contents: smooth scrolling and the section-in-view highlight |
-| `js/leaderboard.js` | Leaderboard data, views, rendering and controls — see [leaderboard.md](leaderboard.md) |
+| `js/leaderboard/` | The leaderboard, in four modules — `data.js`, `panels.js`, `control.js`, `index.js`; see [leaderboard.md](leaderboard.md) |
 
 `index.html` loads only `js/main.js`, which runs its four entry points in source order:
 `renderPage()`, then `startMedia()`, `startNavigation()` and `startLeaderboard()`. That order
@@ -62,7 +62,7 @@ hidden below 1080px.
 | 4 | `#pipeline` | *Pipeline* — "From teleop to benchmark." | Four `.stack-card` stages (prose in `index.html`; two hold a clip grid) then six `.pipeline-step-card`s | `PIPELINE_CLIPS` + `PIPELINE_STEPS` |
 | 5 | `#evaluation` | *Evaluation protocol* — "Four tests plus cross-GMT." | Four `.protocol-card`s plus a full-width cross-GMT card; below it the `#eval-example` block | `PROTOCOLS` + `EXAMPLES` |
 | 6 | `#results` | *Results* — "Success, failure, recovery." | Three `.scenario-row`s, each a success/failure video pair, and a section footnote | `SCENARIOS` |
-| 7 | `#leaderboard` | *Leaderboard* — "How policy–tracker pairs compare." | Views, charts and tables | `js/leaderboard.js` — see [leaderboard.md](leaderboard.md) |
+| 7 | `#leaderboard` | *Leaderboard* — "How policy–tracker pairs compare." | Views, charts and tables | `js/leaderboard/` — see [leaderboard.md](leaderboard.md) |
 | 8 | `#resources` | *Resources* — "Paper, code, and more." | Eight `.resource-card`s: six with links, the BibTeX panel and the contact card | `RESOURCES` |
 
 ### Anchor ids

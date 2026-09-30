@@ -67,30 +67,21 @@ jobs:
         if: steps.dev.outcome == 'success'
         run: python3 _site/.github/scripts/mark-dev-preview.py _site/dev/index.html
 
-      # The toolchain and the working paper draft are for development, not for the site.
-      - name: Strip development files
+      # Keep only the site itself. An allowlist rather than a list of files to delete, so a
+      # tooling file added later cannot leak by default and there is no second list to keep in
+      # step. `css` exists on both branches, unlike `js`, which main gains with this change.
+      - name: Keep only the site
         run: |
+          keep="index.html css js assets docs dev README.md"
           rm -rf _site/.git _site/dev/.git
           for target in _site _site/dev; do
-            rm -rf "$target/node_modules" "$target/tests" "$target/.github"
-            rm -f "$target/package.json" "$target/package-lock.json" \
-                  "$target/playwright.config.js" "$target/eslint.config.js" \
-                  "$target/.editorconfig" "$target/.htmlvalidate.json" "$target/.lychee.toml" \
-                  "$target/.gitignore"
-            rm -f "$target"/HUMANOIDARENA*.md
+            [ -d "$target" ] || continue   # no dev branch upstream, dropped above
+            for entry in $(ls -A "$target"); do
+              case " $keep " in *" $entry "*) ;; *) rm -rf "$target/$entry" ;; esac
+            done
           done
-
-      # Only what exists on both branches: `js/` is absent from main until a page change
-      # has been merged, and this workflow publishes both.
-      - name: Check the artifact
-        run: |
           test -f _site/index.html
-          test -z "$(find _site -maxdepth 1 -name 'HUMANOIDARENA*.md')"
-          for leaked in package.json package-lock.json playwright.config.js eslint.config.js \
-                        .editorconfig .htmlvalidate.json .lychee.toml .gitignore tests .github; do
-            test ! -e "_site/$leaked"
-            test ! -e "_site/dev/$leaked"
-          done
+          test -f _site/css/base.css
           echo "publishing $(find _site -type f | wc -l) files"
 
       - name: Setup Pages

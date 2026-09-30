@@ -80,7 +80,7 @@ Total: 30 MP4 clips, 1 figure SVG, 4 institution marks.
 
 ## Institution marks
 
-Used by leaderboard rows, in `LB_MODELS` in `js/leaderboard.js`. Each mark is the first author's
+Used by leaderboard rows, in `LB_MODELS` in `js/leaderboard/data.js`. Each mark is the first author's
 institution of the cited baseline paper, and its name appears in the mark's hover tooltip.
 
 | File | Institution | Source | Notes |
@@ -96,6 +96,6 @@ column stays uniform despite different aspect ratios. Files are cropped to their
 bounds for that reason — the Boston Dynamics wordmark file, for instance, is a square canvas
 holding a 4.3:1 wordmark.
 
-The leaderboard itself has no other media: its numbers live in the `LB_MODELS` / `LB_ENTRIES`
-arrays, documented in [leaderboard.md](leaderboard.md). The marks are provisional — they follow
+The leaderboard itself has no other media: its numbers live in `LB_MODELS` and `LB_ENTRIES` in
+`js/leaderboard/data.js`, documented in [leaderboard.md](leaderboard.md). The marks are provisional — they follow
 each cited paper's first author and are awaiting confirmation.

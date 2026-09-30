@@ -735,14 +735,14 @@ a:focus-visible {
   gap: 10px;
 }
 
-/* Institution mark — first author's institution of the cited paper. Every mark
-   sits in the same square tile, so a wide wordmark and a narrow glyph read as one
+/* Institution mark — first author's institution of the cited paper. The mark fills its tile,
+   so a wide wordmark and a narrow glyph read as one
    consistent column of badges. */
 .lb-logo {
   box-sizing: border-box;
   width: 28px;
   height: 28px;
-  padding: 2px;
+  padding: 0;
   flex: 0 0 auto;
   object-fit: contain;
   background: #fff;
@@ -957,7 +957,7 @@ a:focus-visible {
 .lb-logo--chart {
   width: 22px;
   height: 22px;
-  padding: 1.5px;
+  padding: 0;
   border-radius: 6px;
 }
 
@@ -1122,7 +1122,6 @@ a:focus-visible {
   .lb-logo {
     width: 24px;
     height: 24px;
-    padding: 2px;
   }
 }
 

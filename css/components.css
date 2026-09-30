@@ -672,14 +672,6 @@ a:focus-visible {
   white-space: nowrap;
 }
 
-/* The model column is the exception, left-aligned so the badge is the cell's first element and
-   every row starts it at the same x. Stated for `th` as well as `td`: a header left to the
-   browser's default centres itself. */
-.lb-table th.lb-model-col,
-.lb-table td.lb-model-col {
-  text-align: left;
-}
-
 /* Breathing room at the card edges: the outer columns never sit flush against the
    rounded border. Matches the chart card's inset above, so both left edges line up. */
 .lb-table th:first-child,
@@ -732,6 +724,7 @@ a:focus-visible {
 .lb-model-cell {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -750,11 +743,15 @@ a:focus-visible {
   border-radius: 8px;
 }
 
-/* Holds the name and its repository pill on one line. */
+/* The name and its repository pill, on one line, at a constant width. That constant is what
+   makes the centred block above line up: every row's block is the same size, so the mark lands
+   at the same x in all of them. It clears the longest name plus its `code` pill (WB-WAM,
+   120px); a longer name takes the room it needs and only moves its own badge. */
 .lb-model-line {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 132px;
   font-weight: 700;
 }
 

@@ -1,0 +1,30 @@
+# Checks that every link the page points at still resolves.
+#
+# A dataset or paper link that starts 404ing is invisible until someone clicks it, and
+# no code change can break an external link — so this runs weekly rather than gating
+# pull requests. GitHub notifies when a scheduled run fails.
+name: Link check
+
+on:
+  schedule:
+    # Mondays, 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Outgoing links
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # The page's links live in the markup, the content tables in js/, and the docs.
+          args: --no-progress --config .lychee.toml index.html README.md js docs
+          fail: true

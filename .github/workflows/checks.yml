@@ -1,0 +1,70 @@
+# The checks a pull request has to pass before it can reach main.
+#
+# Read-only and secret-free, so a pull request from a fork is treated exactly like one
+# from a branch. Nothing here deploys.
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: ["main", "dev"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint the page scripts
+        run: npm run lint
+
+      - name: Validate the markup
+        run: npm run validate
+
+  page:
+    name: Rendered page
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      # Renders the page and asserts what it must contain, then runs axe over the
+      # result. See docs/design.md.
+      - name: Test the rendered page
+        run: npm test
+
+      - name: Keep the failure report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7

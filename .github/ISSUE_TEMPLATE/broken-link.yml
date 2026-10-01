@@ -1,0 +1,45 @@
+name: Broken link or asset
+description: A link, video or figure on the page does not work
+title: "broken: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Most links on this page are checked weekly by a scheduled job, but a report
+        from a real visit is always better than a status code.
+  - type: input
+    id: where
+    attributes:
+      label: Where on the page
+      description: The section, or the text of the link or button.
+      placeholder: Resources → Dataset → HuggingFace
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: The address it points at
+      placeholder: https://huggingface.co/datasets/…
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happens
+      description: A 404? A permission prompt? A video that never loads? The message you see, if any.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      placeholder: Firefox 130 on macOS, 1440px window
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        If a **clip** is at fault, please say whether it fails to appear, appears but
+        never plays, or plays but drifts out of step with the clip beside it — the
+        side-by-side clips are meant to run as one pair.

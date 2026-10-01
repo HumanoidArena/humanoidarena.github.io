@@ -8,6 +8,10 @@
 #
 # Every run rebuilds both halves from the branches as they currently stand, so
 # pushing dev cannot blank production and pushing main cannot drop the preview.
+#
+# Actions are referenced by major version, not by commit SHA: `upload-pages-artifact` is a
+# composite action that references `actions/upload-artifact@v4` internally, so it cannot run
+# under a repository policy that requires SHA pinning.
 name: Deploy static content to Pages
 
 on:
@@ -33,6 +37,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out main
         uses: actions/checkout@v4
@@ -62,8 +67,25 @@ jobs:
         if: steps.dev.outcome == 'success'
         run: python3 _site/.github/scripts/mark-dev-preview.py _site/dev/index.html
 
-      - name: Strip git directories
-        run: rm -rf _site/.git _site/dev/.git
+      # Keep only the site itself. An allowlist rather than a list of files to delete, so a
+      # tooling file added later cannot leak by default and there is no second list to keep in
+      # step. `css` exists on both branches, unlike `js`, which main gains with this change.
+      - name: Keep only the site
+        run: |
+          keep="index.html css js assets docs dev README.md"
+          rm -rf _site/.git _site/dev/.git
+          for target in _site _site/dev; do
+            [ -d "$target" ] || continue   # no dev branch upstream, dropped above
+            # -print0 into `read -d ''`: a filename may contain spaces, and plain word
+            # splitting would silently skip it.
+            while IFS= read -r -d '' entry; do
+              name="${entry##*/}"
+              case " $keep " in *" $name "*) ;; *) rm -rf "$entry" ;; esac
+            done < <(find "$target" -mindepth 1 -maxdepth 1 -print0)
+          done
+          test -f _site/index.html
+          test -f _site/css/base.css
+          echo "publishing $(find _site -type f | wc -l) files"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -80,6 +102,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

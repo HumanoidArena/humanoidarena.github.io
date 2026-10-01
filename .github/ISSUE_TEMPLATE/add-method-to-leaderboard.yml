@@ -1,0 +1,62 @@
+name: Add a method to the leaderboard
+description: Ask for a policy–tracker pair to be listed
+title: "leaderboard: "
+labels: ["leaderboard"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The leaderboard shows the numbers reported in the paper, measured under one
+        protocol. An entry is only comparable if it comes from the same protocol, so
+        please answer the questions below rather than pasting a table.
+  - type: input
+    id: method
+    attributes:
+      label: Method
+      description: The policy's name, and its paper or repository.
+      placeholder: Diffusion Policy — https://arxiv.org/abs/2303.04137
+    validations:
+      required: true
+  - type: dropdown
+    id: gmt
+    attributes:
+      label: General motion tracker
+      description: Which tracker executed the policy's whole-body actions?
+      options:
+        - TWIST2
+        - SONIC
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: episodes
+    attributes:
+      label: Episodes per task
+      description: The leaderboard's entries are 60 episodes (3 seeds × 20 trials). A different count is not comparable.
+      placeholder: "60 (3 seeds × 20 trials)"
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Results
+      description: |
+        Success rate per task as mean and standard deviation, plus the average fall
+        rate. The seven tasks are Football, DoubleDesk, P&PBox, OpenDoor, SitSofa,
+        Boxing and VisNavi.
+      placeholder: |
+        Football 45.0 ± 10.8
+        DoubleDesk 36.7 ± 4.7
+        …
+        AFR 8.33
+    validations:
+      required: true
+  - type: checkboxes
+    id: protocol
+    attributes:
+      label: Protocol
+      options:
+        - label: These numbers are in-GMT (trained and evaluated with the same tracker)
+          required: true
+        - label: The evaluation used the released benchmark environments and assets unchanged
+          required: false

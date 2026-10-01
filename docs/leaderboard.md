@@ -76,10 +76,10 @@ name of each key, so a column and its cells come from one place.
 | Value | Rule |
 | --- | --- |
 | HOI AVG / HSI AVG | Mean of that suite's task means, unless `hoiAvg` / `hsiAvg` is given |
-| Overall | `(3 × HOI AVG + 4 × HSI AVG) / 7` — the mean success rate across all seven tasks |
+| All | `(3 × HOI AVG + 4 × HSI AVG) / 7` — the mean success rate across all seven tasks. The view and its column are labelled `All`; the metric is `overall` in the code |
 | Ranks | Recomputed per view *and* per filter, so a TWIST2-only table ranks 1–4 among TWIST2 entries. Ties break on the recomputed (unrounded) average, keeping order deterministic |
 | Medals | Ranks 1–3 show 🥇🥈🥉 |
-| Precision | Task cells one decimal with `±` standard deviation; suite averages, Overall and AFR two decimals |
+| Precision | Task cells one decimal with `±` standard deviation; suite averages, All and AFR two decimals |
 | Bar length | The view's own metric on a fixed 0–100 SR scale, with a 50 % tick, coloured by GMT |
 | Not reported | A number the source paper does not report renders as a dash. The page never fills a gap with a guess |
 
@@ -115,7 +115,7 @@ it returns.
 with no bounce. Under `prefers-reduced-motion` the growth, the thumb slide and the rise are
 dropped; under `prefers-reduced-transparency` the chart card and logo tiles become solid.
 
-**Announcements.** Every view switch and filter change writes a sentence such as "Overall view —
+**Announcements.** Every view switch and filter change writes a sentence such as "All view —
 4 entries, TWIST2." into the `aria-live` region, because a client-rendered redraw is otherwise
 invisible to screen readers.
 
@@ -126,9 +126,9 @@ invisible to screen readers.
    (square tile, see [assets.md](assets.md)).
 2. **New result** — an object in `LB_ENTRIES`: the model key, the GMT, `afr` if the paper reports
    one, the seven `tasks` as `[mean, std]`, and `hoiAvg` / `hsiAvg` if it prints suite averages.
-   All three are optional; WB-WAM reports none of them, so its suites and its Overall come from
-   the task cells.
-3. **Changed numbers** — edit them in place. Suite averages, Overall, ranks, medals and bar
+   All three are optional; WB-WAM reports none of them, so its suites and its All column come
+   from the task cells.
+3. **Changed numbers** — edit them in place. Suite averages, the All column, ranks, medals and bar
    lengths are recomputed on load.
 4. **Set `LB_UPDATED`** to the date of the change.
 5. **New view or column** — a `VIEWS` entry. `columns` is the header and `cells` the body, so both

@@ -267,15 +267,15 @@ function suiteView({ key, label, suite, metric, averageLabel, caption }) {
 export const VIEWS = [
   {
     key: "overall",
-    label: "Overall",
-    chartAria: "Overall success rate comparison by policy and tracker",
+    label: "All",
+    chartAria: "Success rate across all seven tasks, by policy and tracker",
     columns: [
       RANK_COLUMN,
       MODEL_COLUMN,
       GMT_COLUMN,
       { label: "HOI AVG", cls: "lb-num" },
       { label: "HSI AVG", cls: "lb-num" },
-      { label: "Overall", cls: "lb-num" },
+      { label: "All", cls: "lb-num" },
       { label: "AFR", cls: "lb-num" },
     ],
     metric: (row) => row.overall,

@@ -65,7 +65,7 @@ label is declared once.
 | `gmt` | `TWIST2` or `SONIC` |
 | `afr` | Optional. Average fall rate in % (lower is better) |
 | `hoiAvg`, `hsiAvg` | Optional. The paper's printed suite averages; when present they are what the table shows |
-| `tasks` | All seven, `[mean, std]` in % SR |
+| `tasks` | All seven, `[mean, std]` in % SR; `std` may be omitted when the source reports no spread |
 
 Task keys group into two suites: `football`, `doubledesk`, `ppbox` are HOI; `opendoor`,
 `sitsofa`, `boxing`, `visnavi` are HSI. `SUITES` holds those lists and `TASK_NAMES` the display
@@ -127,7 +127,7 @@ invisible to screen readers.
 2. **New result** — an object in `LB_ENTRIES`: the model key, the GMT, `afr` if the paper reports
    one, the seven `tasks` as `[mean, std]`, and `hoiAvg` / `hsiAvg` if it prints suite averages.
    All three are optional; WB-WAM reports none of them, so its suites and its All column come
-   from the task cells.
+   from the task cells, and RAX reports no spread or fall rate.
 3. **Changed numbers** — edit them in place. Suite averages, the All column, ranks, medals and bar
    lengths are recomputed on load.
 4. **Set `LB_UPDATED`** to the date of the change.

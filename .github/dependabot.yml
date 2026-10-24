@@ -3,8 +3,14 @@ updates:
   # The workflows reference actions by major version; this is what moves those
   # versions. The deploy workflow also holds `pages: write` and `id-token: write`,
   # so a bump here is worth reading rather than merging blind.
+  #
+  # `target-branch` is `dev` because that is where work happens: a dependency bump
+  # should arrive as a pull request against the working branch like any other change,
+  # and reach `main` with the next publish. Without it Dependabot opens against the
+  # default branch, which would put a bump straight onto the live site.
   - package-ecosystem: github-actions
     directory: "/"
+    target-branch: "dev"
     schedule:
       interval: monthly
     open-pull-requests-limit: 3
@@ -19,6 +25,7 @@ updates:
   # suite passes, which the pull-request checks verify.
   - package-ecosystem: npm
     directory: "/"
+    target-branch: "dev"
     schedule:
       interval: monthly
     open-pull-requests-limit: 3

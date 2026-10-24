@@ -13,7 +13,7 @@ import { cls, esc } from "../dom.js";
 // 3 seeds x 20 trials). Task values are [mean, standard deviation]; hoiAvg /
 // hsiAvg are the paper's printed suite averages — optional, and recomputed from
 // the task values when omitted. Overall is always computed here.
-export const LB_UPDATED = "2026-09-30";
+export const LB_UPDATED = "2026-10-24";
 
 // One object per policy family. `logo` is the cited paper's first author's institution.
 export const LB_MODELS = {
@@ -56,6 +56,14 @@ export const LB_MODELS = {
     logoTitle: "Tsinghua University (first author)",
     paper: "https://arxiv.org/abs/2609.34199",
     repo: "https://github.com/WB-WaM/WB-WAM-Official",
+  },
+  rax: {
+    name: "RAX",
+    cite: "Scaling Online Exploration for Robot Agents",
+    logo: "./assets/images/orgs/harvard.svg",
+    logoTitle: "Harvard University (first author)",
+    paper: "https://arxiv.org/abs/2610.22496",
+    repo: "https://github.com/robot-agent-exploration/rax",
   },
 };
 
@@ -124,6 +132,16 @@ const LB_ENTRIES = [
     tasks: {
       football: [70.0, 8.2], doubledesk: [65.0, 4.1], ppbox: [86.7, 2.4],
       opendoor: [98.3, 2.4], sitsofa: [95.0, 4.1], boxing: [81.7, 2.4], visnavi: [76.7, 4.7],
+    },
+  },
+  // RAX is a coding agent that synthesises a program, so it reports one result per task at that
+  // task's largest exploration budget and no spread, fall rate or suite averages. Its score is
+  // the paper's printed 89.8% mean over the seven task values.
+  {
+    model: "rax", gmt: "SONIC",
+    tasks: {
+      football: [98.3], doubledesk: [56.7], ppbox: [83.3],
+      opendoor: [100.0], sitsofa: [96.7], boxing: [100.0], visnavi: [93.3],
     },
   },
 ];

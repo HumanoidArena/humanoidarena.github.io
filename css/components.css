@@ -745,13 +745,13 @@ a:focus-visible {
 
 /* The name and its repository pill, on one line, at a constant width. That constant is what
    makes the centred block above line up: every row's block is the same size, so the mark lands
-   at the same x in all of them. It clears the longest name plus its `code` pill (WB-WAM,
-   120px); a longer name takes the room it needs and only moves its own badge. */
+   at the same x in all of them. It clears the longest name plus its `code` pill (HuGe-GR00T,
+   148px); a longer name takes the room it needs and only moves its own badge. */
 .lb-model-line {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 132px;
+  width: 148px;
   font-weight: 700;
 }
 

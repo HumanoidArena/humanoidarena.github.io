@@ -16,7 +16,8 @@ assets/
 │       ├── boston-dynamics.svg
 │       ├── physical-intelligence.png
 │       ├── tsinghua.svg
-│       └── harvard.svg
+│       ├── harvard.svg
+│       └── westlake.png
 └── media/
     ├── task_gallery/
     │   ├── sonic/                                   # Tasks — SONIC rollout per task (7)
@@ -56,7 +57,7 @@ assets/
         └── ppbox_sonic_timeout.mp4
 ```
 
-Total: 30 MP4 clips, 1 figure SVG, 6 institution marks.
+Total: 30 MP4 clips, 1 figure SVG, 7 institution marks.
 
 ## Video conventions
 

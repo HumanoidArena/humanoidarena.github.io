@@ -13,9 +13,18 @@ import { cls, esc } from "../dom.js";
 // 3 seeds x 20 trials). Task values are [mean, standard deviation]; hoiAvg /
 // hsiAvg are the paper's printed suite averages — optional, and recomputed from
 // the task values when omitted. Overall is always computed here.
-export const LB_UPDATED = "2026-10-24";
+export const LB_UPDATED = "2026-11-01";
 
 // One object per policy family. `logo` is the cited paper's first author's institution.
+// HuGe ships three architectures; they share a paper, a repository and an institution.
+const HUGE = {
+  cite: "HuGe: Scaling Humanoid Generalist Vision-Language-Action Models with Egocentric Experience",
+  logo: "./assets/images/orgs/westlake.png",
+  logoTitle: "Westlake University (first author)",
+  paper: "https://arxiv.org/abs/2610.34186",
+  repo: "https://github.com/yliu-cs/HuGe",
+};
+
 export const LB_MODELS = {
   act: {
     name: "ACT",
@@ -65,6 +74,9 @@ export const LB_MODELS = {
     paper: "https://arxiv.org/abs/2610.22496",
     repo: "https://github.com/robot-agent-exploration/rax",
   },
+  hugeOft: { name: "HuGe-OFT", ...HUGE },
+  hugeGr00t: { name: "HuGe-GR00T", ...HUGE },
+  hugePi: { name: "HuGe-Pi", ...HUGE },
 };
 
 const LB_ENTRIES = [
@@ -142,6 +154,31 @@ const LB_ENTRIES = [
     tasks: {
       football: [98.3], doubledesk: [56.7], ppbox: [83.3],
       opendoor: [100.0], sitsofa: [96.7], boxing: [100.0], visnavi: [93.3],
+    },
+  },
+  // HuGe reports one self-evaluated result per task at 60 episodes and no spread or fall rate.
+  // All three variants share the SONIC controller; the values are their full-finetune results.
+  {
+    model: "hugeGr00t", gmt: "SONIC",
+    tasks: {
+      football: [71.67], doubledesk: [15.0], ppbox: [81.67],
+      opendoor: [95.0], sitsofa: [78.33], boxing: [68.33], visnavi: [56.67],
+    },
+  },
+  {
+    model: "hugePi", gmt: "SONIC",
+    tasks: {
+      football: [63.33], doubledesk: [11.67], ppbox: [76.67],
+      opendoor: [88.33], sitsofa: [83.33], boxing: [68.33], visnavi: [63.33],
+    },
+  },
+  // Its printed HSI average (69.17) rounds up from a value the task cells round down, so the
+  // stored average is what keeps the table identical to Table 4.
+  {
+    model: "hugeOft", gmt: "SONIC", hoiAvg: 33.89, hsiAvg: 69.17,
+    tasks: {
+      football: [48.33], doubledesk: [0.0], ppbox: [53.33],
+      opendoor: [75.0], sitsofa: [55.0], boxing: [73.33], visnavi: [73.33],
     },
   },
 ];
